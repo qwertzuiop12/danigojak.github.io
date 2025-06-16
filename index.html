@@ -1126,7 +1126,46 @@
 
     // Popup code (new addition)
     const popup = document.getElementById('customPagePopup');
-    // ... rest of popup code ...
+// ===== POPUP FUNCTIONALITY =====
+document.addEventListener('DOMContentLoaded', function() {
+    const popup = document.getElementById('customPagePopup');
+    const closeBtn = document.getElementById('closePopup');
+    const actionBtn = document.getElementById('getCustomPage');
+    
+    // Check if user has already dismissed the popup
+    const popupDismissed = localStorage.getItem('popupDismissed');
+    
+    // Show popup after delay (if not dismissed)
+    if (!popupDismissed) {
+        setTimeout(() => {
+            popup.classList.add('active');
+        }, 10000); // 10 second delay
+    }
+    
+    // Close button functionality
+    closeBtn.addEventListener('click', function() {
+        popup.classList.remove('active');
+        localStorage.setItem('popupDismissed', 'true');
+    });
+    
+    // Action button functionality
+    actionBtn.addEventListener('click', function() {
+        window.open('https://instagram.com/0dani_g', '_blank');
+        popup.classList.remove('active');
+        localStorage.setItem('popupDismissed', 'true');
+    });
+    
+    // Close when clicking outside content
+    popup.addEventListener('click', function(e) {
+        if (e.target === popup) {
+            popup.classList.remove('active');
+            localStorage.setItem('popupDismissed', 'true');
+        }
+    });
+    
+    // Optional: Show immediately for testing
+    // popup.classList.add('active');
+});
 </script> <!-- Only this closing tag -->
 </body>
 </html>
