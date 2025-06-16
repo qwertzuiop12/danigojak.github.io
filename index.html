@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dani Gojak1</title>
+    <title>Dani Gojak</title>
     <style>
         * {
             margin: 0;
@@ -445,11 +445,25 @@
             }
         }
 
-        // Real visitor tracking
+        // Real visitor tracking with session management
+        let sessionId = localStorage.getItem('sessionId');
+        let sessionStartTime = Date.now();
+        
+        // Generate unique session ID if new visitor
+        if (!sessionId) {
+            sessionId = 'sess_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+            localStorage.setItem('sessionId', sessionId);
+        }
+
+        // Check if this is a new session (more than 30 minutes since last activity)
+        const lastActivity = parseInt(localStorage.getItem('lastActivity') || '0');
+        const thirtyMinutes = 30 * 60 * 1000;
+        const isNewSession = (Date.now() - lastActivity) > thirtyMinutes;
+
+        // Get stored counters
         let viewCount = parseInt(localStorage.getItem('viewCount') || '0');
         let todayViews = parseInt(localStorage.getItem('todayViews') || '0');
         let totalSessions = parseInt(localStorage.getItem('totalSessions') || '0');
-        let sessionStartTime = Date.now();
 
         // Check if it's a new day
         const lastVisit = localStorage.getItem('lastVisit');
@@ -459,41 +473,81 @@
             localStorage.setItem('lastVisit', today);
         }
 
-        // Increment counters
-        viewCount++;
-        todayViews++;
-        totalSessions++;
+        // Only increment if new session
+        if (isNewSession) {
+            viewCount++;
+            todayViews++;
+            totalSessions++;
+            
+            // Save counters
+            localStorage.setItem('viewCount', viewCount.toString());
+            localStorage.setItem('todayViews', todayViews.toString());
+            localStorage.setItem('totalSessions', totalSessions.toString());
+        }
 
-        // Save to localStorage
-        localStorage.setItem('viewCount', viewCount.toString());
-        localStorage.setItem('todayViews', todayViews.toString());
-        localStorage.setItem('totalSessions', totalSessions.toString());
+        // Update last activity
+        localStorage.setItem('lastActivity', Date.now().toString());
 
         // Update display
         document.getElementById('realViewCount').textContent = viewCount;
         document.getElementById('todayViews').textContent = todayViews;
         document.getElementById('totalSessions').textContent = totalSessions;
 
-        // Simulate location detection
-        const locations = [
-            { country: 'United States', flag: '🇺🇸', ip: '192.168.1.' },
-            { country: 'Canada', flag: '🇨🇦', ip: '10.0.0.' },
-            { country: 'United Kingdom', flag: '🇬🇧', ip: '172.16.0.' },
-            { country: 'Australia', flag: '🇦🇺', ip: '203.0.113.' },
-            { country: 'Germany', flag: '🇩🇪', ip: '198.51.100.' },
-            { country: 'France', flag: '🇫🇷', ip: '203.0.113.' },
-            { country: 'Japan', flag: '🇯🇵', ip: '192.0.2.' },
-            { country: 'Netherlands', flag: '🇳🇱', ip: '198.51.100.' }
-        ];
+        // Get real location data using IP geolocation API
+        async function getLocationData() {
+            try {
+                // Using ipapi.co - free tier allows 1000 requests per day
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                
+                if (data && data.country_name && data.country_code) {
+                    // Get country flag emoji from country code
+                    const flagEmoji = String.fromCodePoint(...data.country_code.toUpperCase().split('').map(char => 
+                        127397 + char.charCodeAt()
+                    ));
+                    
+                    // Store location data
+                    const locationData = {
+                        country: data.country_name,
+                        flag: flagEmoji,
+                        ip: data.ip,
+                        city: data.city || 'Unknown',
+                        region: data.region || 'Unknown'
+                    };
+                    
+                    // Only store if new session to avoid overwriting
+                    if (isNewSession) {
+                        localStorage.setItem('visitorLocation', JSON.stringify(locationData));
+                    }
+                    
+                    return locationData;
+                }
+            } catch (error) {
+                console.log('Location detection failed, using fallback');
+            }
+            
+            // Fallback to stored data or random
+            const stored = localStorage.getItem('visitorLocation');
+            if (stored) {
+                return JSON.parse(stored);
+            }
+            
+            // Ultimate fallback
+            const fallbackLocations = [
+                { country: 'United States', flag: '🇺🇸', ip: '192.168.1.***', city: 'Unknown', region: 'Unknown' },
+                { country: 'Canada', flag: '🇨🇦', ip: '10.0.0.***', city: 'Unknown', region: 'Unknown' },
+                { country: 'United Kingdom', flag: '🇬🇧', ip: '172.16.0.***', city: 'Unknown', region: 'Unknown' }
+            ];
+            return fallbackLocations[Math.floor(Math.random() * fallbackLocations.length)];
+        }
 
-        const randomLocation = locations[Math.floor(Math.random() * locations.length)];
-        const fakeIP = randomLocation.ip + Math.floor(Math.random() * 255);
-
-        // Update visitor tracker
-        setTimeout(() => {
-            document.getElementById('visitorLocation').textContent = `${randomLocation.flag} ${randomLocation.country}`;
-            document.getElementById('visitorIP').textContent = `IP: ${fakeIP}`;
-        }, 3000);
+        // Update visitor tracker with real data
+        getLocationData().then(locationData => {
+            setTimeout(() => {
+                document.getElementById('visitorLocation').textContent = `${locationData.flag} ${locationData.country}`;
+                document.getElementById('visitorIP').textContent = `IP: ${locationData.ip}`;
+            }, 3000);
+        });
 
         // Session timer
         function updateSessionTime() {
