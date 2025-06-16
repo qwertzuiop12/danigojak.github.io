@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - Dani Gojak</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Matrix-like background */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.05;
+        }
+
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            color: #00ff41;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.2;
+            animation: matrix-fall linear infinite;
+        }
+
+        @keyframes matrix-fall {
+            to {
+                top: 100vh;
+            }
+        }
+
+        /* Glitch overlay */
+        .glitch-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 98%,
+                rgba(255, 0, 0, 0.1) 99%,
+                transparent 100%
+            );
+            z-index: -1;
+            animation: glitch-scan 5s infinite;
+        }
+
+        @keyframes glitch-scan {
+            0%, 95% {
+                transform: translateX(-100%);
+            }
+            96%, 100% {
+                transform: translateX(100vw);
+            }
+        }
+
+        /* Main container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header section */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #1a1a1a, #333);
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            border: 2px solid #444;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-pic::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .name {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        /* Pricing plans */
+        .pricing-plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .pricing-card {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 65, 0.1);
+            border-color: rgba(0, 255, 65, 0.4);
+        }
+
+        .pricing-card.popular::before {
+            content: 'POPULAR';
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: #00ff41;
+            color: #000;
+            padding: 3px 30px;
+            transform: rotate(45deg);
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pricing-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .pricing-title {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #00ff41;
+            margin-bottom: 10px;
+        }
+
+        .pricing-period {
+            font-size: 1rem;
+            color: #888;
+        }
+
+        .pricing-features {
+            margin-bottom: 25px;
+        }
+
+        .pricing-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #aaa;
+        }
+
+        .pricing-feature i {
+            margin-right: 10px;
+            color: #00ff41;
+        }
+
+        .pricing-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            text-align: center;
+            background: linear-gradient(45deg, #00ff41, #00a2ff);
+            color: #000;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 65, 0.3);
+        }
+
+        .pricing-button.secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            margin-top: 10px;
+        }
+
+        .pricing-button.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Trial notice */
+        .trial-notice {
+            background: rgba(0, 162, 255, 0.1);
+            border: 1px solid rgba(0, 162, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .trial-notice h3 {
+            color: #00a2ff;
+            margin-bottom: 10px;
+        }
+
+        .trial-notice p {
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+
+        /* Custom domain */
+        .custom-domain {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+
+        .custom-domain h3 {
+            color: #ffa500;
+            margin-bottom: 10px;
+        }
+
+        .custom-domain p {
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+
+        .custom-domain-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffa500;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: #444;
+            font-size: 0.9rem;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .name {
+                font-size: 2rem;
+            }
+            
+            .pricing-plans {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Matrix background -->
+    <div class="matrix-bg" id="matrixBg"></div>
+    
+    <!-- Glitch overlay -->
+    <div class="glitch-overlay"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="profile-pic">
+                <span>DG</span>
+            </div>
+            <h1 class="name">Root Access Pricing</h1>
+            <p class="subtitle">Choose the plan that works for you</p>
+        </div>
+
+        <!-- Trial Notice -->
+        <div class="trial-notice">
+            <h3>7 DAYS FREE TRIAL</h3>
+            <p>DM me on Instagram to get a free 7-day trial of our root access</p>
+            <a href="https://instagram.com/0dani_g" target="_blank" class="pricing-button secondary">
+                <i class="fab fa-instagram"></i> DM for Trial
+            </a>
+        </div>
+
+        <!-- Pricing Plans -->
+        <div class="pricing-plans">
+            <!-- Monthly Plan -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="pricing-title">Monthly</h3>
+                    <div class="pricing-price">CA$1.99</div>
+                    <div class="pricing-period">per month</div>
+                </div>
+                <div class="pricing-features">
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Full root access
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> 24/7 support
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Regular updates
+                    </div>
+                </div>
+                <button class="pricing-button">Get Monthly</button>
+            </div>
+
+            <!-- Yearly Plan (Popular) -->
+            <div class="pricing-card popular">
+                <div class="pricing-header">
+                    <h3 class="pricing-title">Yearly</h3>
+                    <div class="pricing-price">CA$20</div>
+                    <div class="pricing-period">per year (save 16%)</div>
+                </div>
+                <div class="pricing-features">
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Full root access
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> 24/7 priority support
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Regular updates
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Exclusive features
+                    </div>
+                </div>
+                <button class="pricing-button">Get Yearly</button>
+            </div>
+
+            <!-- Lifetime Plan -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="pricing-title">Lifetime</h3>
+                    <div class="pricing-price">CA$50</div>
+                    <div class="pricing-period">one-time payment</div>
+                </div>
+                <div class="pricing-features">
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Full root access forever
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> 24/7 priority support
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> All future updates
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Exclusive features
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check"></i> Early access to new tools
+                    </div>
+                </div>
+                <button class="pricing-button">Get Lifetime</button>
+            </div>
+        </div>
+
+        <!-- Custom Domain -->
+        <div class="custom-domain">
+            <h3>Custom Domain Add-on</h3>
+            <p>Want your own custom domain link? (eg. www.yourname.xyz )</p>
+            <div class="custom-domain-price">CA$25/month</div>
+            <p>I will set everything up for you! DM if you want this!</p>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>All payments are processed securely. No hidden fees.</p>
+        </div>
+    </div>
+
+    <script>
+        // Matrix background effect
+        function createMatrixRain() {
+            const matrixBg = document.getElementById('matrixBg');
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            
+            for (let i = 0; i < 15; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = Math.random() * 100 + '%';
+                column.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                column.style.animationDelay = Math.random() * 2 + 's';
+                
+                let text = '';
+                for (let j = 0; j < 30; j++) {
+                    text += chars[Math.floor(Math.random() * chars.length)] + '<br>';
+                }
+                column.innerHTML = text;
+                
+                matrixBg.appendChild(column);
+            }
+        }
+
+        // Initialize matrix effect
+        createMatrixRain();
+
+        // Periodically refresh matrix
+        setInterval(() => {
+            document.getElementById('matrixBg').innerHTML = '';
+            createMatrixRain();
+        }, 10000);
+
+        // Button handlers
+        document.querySelectorAll('.pricing-button:not(.secondary)').forEach(button => {
+            button.addEventListener('click', () => {
+                alert('Please DM @0dani_g on Instagram to purchase');
+            });
+        });
+    </script>
+
+
+
+</div>
+</body>
+</html>
