@@ -575,6 +575,100 @@
             animation: countUp 0.5s ease-out;
         }
 
+        /* Popup styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .popup-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .popup-content {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .popup-overlay.active .popup-content {
+            transform: translateY(0);
+        }
+        
+        .popup-title {
+            color: #00ff41;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .popup-text {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .popup-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .popup-btn {
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .popup-btn-close {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+        }
+        
+        .popup-btn-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        
+        .popup-btn-action {
+            background: linear-gradient(45deg, #00ff41, #00a2ff);
+            color: #000;
+            border: none;
+        }
+        
+        .popup-btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 65, 0.3);
+        }
+        
+        .popup-highlight {
+            color: #00ff41;
+            font-weight: bold;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .name {
@@ -591,6 +685,14 @@
             
             .links, .achievements, .personal-stats {
                 grid-template-columns: 1fr;
+            }
+            
+            .popup-buttons {
+                flex-direction: column;
+            }
+            
+            .popup-btn {
+                width: 100%;
             }
         }
     </style>
@@ -678,7 +780,7 @@
                 
                 <div class="achievement-card">
                     <h4>Bench Press</h4>
-                    <div class="achievement-value" data-metric="102" data-imperial="225">102 kg (225 lb) - i know only 😔</div>
+                    <div class="achievement-value" data-metric="102" data-imperial="225">102 kg (225 lb)</div>
                     <div class="achievement-conversion">Click to convert to lbs/kg</div>
                     <div class="achievement-description">I only benched for 7 months</div>
                 </div>
@@ -763,8 +865,6 @@
                     <span class="stat-number" id="activeViews">0</span>
                     <span class="stat-label">Active Now</span>
                 </div>
-            
-                
             </div>
             
             <div class="bio">
@@ -776,11 +876,30 @@
             <div class="success-story" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1)); border-color: rgba(255, 215, 0, 0.2);">
                 <h3 style="color: #ffd700;">Current Goal</h3>
                 <p>If you know Luau DM me we could make something together...</p>
+            </div>
         </div>
 
         <!-- Footer -->
         <div class="footer">
             <p>Every visit is logged. Every interaction is tracked. When you visit you agree to all this.</p>
+        </div>
+    </div>
+
+    <!-- Custom Page Popup -->
+    <div class="popup-overlay" id="customPagePopup">
+        <div class="popup-content">
+            <h3 class="popup-title">Want Your Own Page Like This?</h3>
+            <p class="popup-text">
+                I can create a <span class="popup-highlight">custom about me page</span> just for you with all your stats, achievements, and links!
+            </p>
+            <p class="popup-text">
+                <span class="popup-highlight">Free option:</span> Follow me on Instagram and message me to discuss<br>
+                <span class="popup-highlight">Premium option:</span> Get your own domain (yourname.com) for <span class="popup-highlight">CA$15/month</span>
+            </p>
+            <div class="popup-buttons">
+                <button class="popup-btn popup-btn-close" id="closePopup">Close</button>
+                <button class="popup-btn popup-btn-action" id="getCustomPage">Yes, I Want One!</button>
+            </div>
         </div>
     </div>
 
@@ -921,6 +1040,7 @@
             
             element.classList.add('counting');
         }
+
 
         // Get real location data using IP geolocation API
         async function getLocationData() {
