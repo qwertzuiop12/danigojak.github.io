@@ -246,6 +246,8 @@
             text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
         }
 
+        
+
         /* Achievements Section */
         .achievements {
             display: grid;
@@ -1001,6 +1003,88 @@
         console.log('🎯 Tracking systems online');
         console.log('💪 Gym PRs loaded');
         console.log('💻 Freelance services active');
+        
     </script>
+<!-- Right before </body> -->
+<script>
+    // Modern Popup HTML
+    const popupHTML = `
+    <div id="aboutme-modal" style="position:fixed; z-index:9999; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); backdrop-filter: blur(5px); display:flex; justify-content:center; align-items:center; font-family: 'Segoe UI', sans-serif; animation:fadeIn 0.5s ease;">
+        <div style="background: rgba(30,30,30,0.95); border: 1px solid rgba(0, 255, 65, 0.3); border-radius:15px; padding:30px; max-width:500px; width:90%; box-shadow:0 0 30px rgba(0,255,65,0.2); position:relative; overflow:hidden;">
+            <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #00ff41, #ff00ff, #00ffff);"></div>
+            
+            <h2 style="color:#00ff41; margin-bottom:15px; font-size:1.5rem; text-shadow:0 0 10px rgba(0,255,65,0.3);">GET YOUR OWN SITE</h2>
+            
+            <p style="color:#aaa; line-height:1.6; margin-bottom:20px;">
+                Want your own personal page like this?<br><br>
+                <span style="color:#00a2ff;">● FREE OPTION:</span> Follow me on Instagram and DM me<br>
+                <span style="color:#ffa500;">● PREMIUM OPTION:</span> $15 CAD/month with custom domain
+            </p>
+            
+            <div style="display:flex; gap:15px; margin-top:25px; justify-content:flex-end;">
+                <button id="aboutme-close-btn" style="padding:10px 20px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#aaa; border-radius:20px; cursor:pointer; transition:all 0.3s ease;">
+                    CLOSE
+                </button>
+                <button id="aboutme-yes-btn" style="padding:10px 25px; background:linear-gradient(45deg, #00ff41, #00a2ff); color:black; font-weight:bold; border:none; border-radius:20px; cursor:pointer; transition:all 0.3s ease; box-shadow:0 0 15px rgba(0,255,65,0.3);">
+                    I WANT THIS
+                </button>
+            </div>
+            
+            <div style="position:absolute; bottom:10px; right:10px; color:rgba(0,255,65,0.3); font-family:'Courier New', monospace; font-size:12px;">
+                [POPUP_TERMINAL_#001]
+            </div>
+        </div>
+    </div>
+    `;
+    
+    // Add popup to the page
+    document.body.insertAdjacentHTML('beforeend', popupHTML);
+    
+    // Add the animations to head
+    document.head.insertAdjacentHTML('beforeend', `
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        #aboutme-close-btn:hover {
+            background: rgba(255,255,255,0.1) !important;
+            color: #fff !important;
+        }
+        #aboutme-yes-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0,255,65,0.5) !important;
+        }
+    </style>
+    `);
+    
+    // Button handlers
+    document.getElementById('aboutme-close-btn').onclick = function() {
+        document.getElementById('aboutme-modal').style.animation = 'fadeOut 0.5s ease';
+        setTimeout(() => {
+            document.getElementById('aboutme-modal').style.display = 'none';
+        }, 500);
+    };
+    
+    document.getElementById('aboutme-yes-btn').onclick = function() {
+        window.open("https://danigojak.xyz/pricing", '_blank');
+        document.getElementById('aboutme-modal').style.animation = 'fadeOut 0.5s ease';
+        setTimeout(() => {
+            document.getElementById('aboutme-modal').style.display = 'none';
+        }, 500);
+    };
+    </script>
+    </body>
+    </html>
+    <div class="nav">
+        <button class="nav-btn active" data-section="about">About</button>
+        <button class="nav-btn" data-section="achievements">Achievements</button>
+        <button class="nav-btn" data-section="freelance">Freelance</button>
+        <button class="nav-btn" data-section="stats">Stats</button>
+        <a href="/pricing.html" class="nav-btn">Pricing</a>
 </body>
 </html>
