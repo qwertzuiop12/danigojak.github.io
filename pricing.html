@@ -301,6 +301,27 @@
             letter-spacing: 1px;
         }
 
+        /* USER FAVORITE ribbon (red) */
+        .pricing-card.user-favorite {
+            border: 1px solid rgba(255, 94, 125, 0.4);
+            box-shadow: 0 0 30px rgba(255, 94, 125, 0.1);
+        }
+
+        .pricing-card.user-favorite::before {
+            content: 'USER FAVORITE';
+            position: absolute;
+            top: 15px;
+            right: -40px;
+            background: #ff5e7d;
+            color: #fff;
+            padding: 4px 45px;
+            transform: rotate(45deg);
+            font-size: 12px;
+            font-weight: bold;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 1px;
+        }
+
         .pricing-header {
             margin-bottom: 25px;
             text-align: center;
@@ -508,7 +529,8 @@
                 grid-template-columns: 1fr;
             }
             
-            .pricing-card.popular::before {
+            .pricing-card.popular::before,
+            .pricing-card.user-favorite::before {
                 right: -45px;
                 padding: 3px 40px;
                 font-size: 11px;
@@ -521,7 +543,8 @@
                 font-size: 0.9rem;
             }
             
-            .pricing-card.popular::before {
+            .pricing-card.popular::before,
+            .pricing-card.user-favorite::before {
                 right: -35px;
                 padding: 3px 35px;
                 font-size: 10px;
@@ -564,7 +587,6 @@
             <ul>
                 <li>Your own personal page like mine</li>
                 <li>Complete customization options</li>
-
             </ul>
             <p>This is perfect if you want your own personal space on the web with complete freedom.</p>
         </div>
@@ -625,7 +647,7 @@
                     </div>
                     <div class="pricing-features">
                         <div class="pricing-feature">
-                            <i class="fas fa-check"></i> Everything in Basic
+                            <i class="fas fa-check"></i> Everything in Basic + Other Features
                         </div>
                         <div class="pricing-feature">
                             <i class="fas fa-check"></i> Custom animations
@@ -644,6 +666,39 @@
                         </div>
                     </div>
                     <button class="pricing-button">GO PRO</button>
+                    <button class="pricing-button secondary">
+                        <i class="fab fa-instagram"></i> DM FOR DETAILS
+                    </button>
+                </div>
+                
+                <!-- PERSONAL UNLIMITED (USER FAVORITE) -->
+                <div class="pricing-card user-favorite">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">PERSONAL UNLIMITED</h3>
+                        <div class="pricing-price">CA$99.99</div>
+                        <div class="pricing-period">Life Time</div>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i> Everything in PRO + Other Features
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i> Mobile-optimized design
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i> Social media integration
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i> Advanced visitor tracking
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i> Exclusive themes/templates
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i> 12 Months Priority Support
+                        </div>
+                    </div>
+                    <button class="pricing-button">GET UNLIMITED</button>
                     <button class="pricing-button secondary">
                         <i class="fab fa-instagram"></i> DM FOR DETAILS
                     </button>
@@ -760,8 +815,6 @@
                 </div>
             </div>
         </div>
-
-       
 
         <!-- Footer -->
         <div class="footer">
