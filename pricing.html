@@ -551,8 +551,45 @@
             }
         }
     </style>
+
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(120deg, #0f0c29, #302b63, #24243e);
+      background-size: 400% 400%;
+      animation: gradientShift 30s ease infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(0,255,204,0.2);
+    }
+  </style>
 </head>
 <body>
+
+<div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
+  <a href="index.html" style="
+    display: inline-block;
+    padding: 10px 20px;
+    background: #00ffcc;
+    color: #000;
+    font-weight: bold;
+    border-radius: 25px;
+    text-decoration: none;
+    box-shadow: 0 0 10px rgba(0,255,204,0.4);
+    font-family: 'Kanit', sans-serif;
+    transition: all 0.3s ease;
+  " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    ← Back Home
+  </a>
+</div>
+
     <!-- Background elements -->
     <div class="grid-bg"></div>
     <div class="noise"></div>
@@ -865,5 +902,7 @@
         console.log('%cPremium web solutions at affordable prices', 'color: #00a2ff;');
         console.log('DM @0dani_g on Instagram for inquiries');
     </script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init();</script>
 </body>
 </html>
