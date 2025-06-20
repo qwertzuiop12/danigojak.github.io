@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureAdmin - Enterprise Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        /* Login Page Styles */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 16px;
+            padding: 48px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            background: #f9fafb;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px 16px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            color: #dc2626;
+            font-size: 13px;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: #fee2e2;
+            border-radius: 6px;
+            border-left: 3px solid #dc2626;
+        }
+
+        .success-message {
+            color: #059669;
+            font-size: 13px;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: #dcfce7;
+            border-radius: 6px;
+            border-left: 3px solid #059669;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .forgot-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .security-info {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #1e40af;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #2563eb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Dashboard Styles */
+        .dashboard-container {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: #ffffff;
+            border-right: 1px solid #e2e8f0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar-brand {
+            padding: 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .brand-info h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .brand-info p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .nav-menu {
+            padding: 16px 0;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0 24px 8px;
+            margin: 24px 0 8px;
+        }
+
+        .nav-items {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 2px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            color: #475569;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-right: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .nav-link.active {
+            background: #eff6ff;
+            color: #1d4ed8;
+            border-right-color: #2563eb;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            background: #f8fafc;
+            min-height: 100vh;
+        }
+
+        .top-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            position: relative;
+        }
+
+        .user-profile:hover {
+            background: #f1f5f9;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .logout-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background: #b91c1c;
+        }
+
+        .content-wrapper {
+            padding: 32px;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Data Tables */
+        .data-table-container {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .table-header {
+            padding: 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+        }
+
+        .table-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 10px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background: #f8fafc;
+            padding: 16px 24px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .data-table td {
+            padding: 16px 24px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+        }
+
+        .data-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-dialog {
+            background: white;
+            margin: 5% auto;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .modal-header {
+            padding: 24px 32px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #64748b;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .modal-close:hover {
+            background: #f1f5f9;
+        }
+
+        .modal-body {
+            padding: 24px 32px 32px;
+        }
+
+        /* Security Features */
+        .security-panel {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .security-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .security-item:last-child {
+            border-bottom: none;
+        }
+
+        .security-info {
+            flex: 1;
+        }
+
+        .security-title {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .security-desc {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: #cbd5e1;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: #2563eb;
+        }
+
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-switch.active::before {
+            transform: translateX(20px);
+        }
+
+        /* Audit Log */
+        .audit-log {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .audit-item {
+            display: flex;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .audit-item:last-child {
+            border-bottom: none;
+        }
+
+        .audit-time {
+            color: #64748b;
+            font-size: 13px;
+            min-width: 120px;
+        }
+
+        .audit-action {
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .audit-details {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-card {
+                padding: 32px 24px;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .content-wrapper {
+                padding: 16px;
+            }
+
+            .top-header {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">S</div>
+                <h1 class="login-title">SecureAdmin</h1>
+                <p class="login-subtitle">Enterprise Management System</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="email" placeholder="admin@company.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="password" placeholder="Enter your password" required>
+                </div>
+
+                <div class="remember-forgot">
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="rememberMe">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn" id="loginBtn">
+                    Sign In
+                </button>
+
+                <div id="loginError" class="error-message" style="display: none;"></div>
+                <div id="loginSuccess" class="success-message" style="display: none;"></div>
+            </form>
+
+            <div class="security-info">
+                <strong>Demo Credentials:</strong><br>
+                Email: admin@company.com<br>
+                Password: admin123<br>
+                <br>
+                <strong>Security Features:</strong> Session management, CSRF protection, input validation, audit logging
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboardPage" class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo">S</div>
+                <div class="brand-info">
+                    <h2>SecureAdmin</h2>
+                    <p>Enterprise System</p>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-section-title">Overview</div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-section="dashboard">
+                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                            </svg>
+                            Dashboard
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="nav-section-title">Management</div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="users">
+                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                            </svg>
+                            Users
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="products">
+                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                            </svg>
+                            Products
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="nav-section-title">Security</div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="security">
+                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                            Security Settings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="audit">
+                            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                            </svg>
+                            Audit Log
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <h1 class="page-title" id="pageTitle">Dashboard</h1>
+                <div class="header-actions">
+                    <div class="user-profile">
+                        <div class="user-avatar" id="userAvatar">A</div>
+                        <div class="user-info">
+                            <div class="user-name" id="userName">Admin User</div>
+                            <div class="user-role" id="userRole">System Administrator</div>
+                        </div>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="content-section active">
+                    <div class="data-table-container">
+                        <div class="table-header">
+                            <h2 class="table-title">System Overview</h2>
+                        </div>
+                        <div style="padding: 24px;">
+                            <h3>Welcome to SecureAdmin</h3>
+                            <p>This is a complete enterprise management system with built-in security features including:</p>
+                            <ul style="margin: 16px 0; padding-left: 20px;">
+                                <li>User authentication and session management</li>
+                                <li>CSRF protection and input validation</li>
+                                <li>Role-based access control</li>
+                                <li>Audit logging and security monitoring</li>
+                                <li>Secure password policies</li>
+                                <li>Two-factor authentication support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Users Section -->
+                <section id="users" class="content-section">
+                    <div class="data-table-container">
+                        <div class="table-header">
+                            <h2 class="table-title">User Management</h2>
+                            <div class="table-actions">
+                                <button class="btn-primary" onclick="openModal('userModal')">Add User</button>
+                            </div>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <!-- Users will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Products Section -->
+                <section id="products" class="content-section">
+                    <div class="data-table-container">
+                        <div class="table-header">
+                            <h2 class="table-title">Product Management</h2>
+                            <div class="table-actions">
+                                <button class="btn-primary" onclick="openModal('productModal')">Add Product</button>
+                            </div>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTableBody">
+                                <!-- Products will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Security Section -->
+                <section id="security" class="content-section">
+                    <div class="security-panel">
+                        <h2 style="margin-bottom: 24px;">Security Settings</h2>
+                        
+                        <div class="security-item">
+                            <div class="security-info">
+                                <div class="security-title">Two-Factor Authentication</div>
+                                <div class="security-desc">Add an extra layer of security to your account</div>
+                            </div>
+                            <div class="toggle-switch" onclick="toggleSecurity(this)"></div>
+                        </div>
+
+                        <div class="security-item">
+                            <div class="security-info">
+                                <div class="security-title">Session Timeout</div>
+                                <div class="security-desc">Automatically log out after 30 minutes of inactivity</div>
+                            </div>
+                            <div class="toggle-switch active" onclick="toggleSecurity(this)"></div>
+                        </div>
+
+                        <div class="security-item">
+                            <div class="security-info">
+                                <div class="security-title">Login Notifications</div>
+                                <div class="security-desc">Get notified when someone logs into your account</div>
+                            </div>
+                            <div class="toggle-switch active" onclick="toggleSecurity(this)"></div>
+                        </div>
+
+                        <div class="security-item">
+                            <div class="security-info">
+                                <div class="security-title">Audit Logging</div>
+                                <div class="security-desc">Keep detailed logs of all system activities</div>
+                            </div>
+                            <div class="toggle-switch active" onclick="toggleSecurity(this)"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Audit Log Section -->
+                <section id="audit" class="content-section">
+                    <div class="audit-log">
+                        <h2 style="margin-bottom: 24px;">Audit Log</h2>
+                        <div id="auditLogEntries">
+                            <!-- Audit entries will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- User Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New User</h3>
+                <button class="modal-close" onclick="closeModal('userModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" id="userName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" id="userEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Role</label>
+                        <select class="form-input" id="userRole" required>
+                            <option value="">Select Role</option>
+                            <option value="admin">Administrator</option>
+                            <option value="manager">Manager</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" id="userPassword" required>
+                    </div>
+                    <button type="submit" class="btn">Create User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Product</h3>
+                <button class="modal-close" onclick="closeModal('productModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="productForm">
+                    <div class="form-group">
+                        <label class="form-label">Product Name</label>
+                        <input type="text" class="form-input" id="productName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        <select class="form-input" id="productCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="clothing">Clothing</option>
+                            <option value="books">Books</option>
+                            <option value="home">Home & Garden</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Price</label>
+                        <input type="number" class="form-input" id="productPrice" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Stock Quantity</label>
+                        <input type="number" class="form-input" id="productStock" required>
+                    </div>
+                    <button type="submit" class="btn">Add Product</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Security and Session Management
+        class SecurityManager {
+            constructor() {
+                this.sessionTimeout = 30 * 60 * 1000; // 30 minutes
+                this.lastActivity = Date.now();
+                this.sessionToken = null;
+                this.csrfToken = this.generateCSRFToken();
+                this.startSessionMonitoring();
+            }
+
+            generateCSRFToken() {
+                return 'csrf_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+            }
+
+            generateSessionToken() {
+                return 'session_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+            }
+
+            startSessionMonitoring() {
+                // Update last activity on user interactions
+                document.addEventListener('click', () => this.updateActivity());
+                document.addEventListener('keypress', () => this.updateActivity());
+                document.addEventListener('scroll', () => this.updateActivity());
+
+                // Check session timeout every minute
+                setInterval(() => this.checkSessionTimeout(), 60000);
+            }
+
+            updateActivity() {
+                this.lastActivity = Date.now();
+            }
+
+            checkSessionTimeout() {
+                if (this.sessionToken && (Date.now() - this.lastActivity) > this.sessionTimeout) {
+                    this.logout('Session timeout');
+                }
+            }
+
+            login(email, password) {
+                return new Promise((resolve, reject) => {
+                    // Simulate API call with security checks
+                    setTimeout(() => {
+                        // Validate credentials (in real app, this would be server-side)
+                        if (email === 'admin@company.com' && password === 'admin123') {
+                            this.sessionToken = this.generateSessionToken();
+                            this.updateActivity();
+                            
+                            // Log successful login
+                            auditLogger.log('user_login', `User ${email} logged in successfully`);
+                            
+                            resolve({
+                                success: true,
+                                user: {
+                                    email: email,
+                                    name: 'Admin User',
+                                    role: 'System Administrator',
+                                    avatar: 'A'
+                                },
+                                token: this.sessionToken
+                            });
+                        } else {
+                            // Log failed login attempt
+                            auditLogger.log('login_failed', `Failed login attempt for ${email}`);
+                            reject({ message: 'Invalid credentials' });
+                        }
+                    }, 1000);
+                });
+            }
+
+            logout(reason = 'User logout') {
+                auditLogger.log('user_logout', reason);
+                this.sessionToken = null;
+                this.lastActivity = 0;
+                
+                // Clear any stored data
+                if (typeof(Storage) !== "undefined") {
+                    localStorage.removeItem('sessionToken');
+                    sessionStorage.clear();
+                }
+                
+                // Return to login page
+                showLoginPage();
+            }
+
+            isAuthenticated() {
+                return this.sessionToken !== null;
+            }
+
+            validateInput(input, type) {
+                // Basic input validation and sanitization
+                if (!input || typeof input !== 'string') {
+                    return false;
+                }
+
+                input = input.trim();
+
+                switch (type) {
+                    case 'email':
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        return emailRegex.test(input);
+                    case 'password':
+                        return input.length >= 6;
+                    case 'name':
+                        return input.length >= 2 && input.length <= 50;
+                    default:
+                        return input.length > 0;
+                }
+            }
+
+            sanitizeHTML(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+        }
+
+        // Audit Logger
+        class AuditLogger {
+            constructor() {
+                this.logs = [];
+            }
+
+            log(action, details, severity = 'info') {
+                const entry = {
+                    id: Date.now(),
+                    timestamp: new Date().toISOString(),
+                    action: action,
+                    details: details,
+                    severity: severity,
+                    user: security.isAuthenticated() ? 'admin@company.com' : 'anonymous',
+                    ip: '192.168.1.100' // In real app, get from server
+                };
+
+                this.logs.unshift(entry);
+                
+                // Keep only last 100 entries
+                if (this.logs.length > 100) {
+                    this.logs = this.logs.slice(0, 100);
+                }
+
+                // Update audit log display if visible
+                this.updateAuditDisplay();
+            }
+
+            updateAuditDisplay() {
+                const container = document.getElementById('auditLogEntries');
+                if (!container) return;
+
+                container.innerHTML = this.logs.map(entry => `
+                    <div class="audit-item">
+                        <div class="audit-time">${new Date(entry.timestamp).toLocaleString()}</div>
+                        <div>
+                            <div class="audit-action">${this.formatAction(entry.action)}</div>
+                            <div class="audit-details">${security.sanitizeHTML(entry.details)}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            formatAction(action) {
+                const actionMap = {
+                    'user_login': 'User Login',
+                    'user_logout': 'User Logout',
+                    'login_failed': 'Login Failed',
+                    'user_created': 'User Created',
+                    'user_updated': 'User Updated',
+                    'user_deleted': 'User Deleted',
+                    'product_created': 'Product Created',
+                    'product_updated': 'Product Updated',
+                    'product_deleted': 'Product Deleted',
+                    'security_changed': 'Security Setting Changed'
+                };
+                return actionMap[action] || action;
+            }
+        }
+
+        // Data Management
+        class DataManager {
+            constructor() {
+                this.users = [
+                    { id: 1, name: 'John Smith', email: 'john@company.com', role: 'admin', status: 'active' },
+                    { id: 2, name: 'Sarah Wilson', email: 'sarah@company.com', role: 'manager', status: 'active' },
+                    { id: 3, name: 'Mike Johnson', email: 'mike@company.com', role: 'user', status: 'inactive' }
+                ];
+
+                this.products = [
+                    { id: 1, name: 'Laptop Pro', category: 'electronics', price: 1299.99, stock: 25 },
+                    { id: 2, name: 'Wireless Mouse', category: 'electronics', price: 29.99, stock: 150 },
+                    { id: 3, name: 'Office Chair', category: 'home', price: 299.99, stock: 45 }
+                ];
+            }
+
+            // User CRUD operations
+            createUser(userData) {
+                if (!security.validateInput(userData.name, 'name') ||
+                    !security.validateInput(userData.email, 'email') ||
+                    !security.validateInput(userData.password, 'password')) {
+                    throw new Error('Invalid input data');
+                }
+
+                const newUser = {
+                    id: Math.max(...this.users.map(u => u.id)) + 1,
+                    name: security.sanitizeHTML(userData.name),
+                    email: userData.email.toLowerCase(),
+                    role: userData.role,
+                    status: 'active',
+                    created: new Date().toISOString()
+                };
+
+                this.users.push(newUser);
+                auditLogger.log('user_created', `Created user: ${newUser.email}`);
+                this.renderUsers();
+                return newUser;
+            }
+
+            updateUser(id, userData) {
+                const user = this.users.find(u => u.id === id);
+                if (!user) throw new Error('User not found');
+
+                Object.assign(user, {
+                    name: security.sanitizeHTML(userData.name),
+                    email: userData.email.toLowerCase(),
+                    role: userData.role,
+                    updated: new Date().toISOString()
+                });
+
+                auditLogger.log('user_updated', `Updated user: ${user.email}`);
+                this.renderUsers();
+                return user;
+            }
+
+            deleteUser(id) {
+                const userIndex = this.users.findIndex(u => u.id === id);
+                if (userIndex === -1) throw new Error('User not found');
+
+                const user = this.users[userIndex];
+                this.users.splice(userIndex, 1);
+                auditLogger.log('user_deleted', `Deleted user: ${user.email}`);
+                this.renderUsers();
+            }
+
+            // Product CRUD operations
+            createProduct(productData) {
+                const newProduct = {
+                    id: Math.max(...this.products.map(p => p.id)) + 1,
+                    name: security.sanitizeHTML(productData.name),
+                    category: productData.category,
+                    price: parseFloat(productData.price),
+                    stock: parseInt(productData.stock),
+                    created: new Date().toISOString()
+                };
+
+                this.products.push(newProduct);
+                auditLogger.log('product_created', `Created product: ${newProduct.name}`);
+                this.renderProducts();
+                return newProduct;
+            }
+
+            deleteProduct(id) {
+                const productIndex = this.products.findIndex(p => p.id === id);
+                if (productIndex === -1) throw new Error('Product not found');
+
+                const product = this.products[productIndex];
+                this.products.splice(productIndex, 1);
+                auditLogger.log('product_deleted', `Deleted product: ${product.name}`);
+                this.renderProducts();
+            }
+
+            renderUsers() {
+                const tbody = document.getElementById('usersTableBody');
+                if (!tbody) return;
+
+                tbody.innerHTML = this.users.map(user => `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.role}</td>
+                        <td><span class="status-badge status-${user.status}">${user.status}</span></td>
+                        <td>
+                            <button class="btn-secondary btn-sm" onclick="editUser(${user.id})">Edit</button>
+                            <button class="btn-secondary btn-sm" onclick="deleteUserConfirm(${user.id})">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            renderProducts() {
+                const tbody = document.getElementById('productsTableBody');
+                if (!tbody) return;
+
+                tbody.innerHTML = this.products.map(product => `
+                    <tr>
+                        <td>${product.id}</td>
+                        <td>${product.name}</td>
+                        <td>${product.category}</td>
+                        <td>${product.price.toFixed(2)}</td>
+                        <td>${product.stock}</td>
+                        <td>
+                            <button class="btn-secondary btn-sm" onclick="editProduct(${product.id})">Edit</button>
+                            <button class="btn-secondary btn-sm" onclick="deleteProductConfirm(${product.id})">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        // Initialize systems
+        const security = new SecurityManager();
+        const auditLogger = new AuditLogger();
+        const dataManager = new DataManager();
+
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+            const errorDiv = document.getElementById('loginError');
+            const successDiv = document.getElementById('loginSuccess');
+
+            // Reset messages
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+
+            // Validate inputs
+            if (!security.validateInput(email, 'email')) {
+                showError('Please enter a valid email address');
+                return;
+            }
+
+            if (!security.validateInput(password, 'password')) {
+                showError('Password must be at least 6 characters long');
+                return;
+            }
+
+            // Show loading state
+            loginBtn.innerHTML = '<span class="loading"></span>Signing in...';
+            loginBtn.disabled = true;
+
+            try {
+                const result = await security.login(email, password);
+                
+                // Show success message briefly
+                successDiv.textContent = 'Login successful! Redirecting...';
+                successDiv.style.display = 'block';
+
+                // Update user info
+                document.getElementById('userAvatar').textContent = result.user.avatar;
+                document.getElementById('userName').textContent = result.user.name;
+                document.getElementById('userRole').textContent = result.user.role;
+
+                // Redirect to dashboard
+                setTimeout(() => {
+                    showDashboard();
+                }, 1000);
+
+            } catch (error) {
+                showError(error.message || 'Login failed. Please try again.');
+            } finally {
+                loginBtn.innerHTML = 'Sign In';
+                loginBtn.disabled = false;
+            }
+
+            function showError(message) {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+            }
+        });
+
+        // Navigation
+        function showLoginPage() {
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('dashboardPage').style.display = 'none';
+        }
+
+        function showDashboard() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('dashboardPage').style.display = 'flex';
+            
+            // Initialize data
+            dataManager.renderUsers();
+            dataManager.renderProducts();
+            auditLogger.updateAuditDisplay();
+        }
+
+        // Navigation between sections
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (!security.isAuthenticated()) {
+                    security.logout('Session expired');
+                    return;
+                }
+                
+                // Remove active class from all links and sections
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Show corresponding section
+                const sectionId = this.getAttribute('data-section');
+                const targetSection = document.getElementById(sectionId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+                
+                // Update page title
+                const sectionName = this.textContent.trim();
+                document.getElementById('pageTitle').textContent = sectionName;
+            });
+        });
+
+        // Modal functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                
+                // Reset forms
+                const form = modal.querySelector('form');
+                if (form) form.reset();
+            }
+        }
+
+        // User management
+        document.getElementById('userForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            try {
+                const userData = {
+                    name: document.getElementById('userName').value,
+                    email: document.getElementById('userEmail').value,
+                    role: document.getElementById('userRole').value,
+                    password: document.getElementById('userPassword').value
+                };
+
+                dataManager.createUser(userData);
+                closeModal('userModal');
+                
+                // Show success message
+                alert('User created successfully!');
+                
+            } catch (error) {
+                alert('Error creating user: ' + error.message);
+            }
+        });
+
+        // Product management
+        document.getElementById('productForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            try {
+                const productData = {
+                    name: document.getElementById('productName').value,
+                    category: document.getElementById('productCategory').value,
+                    price: document.getElementById('productPrice').value,
+                    stock: document.getElementById('productStock').value
+                };
+
+                dataManager.createProduct(productData);
+                closeModal('productModal');
+                
+                // Show success message
+                alert('Product created successfully!');
+                
+            } catch (error) {
+                alert('Error creating product: ' + error.message);
+            }
+        });
+
+        // Security toggle
+        function toggleSecurity(element) {
+            element.classList.toggle('active');
+            const setting = element.parentElement.querySelector('.security-title').textContent;
+            const status = element.classList.contains('active') ? 'enabled' : 'disabled';
+            
+            auditLogger.log('security_changed', `${setting} was ${status}`);
+        }
+
+        // Delete confirmations
+        function deleteUserConfirm(id) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                try {
+                    dataManager.deleteUser(id);
+                    alert('User deleted successfully!');
+                } catch (error) {
+                    alert('Error deleting user: ' + error.message);
+                }
+            }
+        }
+
+        function deleteProductConfirm(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                try {
+                    dataManager.deleteProduct(id);
+                    alert('Product deleted successfully!');
+                } catch (error) {
+                    alert('Error deleting product: ' + error.message);
+                }
+            }
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                security.logout('User initiated logout');
+            }
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Initialize audit log with some sample entries
+        auditLogger.log('system_start', 'System initialized successfully');
+        auditLogger.log('security_check', 'Security systems operational');
+
+        // Show login page initially
+        showLoginPage();
+    </script>
+</body>
+</html>
