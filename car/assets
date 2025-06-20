@@ -1,1 +1,2 @@
 
+document.getElementById('app').innerHTML = '<h1>React UI Not Available</h1><p>This file needs to be built with React tools.</p>';
