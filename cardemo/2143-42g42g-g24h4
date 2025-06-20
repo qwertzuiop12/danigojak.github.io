@@ -1,0 +1,138 @@
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+
+export default function AdminPanel() {
+  const [tab, setTab] = useState("dashboard");
+
+  return (
+    <div className="p-6 space-y-6">
+      <h1 className="text-2xl font-bold">Car Rental Admin Panel</h1>
+      <Tabs value={tab} onValueChange={setTab}>
+        <TabsList className="mb-4">
+          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+          <TabsTrigger value="cars">Cars</TabsTrigger>
+          <TabsTrigger value="bookings">Bookings</TabsTrigger>
+          <TabsTrigger value="users">Users</TabsTrigger>
+          <TabsTrigger value="reports">Reports</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="dashboard">
+          <Card>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6">
+              <div>
+                <p className="text-sm text-gray-500">Total Cars</p>
+                <p className="text-xl font-semibold">24</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Active Bookings</p>
+                <p className="text-xl font-semibold">13</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Users</p>
+                <p className="text-xl font-semibold">118</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Revenue (This Month)</p>
+                <p className="text-xl font-semibold">$4,560</p>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="cars">
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <div className="flex gap-2">
+                <Input placeholder="Search car..." className="w-full" />
+                <Button>Add Car</Button>
+              </div>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Model</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Price/Day</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>Tesla Model 3</TableCell>
+                    <TableCell>Available</TableCell>
+                    <TableCell>$99</TableCell>
+                    <TableCell><Button size="sm">Edit</Button></TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="bookings">
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Booking ID</TableHead>
+                    <TableHead>Car</TableHead>
+                    <TableHead>User</TableHead>
+                    <TableHead>From</TableHead>
+                    <TableHead>To</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>#BK2103</TableCell>
+                    <TableCell>BMW X5</TableCell>
+                    <TableCell>John Doe</TableCell>
+                    <TableCell>2025-06-20</TableCell>
+                    <TableCell>2025-06-22</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="users">
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Phone</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>Jane Smith</TableCell>
+                    <TableCell>jane@example.com</TableCell>
+                    <TableCell>+1 555-233-1234</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="reports">
+          <Card>
+            <CardContent className="p-6 space-y-2">
+              <p className="text-lg font-semibold">Monthly Summary</p>
+              <p>Total Bookings: 56</p>
+              <p>Total Revenue: $12,800</p>
+              <p>Most Booked Car: Toyota Corolla</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
