@@ -1,0 +1,89 @@
+.product-category-list {
+  clear: both;
+  background: #e2e2e2;
+  list-style: none;
+}
+
+.product-category-list li {
+  margin: 2em 0;
+  padding-top: 1em;
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  counter-increment: inst;
+  flex-direction: column;
+}
+
+.product-category-list li::before {
+  content: counter(inst);
+  
+  background: #fff;
+  
+  padding-top: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: absolute;
+  left: -35px;
+  top: 20px;
+  
+  transition: all 0.2s ease-in-out;
+
+  border-radius: 50%;
+
+  background: #fff;
+  border: 2px solid #151515;
+  color: #151515;
+  text-align: center;
+
+  font-size: 1.2em;
+  font-weight: bolder;
+}
+
+li h4 {
+  font-size: 1.35em;
+  margin-bottom: 0.125em;
+  font-weight: bolder;
+}
+
+.product-info-item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+button.product-info-item-nutrition-facts {
+    color: black;
+    font-weight: bolder;
+    font-size: 0.8em;
+    border-color: #9e3737;
+    border-radius: 0.5em;
+    background-color: white;
+}
+
+button.product-info-item-nutrition-facts:hover {
+    border-color: white;
+    background-color: #9e3737;
+}
+
+@media screen and (min-width: 800px) {
+  .product-category-list li::before {
+    left: -40px;
+    top: 20px;
+  }
+
+  .product-category-list li {
+    flex-direction: row;
+    align-items: center;
+  }
+
+
+  .product-category-list {
+    padding: 15px 75px 15px 75px;
+  }
+
+  .product-info-item {
+    flex-direction: row;
+  }
+}
