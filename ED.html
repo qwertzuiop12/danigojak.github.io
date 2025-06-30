@@ -126,6 +126,7 @@
 
         .hero-text {
             max-width: 800px;
+            width: 100%;
         }
 
         .hero-text h1 {
@@ -134,32 +135,32 @@
             margin-bottom: 20px;
             color: #222;
             line-height: 1.2;
+            overflow: hidden;
         }
 
-        .hero-text h1 span {
-            color: #FFA500;
+        .typewriter-container {
+            display: inline;
+            position: relative;
         }
 
         .typewriter-text {
+            display: inline;
+            color: #FFA500;
+        }
+
+        .cursor {
             display: inline-block;
-            overflow: hidden;
-            border-right: 2px solid #FFA500;
-            white-space: nowrap;
-            margin: 0 auto;
-            letter-spacing: 1px;
-            animation: 
-                typing 3s steps(40, end),
-                blink-caret .75s step-end infinite;
+            width: 2px;
+            height: 1em;
+            background: #FFA500;
+            animation: blink 0.75s step-end infinite;
+            vertical-align: middle;
+            margin-left: 2px;
         }
 
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: #FFA500; }
+        @keyframes blink {
+            from, to { opacity: 1 }
+            50% { opacity: 0 }
         }
 
         .hero-subtitle {
@@ -187,7 +188,7 @@
 
         .hero-image {
             width: 100%;
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
         }
 
@@ -197,11 +198,6 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             opacity: 0;
             animation: fadeIn 1s ease 4s forwards;
-        }
-
-        @keyframes fadeInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
         }
 
         .btn {
@@ -585,6 +581,17 @@
             .about-image {
                 order: -1;
             }
+
+            .contact-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .contact-item i {
+                margin-top: 0;
+                margin-bottom: 5px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -613,7 +620,7 @@
             }
 
             .hero-text h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
 
             .section-title {
@@ -635,7 +642,8 @@
             }
 
             .hero-text h1 {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
+                line-height: 1.4;
             }
 
             .hero-buttons {
@@ -704,7 +712,7 @@
     <section id="home" class="hero">
         <div class="container hero-content">
             <div class="hero-text">
-                <h1><span class="typewriter-text">E&D International Consulting & Trading Inc.</span></h1>
+                <h1><span class="typewriter-container"><span class="typewriter-text"></span><span class="cursor"></span></span></h1>
                 <p class="hero-subtitle">Your trusted partner for Canadian immigration with over 25 years of experience</p>
                 <div class="hero-buttons">
                     <a href="#services" class="btn btn-primary">Our Services</a>
@@ -712,7 +720,7 @@
                 </div>
             </div>
             <div class="hero-image">
-                <img src="hero-handshake.jpg" alt="Professional Immigration Consultation">
+                <img src="1.jpg" alt="Professional Immigration Consultation">
             </div>
         </div>
     </section>
@@ -794,7 +802,7 @@
                     </div>
                 </div>
                 <div class="about-image">
-                    <img src="ceo-consultation.jpg" alt="Ernad Causevic consulting with clients">
+                    <img src="ceo.jpg" alt="Ernad Causevic consulting with clients">
                 </div>
             </div>
         </div>
@@ -952,6 +960,35 @@
                     link.classList.add('active');
                 }
             });
+        });
+
+        function typeWriter(element, text, i, fnCallback) {
+            if (i < text.length) {
+                element.innerHTML = text.substring(0, i+1); 
+                setTimeout(function() {
+                    typeWriter(element, text, i + 1, fnCallback)
+                }, 100);
+            }
+            else if (typeof fnCallback == 'function') {
+                setTimeout(fnCallback, 700);
+            }
+        }
+
+        function startTypeWriter() {
+            const typewriterElement = document.querySelector('.typewriter-text');
+            const cursorElement = document.querySelector('.cursor');
+            if (typewriterElement) {
+                const text = "E&D International Consulting & Trading Inc.";
+                typewriterElement.innerHTML = '';
+                cursorElement.style.display = 'inline-block';
+                typeWriter(typewriterElement, text, 0, function() {
+                 
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            startTypeWriter();
         });
     </script>
 </body>
