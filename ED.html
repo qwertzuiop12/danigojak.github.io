@@ -18,6 +18,7 @@
             line-height: 1.6;
             color: #333;
             overflow-x: hidden;
+            background: #000;
         }
 
         .container {
@@ -34,6 +35,7 @@
             z-index: 1000;
             padding: 15px 0;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: background 0.3s ease;
         }
 
         .nav-container {
@@ -110,8 +112,21 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            background: #f8f9fa;
+            background: #000;
             padding: 100px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(255,215,0,0) 100%);
+            z-index: 0;
         }
 
         .hero-content {
@@ -122,6 +137,8 @@
             gap: 40px;
             align-items: center;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         .hero-text {
@@ -133,7 +150,7 @@
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 20px;
-            color: #222;
+            color: #fff;
             line-height: 1.2;
             overflow: hidden;
         }
@@ -145,14 +162,18 @@
 
         .typewriter-text {
             display: inline;
-            color: #FFA500;
+            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255,215,0,0.3);
         }
 
         .cursor {
             display: inline-block;
             width: 2px;
             height: 1em;
-            background: #FFA500;
+            background: #FFD700;
             animation: blink 0.75s step-end infinite;
             vertical-align: middle;
             margin-left: 2px;
@@ -165,7 +186,7 @@
 
         .hero-subtitle {
             font-size: 1.1rem;
-            color: #555;
+            color: #ccc;
             margin-bottom: 30px;
             line-height: 1.6;
             opacity: 0;
@@ -186,18 +207,41 @@
             justify-content: center;
         }
 
-        .hero-image {
+        .hero-media {
             width: 100%;
             max-width: 700px;
             margin: 0 auto;
+            position: relative;
+            height: 455px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .hero-image img {
-            width: 100%;
+        .hero-video {
+            width: 65%;
+            height: auto;
             border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             opacity: 0;
-            animation: fadeIn 1s ease 4s forwards;
+            animation: fadeIn 1s ease 0.5s forwards;
+            position: absolute;
+        }
+
+        .hero-video video {
+            width: 100%;
+            display: block;
+        }
+
+        .hero-logo {
+            width: 65%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            opacity: 0;
+            position: absolute;
+            transition: opacity 0.5s ease;
         }
 
         .btn {
@@ -212,37 +256,37 @@
         }
 
         .btn-primary {
-            background: #FFA500;
-            color: #fff;
-            border: 2px solid #FFA500;
+            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
+            color: #000;
+            border: 2px solid #FFD700;
         }
 
         .btn-primary:hover {
-            background: #e59400;
-            border-color: #e59400;
+            background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
+            border-color: #D4AF37;
         }
 
         .btn-secondary {
             background: transparent;
-            color: #333;
-            border: 2px solid #333;
+            color: #fff;
+            border: 2px solid #FFD700;
         }
 
         .btn-secondary:hover {
-            background: #333;
-            color: #fff;
+            background: rgba(255,215,0,0.1);
+            color: #FFD700;
         }
 
         .services {
             padding: 80px 0;
-            background: #fff;
+            background: #000;
         }
 
         .section-title {
             text-align: center;
             font-size: 2rem;
             font-weight: 600;
-            color: #222;
+            color: #FFD700;
             margin-bottom: 50px;
             position: relative;
         }
@@ -255,7 +299,7 @@
             transform: translateX(-50%);
             width: 60px;
             height: 3px;
-            background: #FFA500;
+            background: #FFD700;
         }
 
         .services-grid {
@@ -265,21 +309,36 @@
         }
 
         .service-card {
-            background: #f8f9fa;
+            background: rgba(255,255,255,0.05);
             padding: 30px;
             border-radius: 10px;
             text-align: center;
             transition: all 0.3s ease;
+            border: 1px solid rgba(255,215,0,0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+            filter: blur(2px);
+        }
+
+        .service-card.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
         }
 
         .service-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(255,215,0,0.1);
+            border-color: rgba(255,215,0,0.3);
         }
 
         .service-icon {
             font-size: 2rem;
-            color: #FFA500;
+            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-bottom: 15px;
         }
 
@@ -287,18 +346,18 @@
             font-size: 1.2rem;
             font-weight: 600;
             margin-bottom: 15px;
-            color: #333;
+            color: #fff;
         }
 
         .service-card p {
-            color: #666;
+            color: #ccc;
             font-size: 0.9rem;
             line-height: 1.6;
         }
 
         .about {
             padding: 80px 0;
-            background: #f8f9fa;
+            background: #000;
         }
 
         .about-content {
@@ -312,11 +371,11 @@
             font-size: 2rem;
             font-weight: 600;
             margin-bottom: 20px;
-            color: #222;
+            color: #FFD700;
         }
 
         .about-text p {
-            color: #666;
+            color: #ccc;
             margin-bottom: 25px;
             line-height: 1.7;
         }
@@ -332,37 +391,123 @@
             align-items: center;
             gap: 10px;
             padding: 10px;
-            background: #fff;
+            background: rgba(255,215,0,0.05);
             border-radius: 5px;
+            color: #fff;
+            border: 1px solid rgba(255,215,0,0.1);
         }
 
         .feature i {
-            color: #FFA500;
+            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .about-image {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
         }
 
         .about-image img {
             width: 100%;
+            height: 250px;
+            object-fit: cover;
             border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+            filter: blur(2px);
+        }
+
+        .about-image img.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .about-image img:hover {
+            transform: scale(1.03);
+        }
+
+        .gallery-section {
+            padding: 80px 0;
+            background: #000;
+        }
+
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        .gallery-item {
+            flex: 0 0 calc(33.333% - 20px);
+            max-width: calc(33.333% - 20px);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+            filter: blur(2px);
+        }
+
+        .gallery-item.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item img:hover {
+            transform: scale(1.05);
         }
 
         .testimonials {
             padding: 80px 0;
-            background: #fff;
+            background: #000;
         }
 
         .testimonial-card {
-            background: #f8f9fa;
+            background: rgba(255,255,255,0.05);
             padding: 30px;
             border-radius: 10px;
             text-align: center;
             max-width: 800px;
             margin: 0 auto;
+            border: 1px solid rgba(255,215,0,0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+            filter: blur(2px);
+        }
+
+        .testimonial-card.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
         }
 
         .testimonial-card p {
             font-style: italic;
-            color: #666;
+            color: #ccc;
             margin-bottom: 20px;
             line-height: 1.7;
         }
@@ -373,17 +518,17 @@
 
         .contact {
             padding: 60px 0;
-            background: #222;
+            background: #111;
             color: #fff;
         }
 
         .contact .section-title {
-            color: #fff;
+            color: #FFD700;
             margin-bottom: 30px;
         }
 
         .contact .section-title:after {
-            background: #FFA500;
+            background: #FFD700;
         }
 
         .contact-content {
@@ -402,16 +547,29 @@
             display: flex;
             align-items: flex-start;
             gap: 15px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+            filter: blur(2px);
+        }
+
+        .contact-item.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
         }
 
         .contact-item i {
             font-size: 1.2rem;
-            color: #FFA500;
+            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-top: 3px;
         }
 
         .contact-item h4 {
-            color: #FFA500;
+            color: #FFD700;
             margin-bottom: 5px;
             font-size: 1.1rem;
         }
@@ -423,43 +581,56 @@
         }
 
         .contact-item a:hover {
-            color: #FFA500;
+            color: #FFD700;
         }
 
         .contact-details {
             background: rgba(255,255,255,0.05);
             padding: 25px;
             border-radius: 10px;
+            border: 1px solid rgba(255,215,0,0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+            filter: blur(2px);
+        }
+
+        .contact-details.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
         }
 
         .contact-details p {
             margin-bottom: 15px;
             line-height: 1.7;
             font-size: 0.9rem;
+            color: #ccc;
         }
 
         .email-btn {
             padding: 12px 25px;
-            background: #FFA500;
-            color: #fff;
+            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
+            color: #000;
             border: none;
             border-radius: 5px;
             font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
         }
 
         .email-btn:hover {
-            background: #e59400;
+            background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
         }
 
         .footer {
             background: #000;
             color: #fff;
             padding: 50px 0 20px;
+            border-top: 1px solid rgba(255,215,0,0.1);
         }
 
         .footer-content {
@@ -485,7 +656,7 @@
         .footer-company-name {
             font-size: 1rem;
             font-weight: 600;
-            color: #fff;
+            color: #FFD700;
         }
 
         .footer-description {
@@ -495,7 +666,7 @@
         }
 
         .footer-section h4 {
-            color: #FFA500;
+            color: #FFD700;
             margin-bottom: 15px;
             font-size: 1.1rem;
         }
@@ -516,7 +687,7 @@
         }
 
         .footer-links a:hover {
-            color: #FFA500;
+            color: #FFD700;
         }
 
         .social-links {
@@ -528,23 +699,24 @@
         .social-link {
             width: 35px;
             height: 35px;
-            background: #333;
+            background: rgba(255,255,255,0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
+            color: #FFD700;
             text-decoration: none;
             transition: all 0.3s ease;
+            border: 1px solid rgba(255,215,0,0.2);
         }
 
         .social-link:hover {
-            background: #FFA500;
+            background: rgba(255,215,0,0.2);
             transform: translateY(-3px);
         }
 
         .footer-bottom {
-            border-top: 1px solid #333;
+            border-top: 1px solid rgba(255,255,255,0.1);
             padding-top: 20px;
             text-align: center;
         }
@@ -555,7 +727,7 @@
         }
 
         .developer-link {
-            color: #FFA500;
+            color: #FFD700;
             text-decoration: none;
         }
 
@@ -580,6 +752,7 @@
 
             .about-image {
                 order: -1;
+                grid-template-columns: 1fr;
             }
 
             .contact-item {
@@ -591,6 +764,11 @@
             .contact-item i {
                 margin-top: 0;
                 margin-bottom: 5px;
+            }
+
+            .gallery-item {
+                flex: 0 0 calc(50% - 20px);
+                max-width: calc(50% - 20px);
             }
         }
 
@@ -609,6 +787,7 @@
                 text-align: center;
                 padding: 20px 0;
                 transition: 0.3s;
+                border-top: 1px solid rgba(255,215,0,0.1);
             }
 
             .nav-menu.active {
@@ -633,6 +812,10 @@
 
             .contact-content {
                 grid-template-columns: 1fr;
+            }
+
+            .hero-media {
+                height: 350px;
             }
         }
 
@@ -671,6 +854,15 @@
             .social-links {
                 justify-content: center;
             }
+
+            .gallery-item {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .hero-media {
+                height: 250px;
+            }
         }
     </style>
 </head>
@@ -693,6 +885,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#gallery" class="nav-link">Gallery</a>
                 </li>
                 <li class="nav-item">
                     <a href="#testimonials" class="nav-link">Testimonials</a>
@@ -719,8 +914,14 @@
                     <a href="#contact" class="btn btn-secondary">Contact Us</a>
                 </div>
             </div>
-            <div class="hero-image">
-                <img src="1.jpg" alt="Professional Immigration Consultation">
+            <div class="hero-media">
+                <div class="hero-video">
+                    <video autoplay muted playsinline>
+                        <source src="animation.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <img src="ed-logo.png" alt="E&D Logo" class="hero-logo">
             </div>
         </div>
     </section>
@@ -780,7 +981,7 @@
             <div class="about-content">
                 <div class="about-text">
                     <h2 class="section-title">About E&D International</h2>
-                    <p>E & D International Consulting & Trading Inc. is a trusted immigration consulting firm based in Ancaster, Ontario, with over 25 years of experience helping people navigate the Canadian immigration process. Founded and led by Ernad Causevic, the company is known locally as "ED Immigration" and operates from offices on 87 Parker Ave, Ancaster, ON L9G 1A9, Canada.</p>
+                    <p>E & D International Consulting & Trading Inc. is a trusted immigration consulting firm based in Hamilton, Ontario, with over 25 years of experience helping people navigate the Canadian immigration process. Founded and led by Ernad Causevic, the company is known locally as "ED Immigration" and operates from offices on 87 Parker Ave, Ancaster, ON L9G 1A9, Canada.</p>
                     <p>Fully regulated by the College of Immigration and Citizenship Consultants (CICC), E & D has built a strong reputation for personalized, reliable guidance. The team includes trained professionals and interns like Savanni Semple, who assist with legal and documentation work. With friendly service, real community roots, and a straightforward approach, E & D International is a go-to for individuals and families looking to make Canada their home.</p>
                     <div class="about-features">
                         <div class="feature">
@@ -802,7 +1003,29 @@
                     </div>
                 </div>
                 <div class="about-image">
-                    <img src="ceo.jpg" alt="Ernad Causevic consulting with clients">
+                    <img src="photo1.jpg" alt="E&D Team">
+                    <img src="photo3.png" alt="E&D Team">
+                    <img src="photo.png" alt="E&D Office">
+                    <img src="office.JPG" alt="E&D Office">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">People We've Helped</h2>
+            <div class="gallery-container">
+                <div class="gallery">
+                    <div class="gallery-item">
+                        <img src="1.jpg" alt="Client Success Story">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="2.jpg" alt="Client Success Story">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="3.JPG" alt="Client Success Story">
+                    </div>
                 </div>
             </div>
         </div>
@@ -871,6 +1094,7 @@
                         <li><a href="#home">Home</a></li>
                         <li><a href="#services">Services</a></li>
                         <li><a href="#about">About</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
@@ -903,6 +1127,10 @@
     </footer>
 
     <script>
+        window.onbeforeunload = function () {
+            window.scrollTo(0, 0);
+        }
+
         const hamburger = document.querySelector('.hamburger');
         const navMenu = document.querySelector('.nav-menu');
 
@@ -941,27 +1169,6 @@
             }
         });
 
-        const sections = document.querySelectorAll('section');
-        window.addEventListener('scroll', () => {
-            let current = '';
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                
-                if (pageYOffset >= (sectionTop - 100)) {
-                    current = section.getAttribute('id');
-                }
-            });
-            
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
-                }
-            });
-        });
-
         function typeWriter(element, text, i, fnCallback) {
             if (i < text.length) {
                 element.innerHTML = text.substring(0, i+1); 
@@ -986,9 +1193,40 @@
                 });
             }
         }
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.service-card, .about-image img, .gallery-item, .testimonial-card, .contact-item, .contact-details');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.classList.add('active');
+                } else {
+                    element.classList.remove('active');
+                }
+            });
+        }
 
         document.addEventListener('DOMContentLoaded', function() {
             startTypeWriter();
+            
+            const video = document.querySelector('video');
+            const logo = document.querySelector('.hero-logo');
+            
+            if (video) {
+                video.addEventListener('play', function() {
+                    setTimeout(function() {
+                        video.style.opacity = '0';
+                        logo.style.opacity = '1';
+                    }, 4000);
+                });
+                
+                video.play();
+            }
+
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); 
         });
     </script>
 </body>
