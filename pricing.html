@@ -391,14 +391,14 @@
             font-size: 0.9rem;
         }
 
-        .savings-badge {
-            background-color: #10b981;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+        .personal-url {
+            color: var(--primary);
             font-weight: 600;
-            margin-left: 8px;
+            text-decoration: none;
+        }
+
+        .personal-url:hover {
+            text-decoration: underline;
         }
 
         @media (max-width: 768px) {
@@ -427,7 +427,7 @@
             <div class="profile-section">
                 <div class="profile-initials">DG</div>
                 <h1 class="main-title">Professional Web Services</h1>
-                <p class="subtitle">High-quality websites and digital solutions at affordable prices</p>
+                <p class="subtitle">Enterprise-grade websites and digital solutions for serious businesses</p>
             </div>
             
             <div class="service-tabs">
@@ -437,28 +437,42 @@
         </div>
     </header>
 
+    <!-- Business Services -->
     <section class="pricing-section category-section active" id="business-category">
         <div class="container">
             <h2 class="section-title">Business Web Solutions</h2>
-            <p class="section-subtitle">Professional websites designed to grow your business and establish your digital presence</p>
+            <p class="section-subtitle">Professional websites designed to grow your business and establish your digital presence with enterprise-level security and performance.</p>
             
             <div class="pricing-grid">
+                <!-- Professional -->
                 <div class="pricing-card">
                     <div class="plan-header">
-                        <h3 class="plan-name">Starter</h3>
-                        <p class="plan-description">Perfect for small businesses</p>
+                        <h3 class="plan-name">Professional</h3>
+                        <p class="plan-description">Perfect for small businesses and professionals</p>
                         <div class="plan-price">
                             <span class="price-currency">CA$</span>
-                            <span class="price-amount">1.99</span>
+                            <span class="price-amount">149</span>
                             <span class="price-period">/ month</span>
                         </div>
-                        <div class="setup-fee">One-time setup fee: CA$20</div>
+                        <div class="setup-fee">+ CA$400 setup & design fee</div>
                     </div>
                     
                     <div class="plan-features">
                         <div class="feature-item">
-                            <i class="fas fa-globe feature-icon"></i>
-                            <span class="feature-text">1-page professional website</span>
+                            <i class="fas fa-file-alt feature-icon"></i>
+                            <span class="feature-text">5-page professional website</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-paint-brush feature-icon"></i>
+                            <span class="feature-text">Custom design & branding</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-server feature-icon"></i>
+                            <span class="feature-text">Premium hosting & domain</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-lock feature-icon"></i>
+                            <span class="feature-text">SSL certificate & security</span>
                         </div>
                         <div class="feature-item">
                             <i class="fas fa-mobile-alt feature-icon"></i>
@@ -466,11 +480,15 @@
                         </div>
                         <div class="feature-item">
                             <i class="fas fa-envelope feature-icon"></i>
-                            <span class="feature-text">Contact form</span>
+                            <span class="feature-text">Contact forms & email setup</span>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-shield-alt feature-icon"></i>
-                            <span class="feature-text">Basic security</span>
+                            <i class="fas fa-search feature-icon"></i>
+                            <span class="feature-text">Basic SEO optimization</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-headset feature-icon"></i>
+                            <span class="feature-text">2 weeks support</span>
                         </div>
                     </div>
                     
@@ -481,76 +499,110 @@
                     </button>
                 </div>
 
+                <!-- Enterprise (Featured) -->
                 <div class="pricing-card featured">
                     <div class="plan-header">
-                        <h3 class="plan-name">Professional</h3>
-                        <p class="plan-description">Best value for growing businesses</p>
+                        <h3 class="plan-name">Enterprise</h3>
+                        <p class="plan-description">Advanced solution for growing businesses</p>
                         <div class="plan-price">
                             <span class="price-currency">CA$</span>
-                            <span class="price-amount">20</span>
-                            <span class="price-period">/ year <span class="savings-badge">Save 16%</span></span>
+                            <span class="price-amount">299</span>
+                            <span class="price-period">/ month</span>
                         </div>
-                        <div class="setup-fee">One-time setup fee: CA$30</div>
+                        <div class="setup-fee">+ CA$800 setup & design fee</div>
                     </div>
                     
                     <div class="plan-features">
                         <div class="feature-item">
-                            <i class="fas fa-file-alt feature-icon"></i>
-                            <span class="feature-text">3-page professional website</span>
+                            <i class="fas fa-infinity feature-icon"></i>
+                            <span class="feature-text">Unlimited pages & sections</span>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-paint-brush feature-icon"></i>
-                            <span class="feature-text">Custom design</span>
+                            <i class="fas fa-code feature-icon"></i>
+                            <span class="feature-text">Advanced custom development</span>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-search feature-icon"></i>
-                            <span class="feature-text">Basic SEO</span>
+                            <i class="fas fa-shopping-cart feature-icon"></i>
+                            <span class="feature-text">E-commerce functionality</span>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-image feature-icon"></i>
-                            <span class="feature-text">Gallery section</span>
+                            <i class="fas fa-tachometer-alt feature-icon"></i>
+                            <span class="feature-text">Enterprise hosting & CDN</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-chart-line feature-icon"></i>
+                            <span class="feature-text">Advanced SEO & analytics</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-cog feature-icon"></i>
+                            <span class="feature-text">CMS & content management</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-plug feature-icon"></i>
+                            <span class="feature-text">API integrations</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-headset feature-icon"></i>
+                            <span class="feature-text">3 months priority support</span>
                         </div>
                     </div>
                     
-                    <button class="cta-button">Get Professional</button>
+                    <button class="cta-button">Go Enterprise</button>
                     <button class="contact-button">
                         <i class="fab fa-instagram"></i>
                         Contact for Quote
                     </button>
                 </div>
 
+                <!-- Premium -->
                 <div class="pricing-card">
                     <div class="plan-header">
-                        <h3 class="plan-name">Lifetime</h3>
-                        <p class="plan-description">One-time payment, forever yours</p>
+                        <h3 class="plan-name">Premium</h3>
+                        <p class="plan-description">Complete digital transformation solution</p>
                         <div class="plan-price">
                             <span class="price-currency">CA$</span>
-                            <span class="price-amount">100</span>
-                            <span class="price-period">one-time <span class="savings-badge">Save 58%</span></span>
+                            <span class="price-amount">499</span>
+                            <span class="price-period">/ month</span>
                         </div>
-                        <div class="setup-fee">No setup fee</div>
+                        <div class="setup-fee">+ CA$1,200 setup & design fee</div>
                     </div>
                     
                     <div class="plan-features">
                         <div class="feature-item">
-                            <i class="fas fa-infinity feature-icon"></i>
-                            <span class="feature-text">Lifetime hosting</span>
+                            <i class="fas fa-check-double feature-icon"></i>
+                            <span class="feature-text">Everything in Enterprise</span>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-cog feature-icon"></i>
-                            <span class="feature-text">5-page custom website</span>
+                            <i class="fas fa-window-restore feature-icon"></i>
+                            <span class="feature-text">Custom web applications</span>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-lock feature-icon"></i>
-                            <span class="feature-text">Premium security</span>
+                            <i class="fas fa-database feature-icon"></i>
+                            <span class="feature-text">Advanced database solutions</span>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-sync-alt feature-icon"></i>
-                            <span class="feature-text">Free updates</span>
+                            <i class="fas fa-language feature-icon"></i>
+                            <span class="feature-text">Multi-language support</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-robot feature-icon"></i>
+                            <span class="feature-text">Advanced automation tools</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-tag feature-icon"></i>
+                            <span class="feature-text">White-label solutions</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-calendar-check feature-icon"></i>
+                            <span class="feature-text">Monthly strategy consultations</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-headset feature-icon"></i>
+                            <span class="feature-text">6 months priority support</span>
                         </div>
                     </div>
                     
-                    <button class="cta-button">Get Lifetime</button>
+                    <button class="cta-button">Go Premium</button>
                     <button class="contact-button">
                         <i class="fab fa-instagram"></i>
                         Contact for Quote
@@ -560,70 +612,81 @@
         </div>
     </section>
 
+    <!-- Personal Services -->
     <section class="pricing-section category-section" id="personal-category">
         <div class="container">
             <h2 class="section-title">Personal Web Solutions</h2>
-            <p class="section-subtitle">Get your personal website at <a href="https://www.danigojak.xyz/your-name" target="_blank">danigojak.xyz/your-name</a></p>
+            <p class="section-subtitle">Get your personal website at <a href="https://www.danigojak.xyz/your-name" class="personal-url" target="_blank">danigojak.xyz/your-name</a></p>
             
             <div class="pricing-grid">
+                <!-- Monthly -->
                 <div class="pricing-card">
                     <div class="plan-header">
                         <h3 class="plan-name">Basic</h3>
-                        <p class="plan-description">Simple personal page</p>
+                        <p class="plan-description">Simple personal website</p>
                         <div class="plan-price">
                             <span class="price-currency">CA$</span>
                             <span class="price-amount">1.99</span>
                             <span class="price-period">/ month</span>
                         </div>
-                        <div class="setup-fee">One-time setup fee: CA$10</div>
+                        <div class="setup-fee">+ CA$10 setup fee</div>
                     </div>
                     
                     <div class="plan-features">
                         <div class="feature-item">
                             <i class="fas fa-user feature-icon"></i>
-                            <span class="feature-text">Personal profile page</span>
+                            <span class="feature-text">1-page personal website</span>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-link feature-icon"></i>
-                            <span class="feature-text">Social media links</span>
+                            <i class="fas fa-mobile-alt feature-icon"></i>
+                            <span class="feature-text">Mobile-responsive design</span>
                         </div>
                         <div class="feature-item">
                             <i class="fas fa-envelope feature-icon"></i>
                             <span class="feature-text">Contact button</span>
                         </div>
+                        <div class="feature-item">
+                            <i class="fas fa-link feature-icon"></i>
+                            <span class="feature-text">Social media links</span>
+                        </div>
                     </div>
                     
-                    <button class="cta-button">Get Basic</button>
+                    <button class="cta-button">Get Started</button>
                     <button class="contact-button">
                         <i class="fab fa-instagram"></i>
                         Contact for Quote
                     </button>
                 </div>
 
+                <!-- Yearly -->
                 <div class="pricing-card featured">
                     <div class="plan-header">
                         <h3 class="plan-name">Pro</h3>
-                        <p class="plan-description">Enhanced personal site</p>
+                        <p class="plan-description">Better value for personal sites</p>
                         <div class="plan-price">
                             <span class="price-currency">CA$</span>
                             <span class="price-amount">20</span>
-                            <span class="price-period">/ year <span class="savings-badge">Save 16%</span></span>
+                            <span class="price-period">/ year</span>
                         </div>
-                        <div class="setup-fee">One-time setup fee: CA$15</div>
+                        <div class="setup-fee">+ CA$10 setup fee</div>
                     </div>
                     
                     <div class="plan-features">
                         <div class="feature-item">
-                            <i class="fas fa-id-card feature-icon"></i>
-                            <span class="feature-text">Professional bio page</span>
+                            <i class="fas fa-user feature-icon"></i>
+                            <span class="feature-text">1-page personal website</span>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-images feature-icon"></i>
-                            <span class="feature-text">Portfolio gallery</span>
+                            <i class="fas fa-mobile-alt feature-icon"></i>
+                            <span class="feature-text">Mobile-responsive design</span>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-blog feature-icon"></i>
-                            <span class="feature-text">Simple blog</span>
+                            <i class="fas fa-envelope feature-icon"></i>
+                            <span class="feature-text">Contact button</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-link feature-icon"></i>
+                            <span class="feature-text">Social media links</span>
                         </div>
                     </div>
                     
@@ -634,30 +697,43 @@
                     </button>
                 </div>
 
+                <!-- Lifetime -->
                 <div class="pricing-card">
                     <div class="plan-header">
                         <h3 class="plan-name">Lifetime</h3>
-                        <p class="plan-description">Permanent personal site</p>
+                        <p class="plan-description">Permanent personal website</p>
                         <div class="plan-price">
                             <span class="price-currency">CA$</span>
                             <span class="price-amount">100</span>
-                            <span class="price-period">one-time <span class="savings-badge">Save 58%</span></span>
+                            <span class="price-period">one-time</span>
                         </div>
-                        <div class="setup-fee">No setup fee</div>
+                        <div class="setup-fee">+ CA$10 setup fee</div>
                     </div>
                     
                     <div class="plan-features">
                         <div class="feature-item">
-                            <i class="fas fa-infinity feature-icon"></i>
-                            <span class="feature-text">Lifetime hosting</span>
+                            <i class="fas fa-user feature-icon"></i>
+                            <span class="feature-text">1-page personal website</span>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-paint-brush feature-icon"></i>
-                            <span class="feature-text">Custom design</span>
+                            <i class="fas fa-mobile-alt feature-icon"></i>
+                            <span class="feature-text">Mobile-responsive design</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-envelope feature-icon"></i>
+                            <span class="feature-text">Contact button</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-link feature-icon"></i>
+                            <span class="feature-text">Social media links</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-star feature-icon"></i>
+                            <span class="feature-text">Premium design template</span>
                         </div>
                         <div class="feature-item">
                             <i class="fas fa-camera feature-icon"></i>
-                            <span class="feature-text">Professional portfolio</span>
+                            <span class="feature-text">Photo gallery section</span>
                         </div>
                     </div>
                     
@@ -673,40 +749,40 @@
 
     <section class="info-section">
         <div class="container">
-            <h2 class="section-title">Additional Features</h2>
-            <p class="section-subtitle">Enhance your website with premium add-ons</p>
+            <h2 class="section-title">Why Choose Our Services</h2>
+            <p class="section-subtitle">Professional web development with enterprise-grade infrastructure and dedicated support.</p>
             
             <div class="info-grid">
                 <div class="info-card">
                     <div class="info-icon">
-                        <i class="fas fa-shopping-cart"></i>
+                        <i class="fas fa-certificate"></i>
                     </div>
-                    <h3 class="info-title">E-commerce</h3>
-                    <p class="info-description">Add online store functionality</p>
+                    <h3 class="info-title">Professional Quality</h3>
+                    <p class="info-description">Every website is custom-built with modern technologies, ensuring optimal performance and user experience.</p>
                 </div>
 
                 <div class="info-card">
                     <div class="info-icon">
-                        <i class="fas fa-chart-line"></i>
+                        <i class="fas fa-server"></i>
                     </div>
-                    <h3 class="info-title">Analytics</h3>
-                    <p class="info-description">Track visitor statistics</p>
+                    <h3 class="info-title">Premium Infrastructure</h3>
+                    <p class="info-description">High-quality hosting, SSL certificates, and security measures included in every package.</p>
                 </div>
 
                 <div class="info-card">
                     <div class="info-icon">
-                        <i class="fas fa-search"></i>
+                        <i class="fas fa-mobile-alt"></i>
                     </div>
-                    <h3 class="info-title">SEO Boost</h3>
-                    <p class="info-description">Improve search rankings</p>
+                    <h3 class="info-title">Mobile-First Design</h3>
+                    <p class="info-description">All websites are designed and optimized for mobile devices first.</p>
                 </div>
 
                 <div class="info-card">
                     <div class="info-icon">
-                        <i class="fas fa-language"></i>
+                        <i class="fas fa-tools"></i>
                     </div>
-                    <h3 class="info-title">Multi-language</h3>
-                    <p class="info-description">Reach global audience</p>
+                    <h3 class="info-title">Ongoing Support</h3>
+                    <p class="info-description">Comprehensive support packages include maintenance and technical assistance.</p>
                 </div>
             </div>
         </div>
@@ -716,7 +792,7 @@
         <div class="container">
             <div class="footer-content">
                 <h3 class="footer-title">Ready to Get Started?</h3>
-                <p class="footer-text">Contact us today for a free consultation</p>
+                <p class="footer-text">Contact us today for a free consultation and custom quote</p>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2025 Dani Gojak Professional Web Services. All rights reserved.</p>
