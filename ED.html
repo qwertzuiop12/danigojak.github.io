@@ -187,7 +187,7 @@
 
         .hero-image {
             width: 100%;
-            max-width: 560px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
@@ -197,6 +197,11 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             opacity: 0;
             animation: fadeIn 1s ease 4s forwards;
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .btn {
@@ -699,10 +704,7 @@
     <section id="home" class="hero">
         <div class="container hero-content">
             <div class="hero-text">
-                <h1>
-                    <div class="typewriter-text">E&D International Consulting &</div>
-                    <div class="typewriter-text" style="animation-delay: 1.5s">Trading Inc.</div>
-                </h1>
+                <h1><span class="typewriter-text">E&D International Consulting & Trading Inc.</span></h1>
                 <p class="hero-subtitle">Your trusted partner for Canadian immigration with over 25 years of experience</p>
                 <div class="hero-buttons">
                     <a href="#services" class="btn btn-primary">Our Services</a>
