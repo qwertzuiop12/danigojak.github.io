@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <style>@keyframes gradientShift {0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
-.fade-in {
-  animation: fadeIn 0.6s ease-in-out;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-</style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dani Gojak | Digital Creator</title>
+    <title>Dani Gojak | Digital Creator & Developer</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,6 +22,9 @@
             --card-bg: rgba(20, 20, 20, 0.8);
             --card-border: rgba(255, 255, 255, 0.05);
             --glow: 0 0 15px rgba(0, 255, 136, 0.3);
+            --success-gradient: linear-gradient(135deg, rgba(0, 255, 65, 0.1), rgba(0, 100, 0, 0.1));
+            --freelance-gradient: linear-gradient(135deg, rgba(255, 94, 125, 0.1), rgba(255, 50, 100, 0.1));
+            --goal-gradient: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
         }
 
         * {
@@ -116,15 +109,15 @@
         }
 
         .profile-pic {
-            width: 140px;
-            height: 140px;
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--bg-dark), #1a2a2a);
             margin: 0 auto 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 42px;
+            font-size: 48px;
             font-weight: bold;
             color: var(--primary);
             border: 3px solid var(--primary);
@@ -156,8 +149,7 @@
         }
 
         .name {
-            font-size: 3rem;
-            color: var(--text-main);
+            font-size: 3.5rem;
             margin-bottom: 15px;
             text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
             letter-spacing: 1px;
@@ -166,16 +158,42 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            position: relative;
+            display: inline-block;
+        }
+
+        .name::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
         }
 
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--text-secondary);
             margin-bottom: 30px;
             font-family: 'JetBrains Mono', monospace;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            position: relative;
+        }
+
+        .subtitle::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: var(--primary);
+            opacity: 0.5;
         }
 
         /* Navigation */
@@ -191,11 +209,11 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--text-secondary);
-            padding: 10px 25px;
+            padding: 12px 30px;
             border-radius: 30px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-family: 'JetBrains Mono', monospace;
             letter-spacing: 1px;
             position: relative;
@@ -222,6 +240,7 @@
             color: var(--primary);
             border-color: rgba(0, 255, 136, 0.3);
             box-shadow: 0 0 10px rgba(0, 255, 136, 0.1);
+            transform: translateY(-2px);
         }
 
         /* Content sections */
@@ -243,19 +262,21 @@
         .section-heading {
             color: var(--primary);
             margin-bottom: 30px;
-            font-size: 1.8rem;
+            font-size: 2rem;
             position: relative;
             display: inline-block;
+            padding-bottom: 10px;
         }
 
         .section-heading::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 2px;
+            height: 3px;
             background: linear-gradient(90deg, var(--primary), transparent);
+            border-radius: 3px;
         }
 
         /* Bio section */
@@ -286,12 +307,25 @@
         .bio:hover {
             border-color: rgba(0, 255, 136, 0.3);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
         }
 
         .bio h3 {
             color: var(--text-main);
             margin-bottom: 15px;
             font-size: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .bio h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50%;
+            height: 2px;
+            background: var(--primary);
         }
 
         .bio p {
@@ -307,13 +341,19 @@
 
         /* Success Story */
         .success-story {
-            background: linear-gradient(135deg, rgba(0, 255, 65, 0.1), rgba(0, 100, 0, 0.1));
+            background: var(--success-gradient);
             border: 1px solid rgba(0, 255, 65, 0.2);
             border-radius: 16px;
             padding: 30px;
             margin-bottom: 40px;
             position: relative;
             overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .success-story:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .success-story::before {
@@ -345,12 +385,14 @@
             color: var(--primary);
             text-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
             font-family: 'JetBrains Mono', monospace;
+            display: inline-block;
+            margin: 10px 0;
         }
 
         /* Achievements Section */
         .achievements {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
             margin-bottom: 40px;
         }
@@ -392,10 +434,22 @@
             color: var(--text-main);
             margin-bottom: 15px;
             font-size: 1.3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .achievement-card h4::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 30%;
+            height: 2px;
+            background: var(--primary);
         }
 
         .achievement-value {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: bold;
             color: var(--primary);
             margin-bottom: 10px;
@@ -427,7 +481,7 @@
         /* Personal Stats */
         .personal-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 25px;
             margin-bottom: 40px;
         }
@@ -444,6 +498,7 @@
         .personal-stat:hover {
             border-color: rgba(0, 255, 136, 0.3);
             transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .personal-stat h4 {
@@ -453,7 +508,7 @@
         }
 
         .personal-stat-value {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: bold;
             color: var(--secondary);
             margin-bottom: 10px;
@@ -482,6 +537,12 @@
             border: 1px solid var(--card-border);
             position: relative;
             overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .age-calculator:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .age-calculator::before {
@@ -509,8 +570,8 @@
         }
 
         .age-display {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 20px;
         }
 
@@ -518,7 +579,6 @@
             background: rgba(0, 162, 255, 0.1);
             border-radius: 12px;
             padding: 15px;
-            min-width: 140px;
             text-align: center;
             transition: all 0.3s ease;
         }
@@ -526,10 +586,11 @@
         .age-unit:hover {
             transform: translateY(-5px);
             background: rgba(0, 162, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .age-value {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: bold;
             color: var(--secondary);
             font-family: 'JetBrains Mono', monospace;
@@ -543,13 +604,19 @@
 
         /* Freelance Section */
         .freelance {
-            background: linear-gradient(135deg, rgba(255, 94, 125, 0.1), rgba(255, 50, 100, 0.1));
+            background: var(--freelance-gradient);
             border: 1px solid rgba(255, 94, 125, 0.2);
             border-radius: 16px;
             padding: 30px;
             margin-bottom: 40px;
             position: relative;
             overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .freelance:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .freelance::before {
@@ -580,7 +647,7 @@
         /* Links section */
         .links {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
             margin-bottom: 40px;
         }
@@ -624,17 +691,22 @@
         }
 
         .link-icon {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 28px;
             color: white;
             flex-shrink: 0;
             position: relative;
             overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .link-card:hover .link-icon {
+            transform: rotate(10deg) scale(1.1);
         }
 
         .instagram-icon {
@@ -673,19 +745,24 @@
         .link-info h4 {
             margin-bottom: 5px;
             color: var(--text-main);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            transition: color 0.3s ease;
+        }
+
+        .link-card:hover .link-info h4 {
+            color: var(--primary);
         }
 
         .link-info p {
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-family: 'JetBrains Mono', monospace;
         }
 
         /* Stats section */
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 25px;
             margin-bottom: 40px;
         }
@@ -695,7 +772,7 @@
             background: var(--card-bg);
             backdrop-filter: blur(10px);
             border-radius: 16px;
-            padding: 25px;
+            padding: 30px 25px;
             border: 1px solid var(--card-border);
             transition: all 0.3s ease;
         }
@@ -703,19 +780,21 @@
         .stat:hover {
             border-color: rgba(0, 255, 136, 0.3);
             transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .stat-number {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: bold;
             color: var(--primary);
             display: block;
             font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 5px;
         }
 
         .stat-label {
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            font-size: 1rem;
             margin-top: 10px;
             font-family: 'JetBrains Mono', monospace;
         }
@@ -739,6 +818,12 @@
             animation: fadeIn 3s ease 2s forwards;
             font-family: 'JetBrains Mono', monospace;
             z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .visitor-tracker:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
         }
 
         @keyframes fadeIn {
@@ -748,6 +833,30 @@
         .visitor-tracker .status {
             color: var(--primary);
             font-weight: bold;
+        }
+
+        /* Visitor map */
+        .visitor-map {
+            width: 100%;
+            height: 300px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            margin-bottom: 40px;
+            border: 1px solid var(--card-border);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .map-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
         }
 
         /* Footer */
@@ -798,6 +907,38 @@
             100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
         }
 
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            border: 1px solid var(--primary);
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .container {
@@ -805,11 +946,11 @@
             }
             
             .name {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
             
             .subtitle {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
             
             .visitor-tracker {
@@ -835,45 +976,61 @@
             }
             
             .nav-btn {
-                padding: 8px 15px;
-                font-size: 0.8rem;
+                padding: 10px 20px;
+                font-size: 0.9rem;
             }
             
             .profile-pic {
-                width: 100px;
-                height: 100px;
-                font-size: 30px;
+                width: 120px;
+                height: 120px;
+                font-size: 36px;
+            }
+
+            .name {
+                font-size: 2rem;
+            }
+
+            .section-heading {
+                font-size: 1.5rem;
             }
         }
-    
-.fade-in {
-  animation: fadeIn 0.6s ease-in-out;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
-</style>
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
     <!-- Background elements -->
-    <div class="grid-bg" data-aos="fade-up" data-aos-duration="1200"></div data-aos="fade-up" data-aos-duration="1200">
-    <div class="noise" data-aos="fade-up" data-aos-duration="1200"></div data-aos="fade-up" data-aos-duration="1200">
-    <div class="particles" id="particles" data-aos="fade-up" data-aos-duration="1200"></div data-aos="fade-up" data-aos-duration="1200">
+    <div class="grid-bg"></div>
+    <div class="noise"></div>
+    <div class="particles" id="particles"></div>
 
+    <!-- Visitor Tracker -->
+    <div class="visitor-tracker">
+        <div class="status">TRACKING ACTIVE</div>
+        <div id="visitorLocation">🌍 Locating...</div>
+        <div id="visitorIP">IP: ...</div>
+        <div id="sessionTime">Session: 00:00</div>
+    </div>
 
-    <div class="container" data-aos="fade-up" data-aos-duration="1200">
+    <div class="container">
         <!-- Header -->
-        <div class="header" data-aos="fade-up" data-aos-duration="1200">
-            <div class="profile-pic" data-aos="fade-up" data-aos-duration="1200">
+        <div class="header">
+            <div class="profile-pic">
                 <span>DG</span>
             </div>
             <h1 class="name">DANI GOJAK</h1>
             <p class="subtitle">DIGITAL CREATOR | FREELANCER | FITNESS ENTHUSIAST</p>
             
             <!-- Navigation -->
-            <div class="nav" data-aos="fade-up" data-aos-duration="1200">
+            <div class="nav">
                 <button class="nav-btn active" data-section="about">ABOUT</button>
                 <button class="nav-btn" data-section="achievements">ACHIEVEMENTS</button>
                 <button class="nav-btn" data-section="freelance">FREELANCE</button>
@@ -883,73 +1040,80 @@
         </div>
 
         <!-- About Section -->
-        <div class="content-section active" id="about-section" data-aos="fade-up" data-aos-duration="1200">
+        <div class="content-section active" id="about-section">
             <!-- Bio -->
-            <div class="bio" data-aos="fade-up" data-aos-duration="1200">
+            <div class="bio">
                 <h3>WHO AM I?</h3>
                 <p>When I'm not coding or creating, I'm in the gym pushing my limits. Discipline in one area translates to all others.</p>
                 <p><strong>Add my snap:</strong> d4n1q</p>
             </div>
 
             <!-- Success Story -->
-            <div class="success-story" data-aos="fade-up" data-aos-duration="1200">
+            <div class="success-story">
                 <h3>RECENT SUCCESS</h3>
                 <p>Created a Roblox group 12 months ago. Did literally nothing with it. Made <span class="amount">CA$1,947.00</span> purely from passive income.</p>
                 <p>This was just the beginning. The real plans are much bigger.</p>
             </div>
 
+            <!-- Visitor Map -->
+            <div class="visitor-map" id="visitorMap">
+                <div class="map-overlay">
+                    <span id="mapLocation">Loading visitor location...</span>
+                </div>
+            </div>
+
             <!-- Personal Stats -->
-            <div class="personal-stats" data-aos="fade-up" data-aos-duration="1200">
-                <div class="personal-stat" data-aos="fade-up" data-aos-duration="1200">
+            <div class="personal-stats">
+                <div class="personal-stat">
                     <h4>HEIGHT</h4>
-                    <div class="personal-stat-value" data-metric="184" data-imperial="6.04" data-aos="fade-up" data-aos-duration="1200">184 cm</div data-aos="fade-up" data-aos-duration="1200">
-                    <div class="personal-stat-conversion" data-aos="fade-up" data-aos-duration="1200">(6'0.44") - Click to convert</div data-aos="fade-up" data-aos-duration="1200">
+                    <div class="personal-stat-value" data-metric="184" data-imperial="6.04">184 cm</div>
+                    <div class="personal-stat-conversion">(6'0.44") - Click to convert</div>
                 </div>
                 
-                <div class="personal-stat" data-aos="fade-up" data-aos-duration="1200">
+                <div class="personal-stat">
                     <h4>Current Streak</h4>
-                    <div class="personal-stat-value" data-aos="fade-up" data-aos-duration="1200">26 days</div data-aos="fade-up" data-aos-duration="1200">
-                    <div class="personal-stat-conversion" data-aos="fade-up" data-aos-duration="1200">No missed workouts</div data-aos="fade-up" data-aos-duration="1200">
-                    <div class="personal-stat-conversion" data-aos="fade-up" data-aos-duration="1200">________________________</div data-aos="fade-up" data-aos-duration="1200">
-                    <div class="personal-stat-conversion" data-aos="fade-up" data-aos-duration="1200">(automatically updates)</div data-aos="fade-up" data-aos-duration="1200">
+                    <div class="personal-stat-value">26 days</div>
+                    <div class="personal-stat-conversion">No missed workouts</div>
+                    <div class="personal-stat-conversion">________________________</div>
+                    <div class="personal-stat-conversion">(automatically updates)</div>
                 </div>
             </div>
 
             <!-- Age Calculator -->
-            <div class="age-calculator" data-aos="fade-up" data-aos-duration="1200">
+            <div class="age-calculator">
                 <h3>MY AGE</h3>
                 <p>Here's how long I've been optimizing my life:</p>
-                <div class="age-display" id="ageDisplay" data-aos="fade-up" data-aos-duration="1200">
+                <div class="age-display" id="ageDisplay">
                     <!-- Filled by JavaScript -->
                 </div>
             </div>
         </div>
 
         <!-- Achievements Section -->
-        <div class="content-section" id="achievements-section" data-aos="fade-up" data-aos-duration="1200">
+        <div class="content-section" id="achievements-section">
             <h3 class="section-heading">GYM PERSONAL RECORDS</h3>
             
-            <div class="achievements" data-aos="fade-up" data-aos-duration="1200">
-                <div class="achievement-card" data-aos="fade-up" data-aos-duration="1200">
+            <div class="achievements">
+                <div class="achievement-card">
                     <h4>LEG PRESS</h4>
-                    <div class="achievement-value" data-metric="374" data-imperial="825" data-aos="fade-up" data-aos-duration="1200">374 kg (825 lb)</div data-aos="fade-up" data-aos-duration="1200">
-                    <div class="achievement-conversion" data-aos="fade-up" data-aos-duration="1200">Click to convert to lbs/kg</div data-aos="fade-up" data-aos-duration="1200">
-                    <div class="achievement-description" data-aos="fade-up" data-aos-duration="1200">Huge Legs ig</div data-aos="fade-up" data-aos-duration="1200">
+                    <div class="achievement-value" data-metric="374" data-imperial="825">374 kg (825 lb)</div>
+                    <div class="achievement-conversion">Click to convert to lbs/kg</div>
+                    <div class="achievement-description">Huge Legs ig</div>
                 </div>
                 
-                <div class="achievement-card" data-aos="fade-up" data-aos-duration="1200">
+                <div class="achievement-card">
                     <h4>BENCH PRESS</h4>
-                    <div class="achievement-value" data-metric="102" data-imperial="225" data-aos="fade-up" data-aos-duration="1200">102 kg (225 lb) - I know... Only😔</div data-aos="fade-up" data-aos-duration="1200">
-                    <div class="achievement-conversion" data-aos="fade-up" data-aos-duration="1200">Click to convert to lbs/kg</div data-aos="fade-up" data-aos-duration="1200">
-                    <div class="achievement-description" data-aos="fade-up" data-aos-duration="1200">I only benched for 7 months</div data-aos="fade-up" data-aos-duration="1200">
+                    <div class="achievement-value" data-metric="102" data-imperial="225">102 kg (225 lb) - I know... Only😔</div>
+                    <div class="achievement-conversion">Click to convert to lbs/kg</div>
+                    <div class="achievement-description">I only benched for 7 months</div>
                 </div>
                 
-                <div class="achievement-card" data-aos="fade-up" data-aos-duration="1200">
+                <div class="achievement-card">
                     <h4>More coming soon...</h4>
                 </div>
             </div>
             
-            <div class="bio" data-aos="fade-up" data-aos-duration="1200">
+            <div class="bio">
                 <h3>GYM FR</h3>
                 <p><strong>No pain no gain</strong></p>
                 <p>My rule: If you're not adding weight to the bar or reps to the set, you're not growing. Simple.</p>
@@ -957,47 +1121,47 @@
         </div>
 
         <!-- Freelance Section -->
-        <div class="content-section" id="freelance-section" data-aos="fade-up" data-aos-duration="1200">
+        <div class="content-section" id="freelance-section">
             <h3 class="section-heading">FREELANCE SERVICES</h3>
             
-            <div class="freelance" data-aos="fade-up" data-aos-duration="1200">
+            <div class="freelance">
                 <p>I build high-converting websites and digital solutions for clients worldwide. While others charge thousands, I deliver better results for less because I've optimized my workflow.</p>
                 <p><strong>Specialties:</strong> Landing pages, business websites, custom web applications, and automation solutions.</p>
             </div>
             
-            <div class="links" data-aos="fade-up" data-aos-duration="1200">
+            <div class="links">
                 <a href="https://instagram.com/0dani_g" class="link-card" target="_blank">
-                    <div class="link-icon instagram-icon" data-aos="fade-up" data-aos-duration="1200">
+                    <div class="link-icon instagram-icon">
                         <i class="fab fa-instagram"></i>
                     </div>
-                    <div class="link-info" data-aos="fade-up" data-aos-duration="1200">
+                    <div class="link-info">
                         <h4>INSTAGRAM</h4>
                         <p>Contact for freelance work</p>
                     </div>
                 </a>
                 
                 <a href="https://tiktok.com/@ed0mt" class="link-card" target="_blank">
-                    <div class="link-icon tiktok-icon" data-aos="fade-up" data-aos-duration="1200">
+                    <div class="link-icon tiktok-icon">
                         <i class="fab fa-tiktok"></i>
                     </div>
-                    <div class="link-info" data-aos="fade-up" data-aos-duration="1200">
+                    <div class="link-info">
                         <h4>TIKTOK</h4>
                         <p>Follow for content</p>
                     </div>
                 </a>
                 
                 <a href="https://www.roblox.com/users/1592416644/profile" class="link-card" target="_blank">
-                    <div class="link-icon roblox-icon" data-aos="fade-up" data-aos-duration="1200">
+                    <div class="link-icon roblox-icon">
                         <i class="fas fa-gamepad"></i>
                     </div>
-                    <div class="link-info" data-aos="fade-up" data-aos-duration="1200">
+                    <div class="link-info">
                         <h4>ROBLOX</h4>
                         <p>Check my games</p>
                     </div>
                 </a>
             </div>
             
-            <div class="bio" data-aos="fade-up" data-aos-duration="1200">
+            <div class="bio">
                 <h3>WHY WORK WITH ME?</h3>
                 <p><strong>1. SPEED:</strong> What takes agencies weeks, I do in days. Time is money.</p>
                 <p><strong>2. NO BS:</strong> Straight talk. No confusing jargon or upsells.</p>
@@ -1007,44 +1171,51 @@
         </div>
 
         <!-- Stats Section -->
-        <div class="content-section" id="stats-section" data-aos="fade-up" data-aos-duration="1200">
+        <div class="content-section" id="stats-section">
             <h3 class="section-heading">DIGITAL STATS</h3>
             
-            <div class="stats" data-aos="fade-up" data-aos-duration="1200">
-                <div class="stat" data-aos="fade-up" data-aos-duration="1200">
+            <div class="stats">
+                <div class="stat">
                     <span class="stat-number" id="realViewCount">0</span>
                     <span class="stat-label">TOTAL VIEWS</span>
                 </div>
-                <div class="stat" data-aos="fade-up" data-aos-duration="1200">
+                <div class="stat">
                     <span class="stat-number" id="todayViews">0</span>
                     <span class="stat-label">TODAY</span>
                 </div>
-                <div class="stat" data-aos="fade-up" data-aos-duration="1200">
+                <div class="stat">
                     <span class="stat-number" id="activeViews">0</span>
                     <span class="stat-label">ACTIVE NOW</span>
                 </div>
             </div>
             
-            <div class="bio" data-aos="fade-up" data-aos-duration="1200">
+            <div class="bio">
                 <h3>DIGITAL MILESTONES</h3>
                 <p>• 5 years coding experience</p>
                 <p>• 20+ projects completed (freelance and personal)</p>
             </div>
             
-            <div class="success-story" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1)); border-color: rgba(255, 215, 0, 0.2);" data-aos="fade-up" data-aos-duration="1200">
+            <div class="success-story" style="background: var(--goal-gradient); border-color: rgba(255, 215, 0, 0.2);">
                 <h3 style="color: #ffd700;">CURRENT GOAL</h3>
                 <p>If you know Luau DM me we could make something together...</p>
             </div>
         </div>
 
         <!-- Footer -->
-        <div class="footer" data-aos="fade-up" data-aos-duration="1200">
+        <div class="footer">
             <p>Every visit is logged. Every interaction is tracked. When you visit you agree to all this.</p>
             <p style="margin-top: 10px;">© 2025 Dani Gojak. All rights reserved.</p>
         </div>
     </div>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        // Initialize AOS animations
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
         // Create floating particles
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
@@ -1079,6 +1250,12 @@
                     // Show corresponding section
                     const sectionId = btn.getAttribute('data-section') + '-section';
                     document.getElementById(sectionId).classList.add('active');
+                    
+                    // Scroll to top of section
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 });
             }
         });
@@ -1115,34 +1292,221 @@
             const ageInYears = ageInDays / 365.25; // Account for leap years
             
             document.getElementById('ageDisplay').innerHTML = `
-                <div class="age-unit" data-aos="fade-up" data-aos-duration="1200">
-                    <div class="age-value" data-aos="fade-up" data-aos-duration="1200">${Math.floor(ageInYears)}</div data-aos="fade-up" data-aos-duration="1200">
-                    <div class="age-label" data-aos="fade-up" data-aos-duration="1200">YEARS</div data-aos="fade-up" data-aos-duration="1200">
+                <div class="age-unit">
+                    <div class="age-value">${Math.floor(ageInYears)}</div>
+                    <div class="age-label">YEARS</div>
                 </div>
-                <div class="age-unit" data-aos="fade-up" data-aos-duration="1200">
-                    <div class="age-value" data-aos="fade-up" data-aos-duration="1200">${Math.floor(ageInMonths)}</div data-aos="fade-up" data-aos-duration="1200">
-                    <div class="age-label" data-aos="fade-up" data-aos-duration="1200">MONTHS</div data-aos="fade-up" data-aos-duration="1200">
+                <div class="age-unit">
+                    <div class="age-value">${Math.floor(ageInMonths)}</div>
+                    <div class="age-label">MONTHS</div>
                 </div>
-                <div class="age-unit" data-aos="fade-up" data-aos-duration="1200">
-                    <div class="age-value" data-aos="fade-up" data-aos-duration="1200">${Math.floor(ageInWeeks)}</div data-aos="fade-up" data-aos-duration="1200">
-                    <div class="age-label" data-aos="fade-up" data-aos-duration="1200">WEEKS</div data-aos="fade-up" data-aos-duration="1200">
+                <div class="age-unit">
+                    <div class="age-value">${Math.floor(ageInWeeks)}</div>
+                    <div class="age-label">WEEKS</div>
                 </div>
-                <div class="age-unit" data-aos="fade-up" data-aos-duration="1200">
-                    <div class="age-value" data-aos="fade-up" data-aos-duration="1200">${Math.floor(ageInDays)}</div data-aos="fade-up" data-aos-duration="1200">
-                    <div class="age-label" data-aos="fade-up" data-aos-duration="1200">DAYS</div data-aos="fade-up" data-aos-duration="1200">
+                <div class="age-unit">
+                    <div class="age-value">${Math.floor(ageInDays)}</div>
+                    <div class="age-label">DAYS</div>
                 </div>
-                <div class="age-unit" data-aos="fade-up" data-aos-duration="1200">
-                    <div class="age-value" data-aos="fade-up" data-aos-duration="1200">${Math.floor(ageInHours)}</div data-aos="fade-up" data-aos-duration="1200">
-                    <div class="age-label" data-aos="fade-up" data-aos-duration="1200">HOURS</div data-aos="fade-up" data-aos-duration="1200">
+                <div class="age-unit">
+                    <div class="age-value">${Math.floor(ageInHours)}</div>
+                    <div class="age-label">HOURS</div>
                 </div>
-                <div class="age-unit" data-aos="fade-up" data-aos-duration="1200">
-                    <div class="age-value" data-aos="fade-up" data-aos-duration="1200">${Math.floor(ageInMinutes)}</div data-aos="fade-up" data-aos-duration="1200">
-                    <div class="age-label" data-aos="fade-up" data-aos-duration="1200">MINUTES</div data-aos="fade-up" data-aos-duration="1200">
+                <div class="age-unit">
+                    <div class="age-value">${Math.floor(ageInMinutes)}</div>
+                    <div class="age-label">MINUTES</div>
                 </div>
             `;
         }
 
-        // Fake visitor stats with daily growth
+        // Visitor tracking system
+        async function trackVisitor() {
+            try {
+                // Get visitor data
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                
+                // Extract relevant information
+                const visitorData = {
+                    ip: data.ip || 'Unknown',
+                    country: data.country_name || 'Unknown',
+                    city: data.city || 'Unknown',
+                    region: data.region || 'Unknown',
+                    postal: data.postal || 'Unknown',
+                    timezone: data.timezone || 'Unknown',
+                    org: data.org || 'Unknown',
+                    userAgent: navigator.userAgent,
+                    platform: navigator.platform,
+                    screenWidth: window.screen.width,
+                    screenHeight: window.screen.height,
+                    language: navigator.language,
+                    referrer: document.referrer || 'Direct',
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Update visitor tracker UI
+                updateVisitorUI(visitorData);
+                
+                // Send data to Discord webhook
+                sendToDiscord(visitorData);
+                
+                return visitorData;
+            } catch (error) {
+                console.error('Visitor tracking error:', error);
+                return fallbackVisitorData();
+            }
+        }
+        
+        function fallbackVisitorData() {
+            const fallbackLocations = [
+                { country: 'United States', city: 'Unknown', region: 'Unknown', ip: '192.168.1.***' },
+                { country: 'Canada', city: 'Unknown', region: 'Unknown', ip: '10.0.0.***' },
+                { country: 'United Kingdom', city: 'Unknown', region: 'Unknown', ip: '172.16.0.***' }
+            ];
+            const randomLocation = fallbackLocations[Math.floor(Math.random() * fallbackLocations.length)];
+            
+            return {
+                ip: randomLocation.ip,
+                country: randomLocation.country,
+                city: randomLocation.city,
+                region: randomLocation.region,
+                postal: 'Unknown',
+                timezone: 'Unknown',
+                org: 'Unknown',
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                screenWidth: window.screen.width,
+                screenHeight: window.screen.height,
+                language: navigator.language,
+                referrer: document.referrer || 'Direct',
+                timestamp: new Date().toISOString()
+            };
+        }
+        
+        function updateVisitorUI(visitorData) {
+            // Get flag emoji
+            let flagEmoji = '🌍';
+            if (visitorData.country_code) {
+                try {
+                    flagEmoji = String.fromCodePoint(...visitorData.country_code.toUpperCase().split('').map(char =>
+                        127397 + char.charCodeAt()
+                    ));
+                } catch (e) {
+                    console.log('Could not generate flag emoji');
+                }
+            }
+            
+            // Update visitor tracker
+            document.getElementById('visitorLocation').textContent = `${flagEmoji} ${visitorData.country}`;
+            document.getElementById('visitorIP').textContent = `IP: ${visitorData.ip}`;
+            
+            // Update map overlay
+            document.getElementById('mapLocation').textContent = 
+                `Visitor from ${visitorData.city}, ${visitorData.region}, ${visitorData.country}`;
+            
+            // Load map (using Leaflet.js would be better, but for simplicity we'll use a static image)
+            const mapImg = document.createElement('img');
+            mapImg.src = `https://maps.googleapis.com/maps/api/staticmap?center=${visitorData.city},${visitorData.country}&zoom=5&size=600x300&maptype=roadmap&markers=color:red%7C${visitorData.city},${visitorData.country}&key=YOUR_GOOGLE_MAPS_API_KEY`;
+            mapImg.alt = `Map of ${visitorData.city}, ${visitorData.country}`;
+            mapImg.style.width = '100%';
+            mapImg.style.height = '100%';
+            mapImg.style.objectFit = 'cover';
+            
+            const mapContainer = document.getElementById('visitorMap');
+            mapContainer.insertBefore(mapImg, mapContainer.firstChild);
+        }
+        
+        async function sendToDiscord(visitorData) {
+            const webhookURL = 'YOUR_DISCORD_WEBHOOK_URL';
+            
+            // Format the embed
+            const embed = {
+                title: '🚀 New Website Visitor',
+                color: 0x00ff88,
+                fields: [
+                    {
+                        name: '📍 Location',
+                        value: `${visitorData.city}, ${visitorData.region}, ${visitorData.country}`,
+                        inline: true
+                    },
+                    {
+                        name: '🌐 IP Address',
+                        value: visitorData.ip,
+                        inline: true
+                    },
+                    {
+                        name: '🕒 Timezone',
+                        value: visitorData.timezone,
+                        inline: true
+                    },
+                    {
+                        name: '💻 Device',
+                        value: `${visitorData.platform} (${visitorData.screenWidth}x${visitorData.screenHeight})`,
+                        inline: true
+                    },
+                    {
+                        name: '🔗 Referrer',
+                        value: visitorData.referrer,
+                        inline: true
+                    },
+                    {
+                        name: '🕰️ Timestamp',
+                        value: new Date(visitorData.timestamp).toLocaleString(),
+                        inline: true
+                    }
+                ],
+                footer: {
+                    text: 'Visitor tracking system'
+                }
+            };
+            
+            try {
+                await fetch(webhookURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        embeds: [embed]
+                    })
+                });
+            } catch (error) {
+                console.error('Failed to send to Discord:', error);
+            }
+        }
+
+        // Session timer
+        function updateSessionTime() {
+            const elapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('sessionTime').textContent = 
+                `Session: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // View counter animation
+        function animateCounter(elementId, targetValue) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+
+            const currentValue = parseInt(element.textContent) || 0;
+            const increment = Math.ceil(targetValue / 100);
+            let displayValue = currentValue;
+
+            const timer = setInterval(() => {
+                displayValue += increment;
+                if (displayValue >= targetValue) {
+                    displayValue = targetValue;
+                    clearInterval(timer);
+                    element.classList.remove('counting');
+                }
+                element.textContent = displayValue;
+            }, 10);
+
+            element.classList.add('counting');
+        }
+
+        // Initialize fake visitor stats with daily growth
         function initializeVisitorStats() {
             // Base values
             const baseDate = new Date('2024-01-01');
@@ -1159,168 +1523,70 @@
             animateCounter('realViewCount', totalViews);
             animateCounter('todayViews', todayViews);
             animateCounter('activeViews', activeNow);
-            animateCounter('totalHours', totalHours);
         }
 
-        // Animated counter function
-        
-
-function animateCounter(elementId, targetValue) {
-    const element = document.getElementById(elementId);
-    if (!element) return;
-
-    const currentValue = parseInt(element.textContent) || 0;
-    const increment = Math.ceil(targetValue / 100);
-    let displayValue = currentValue;
-
-    const timer = setInterval(() => {
-        displayValue += increment;
-        if (displayValue >= targetValue) {
-            displayValue = targetValue;
-            clearInterval(timer);
-            element.classList.remove('counting');
-        }
-        element.textContent = displayValue;
-    }, 10);
-
-    element.classList.add('counting');
-}
-
-        element.textContent = displayValue;
-    }, 10);
-
-    element.classList.add('counting');
-}
-
-
-// Modified geolocation fallback
-async function getLocationData() {
-    try {
-        const response = await fetch('https://ipapi.co/json/');
-        const data = await response.json();
-
-        if (data && data.country_name && data.country_code) {
-            const flagEmoji = String.fromCodePoint(...data.country_code.toUpperCase().split('').map(char =>
-                127397 + char.charCodeAt()
-            ));
-
-            return {
-                country: data.country_name,
-                flag: flagEmoji,
-                ip: data.ip,
-                city: data.city || 'Unknown',
-                region: data.region || 'Unknown'
-            };
-        }
-    } catch (error) {
-        console.log('⚠️ CORS blocked or failed: falling back to random');
-    }
-
-    const fallbackLocations = [
-        { country: 'United States', flag: '🇺🇸', ip: '192.168.1.***', city: 'Unknown', region: 'Unknown' },
-        { country: 'Canada', flag: '🇨🇦', ip: '10.0.0.***', city: 'Unknown', region: 'Unknown' },
-        { country: 'United Kingdom', flag: '🇬🇧', ip: '172.16.0.***', city: 'Unknown', region: 'Unknown' }
-    ];
-    return fallbackLocations[Math.floor(Math.random() * fallbackLocations.length)];
-}
-
-// Cautious element assignment
-getLocationData().then(locationData => {
-    const locEl = document.getElementById('visitorLocation');
-    const ipEl = document.getElementById('visitorIP');
-    if (locEl) locEl.textContent = `${locationData.flag} ${locationData.country}`;
-    if (ipEl) ipEl.textContent = `IP: ${locationData.ip}`;
-});
-
-                element.textContent = displayValue;
-            }, 10);
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Create effects
+            createParticles();
             
-            element.classList.add('counting');
-
-                            return locationData;
-                }
-            } catch (error) {
-                console.log('Location detection failed, using fallback');
-            }
+            // Initialize age calculator
+            updateAge();
+            setInterval(updateAge, 60000); // Update every minute
             
-            // Fallback to random
-            const fallbackLocations = [
-                { country: 'United States', flag: '🇺🇸', ip: '192.168.1.***', city: 'Unknown', region: 'Unknown' },
-                { country: 'Canada', flag: '🇨🇦', ip: '10.0.0.***', city: 'Unknown', region: 'Unknown' },
-                { country: 'United Kingdom', flag: '🇬🇧', ip: '172.16.0.***', city: 'Unknown', region: 'Unknown' }
-            ];
-            return fallbackLocations[Math.floor(Math.random() * fallbackLocations.length)];
-        }
-
-        // Update visitor tracker with real data
-        getLocationData().then(locationData => {
-            setTimeout(() => {
-                document.getElementById('visitorLocation').textContent = `${locationData.flag} ${locationData.country}`;
-                document.getElementById('visitorIP').textContent = `IP: ${locationData.ip}`;
-            }, 3000);
+            // Initialize visitor tracking
+            trackVisitor();
+            
+            // Start session timer
+            let sessionStartTime = Date.now();
+            setInterval(updateSessionTime, 1000);
+            
+            // Initialize visitor stats
+            initializeVisitorStats();
+            
+            // Add some console styling
+            console.log('%c🔍 Visitor detected', 'color: #00ff88; font-size: 14px;');
+            console.log('%c📊 Analytics initialized', 'color: #00a2ff; font-size: 14px;');
+            console.log('%c🎯 Tracking systems online', 'color: #ff5e7d; font-size: 14px;');
+            console.log('%c💪 Gym PRs loaded', 'color: #00ff88; font-size: 14px;');
+            console.log('%c💻 Freelance services active', 'color: #00a2ff; font-size: 14px;');
+            
+            // Show popup after delay
+            setTimeout(showPopup, 10000);
         });
 
-        // Session timer
-        function updateSessionTime() {
-            const elapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
-            const minutes = Math.floor(elapsed / 60);
-            const seconds = elapsed % 60;
-            document.getElementById('sessionTime').textContent = 
-                `Session: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-
-        let sessionStartTime = Date.now();
-        setInterval(updateSessionTime, 1000);
-
-        // Initialize effects
-        createParticles();
-
-        // Initialize age calculator
-        updateAge();
-        setInterval(updateAge, 60000); // Update every minute
-
-        // Initialize visitor stats
-        initializeVisitorStats();
-
-        // Add some mysterious logging
-        console.log('🔍 Visitor detected');
-        console.log('📊 Analytics initialized');
-        console.log('🎯 Tracking systems online');
-        console.log('💪 Gym PRs loaded');
-        console.log('💻 Freelance services active');
-        
         // Modern Popup
-        const popupHTML = `
-        <div id="aboutme-modal" style="position:fixed; z-index:9999; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); backdrop-filter: blur(5px); display:flex; justify-content:center; align-items:center; font-family: 'Kanit', sans-serif; animation:fadeIn 0.5s ease;" data-aos="fade-up" data-aos-duration="1200">
-            <div style="background: rgba(30,30,30,0.95); border: 1px solid rgba(0, 255, 65, 0.3); border-radius:15px; padding:30px; max-width:500px; width:90%; box-shadow:0 0 30px rgba(0,255,65,0.2); position:relative; overflow:hidden;" data-aos="fade-up" data-aos-duration="1200">
-                <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #00ff41, #ff00ff, #00ffff);" data-aos="fade-up" data-aos-duration="1200"></div data-aos="fade-up" data-aos-duration="1200">
-                
-                <h2 style="color:#00ff41; margin-bottom:15px; font-size:1.5rem; text-shadow:0 0 10px rgba(0,255,65,0.3);">GET YOUR OWN SITE</h2>
-                
-                <p style="color:#aaa; line-height:1.6; margin-bottom:20px; font-family: 'JetBrains Mono', monospace;">
-                    Want your own personal page like this?<br><br>
-                    <span style="color:#00a2ff;">● FREE OPTION:</span> Follow me on Instagram and DM me<br>
-                    <span style="color:#ffa500;">● PREMIUM OPTION:</span> $15 CAD/month with custom domain
-                </p>
-                
-                <div style="display:flex; gap:15px; margin-top:25px; justify-content:flex-end;" data-aos="fade-up" data-aos-duration="1200">
-                    <button id="aboutme-close-btn" style="padding:10px 20px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#aaa; border-radius:20px; cursor:pointer; transition:all 0.3s ease; font-family: 'JetBrains Mono', monospace;">
-                        CLOSE
-                    </button>
-                    <button id="aboutme-yes-btn" style="padding:10px 25px; background:linear-gradient(45deg, #00ff41, #00a2ff); color:black; font-weight:bold; border:none; border-radius:20px; cursor:pointer; transition:all 0.3s ease; box-shadow:0 0 15px rgba(0,255,65,0.3); font-family: 'Kanit', sans-serif;">
-                        I WANT THIS
-                    </button>
-                </div>
-                
-                <div style="position:absolute; bottom:10px; right:10px; color:rgba(0,255,65,0.3); font-family:'JetBrains Mono', monospace; font-size:12px;" data-aos="fade-up" data-aos-duration="1200">
-                    [POPUP_TERMINAL_#001]
+        function showPopup() {
+            const popupHTML = `
+            <div id="aboutme-modal" style="position:fixed; z-index:9999; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); backdrop-filter: blur(5px); display:flex; justify-content:center; align-items:center; font-family: 'Kanit', sans-serif; animation:fadeIn 0.5s ease;">
+                <div style="background: rgba(30,30,30,0.95); border: 1px solid rgba(0, 255, 65, 0.3); border-radius:15px; padding:30px; max-width:500px; width:90%; box-shadow:0 0 30px rgba(0,255,65,0.2); position:relative; overflow:hidden;">
+                    <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #00ff41, #ff00ff, #00ffff);"></div>
+                    
+                    <h2 style="color:#00ff41; margin-bottom:15px; font-size:1.5rem; text-shadow:0 0 10px rgba(0,255,65,0.3);">GET YOUR OWN SITE</h2>
+                    
+                    <p style="color:#aaa; line-height:1.6; margin-bottom:20px; font-family: 'JetBrains Mono', monospace;">
+                        Want your own personal page like this?<br><br>
+                        <span style="color:#00a2ff;">● FREE OPTION:</span> Follow me on Instagram and DM me<br>
+                        <span style="color:#ffa500;">● PREMIUM OPTION:</span> $15 CAD/month with custom domain
+                    </p>
+                    
+                    <div style="display:flex; gap:15px; margin-top:25px; justify-content:flex-end;">
+                        <button id="aboutme-close-btn" style="padding:10px 20px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#aaa; border-radius:20px; cursor:pointer; transition:all 0.3s ease; font-family: 'JetBrains Mono', monospace;">
+                            CLOSE
+                        </button>
+                        <button id="aboutme-yes-btn" style="padding:10px 25px; background:linear-gradient(45deg, #00ff41, #00a2ff); color:black; font-weight:bold; border:none; border-radius:20px; cursor:pointer; transition:all 0.3s ease; box-shadow:0 0 15px rgba(0,255,65,0.3); font-family: 'Kanit', sans-serif;">
+                            I WANT THIS
+                        </button>
+                    </div>
+                    
+                    <div style="position:absolute; bottom:10px; right:10px; color:rgba(0,255,65,0.3); font-family:'JetBrains Mono', monospace; font-size:12px;">
+                        [POPUP_TERMINAL_#001]
+                    </div>
                 </div>
             </div>
-        </div>
-        `;
-        
-        // Add popup to the page after 10 seconds
-        setTimeout(() => {
+            `;
+            
+            // Add popup to the page
             document.body.insertAdjacentHTML('beforeend', popupHTML);
             
             // Button handlers
@@ -1338,78 +1604,7 @@ getLocationData().then(locationData => {
                     document.getElementById('aboutme-modal').style.display = 'none';
                 }, 500);
             };
-        }, 10000);
+        }
     </script>
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>AOS.init();</script>
-  <script>document.addEventListener("mousemove",(e)=>{const x=(e.clientX/window.innerWidth-0.5)*20;const y=(e.clientY/window.innerHeight-0.5)*20;const el=document.querySelector(".hero-title");if(el)el.style.transform=`translate(${x}px, ${y}px)`;});</script>
-<script>
-document.querySelectorAll('.nav-btn').forEach(btn => {
-    if (!btn.hasAttribute('href')) {
-        btn.addEventListener('click', () => {
-            const allSections = document.querySelectorAll('.content-section');
-            const allButtons = document.querySelectorAll('.nav-btn');
-            const targetId = btn.getAttribute('data-section') + '-section';
-
-            allButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            allSections.forEach(section => {
-                section.style.display = 'none';
-                section.classList.remove('fade-in');
-            });
-
-            const targetSection = document.getElementById(targetId);
-            if (targetSection) {
-                targetSection.style.display = 'block';
-                targetSection.classList.add('fade-in');
-            }
-        });
-    }
-});
-
-
-function updateAge() {
-    const birthDate = new Date(2008, 0, 20);
-    const now = new Date();
-    const ageInMs = now - birthDate;
-    const ageInSeconds = ageInMs / 1000;
-    const ageInMinutes = ageInSeconds / 60;
-    const ageInHours = ageInMinutes / 60;
-    const ageInDays = ageInHours / 24;
-    const ageInWeeks = ageInDays / 7;
-    const ageInMonths = ageInDays / 30.44;
-    const ageInYears = ageInDays / 365.25;
-
-    const ageDisplay = document.getElementById('ageDisplay');
-    if (!ageDisplay) return;
-
-    ageDisplay.innerHTML = `
-        <div class="age-unit"><div class="age-value">${Math.floor(ageInYears)}</div><div class="age-label">YEARS</div></div>
-        <div class="age-unit"><div class="age-value">${Math.floor(ageInMonths)}</div><div class="age-label">MONTHS</div></div>
-        <div class="age-unit"><div class="age-value">${Math.floor(ageInWeeks)}</div><div class="age-label">WEEKS</div></div>
-        <div class="age-unit"><div class="age-value">${Math.floor(ageInDays)}</div><div class="age-label">DAYS</div></div>
-        <div class="age-unit"><div class="age-value">${Math.floor(ageInHours)}</div><div class="age-label">HOURS</div></div>
-        <div class="age-unit"><div class="age-value">${Math.floor(ageInMinutes)}</div><div class="age-label">MINUTES</div></div>
-    `;
-}
-document.addEventListener("DOMContentLoaded", () => {
-    updateAge();
-    setInterval(updateAge, 60000);
-});
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const realViewCount = document.getElementById('realViewCount');
-    const todayViews = document.getElementById('todayViews');
-    const activeViews = document.getElementById('activeViews');
-    const totalHours = document.getElementById('totalHours');
-
-    if (realViewCount) realViewCount.textContent = 1368;
-    if (todayViews) todayViews.textContent = 1;
-    if (activeViews) activeViews.textContent = 2;
-    if (totalHours) totalHours.textContent = 6602;
-});
-</script>
 </body>
 </html>
