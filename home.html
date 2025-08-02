@@ -1383,9 +1383,41 @@
             };
         }
         
+        function updateVisitorUI(visitorData) {
+            // Get flag emoji
+            let flagEmoji = '🌍';
+            if (visitorData.country_code) {
+                try {
+                    flagEmoji = String.fromCodePoint(...visitorData.country_code.toUpperCase().split('').map(char =>
+                        127397 + char.charCodeAt()
+                    ));
+                } catch (e) {
+                    console.log('Could not generate flag emoji');
+                }
+            }
+            
+            // Update visitor tracker
+            document.getElementById('visitorLocation').textContent = `${flagEmoji} ${visitorData.country}`;
+            document.getElementById('visitorIP').textContent = `IP: ${visitorData.ip}`;
+            
+            // Update map overlay
+            document.getElementById('mapLocation').textContent = 
+                `Visitor from ${visitorData.city}, ${visitorData.region}, ${visitorData.country}`;
+            
+            // Load map (using Leaflet.js would be better, but for simplicity we'll use a static image)
+            const mapImg = document.createElement('img');
+            mapImg.src = `https://maps.googleapis.com/maps/api/staticmap?center=${visitorData.city},${visitorData.country}&zoom=5&size=600x300&maptype=roadmap&markers=color:red%7C${visitorData.city},${visitorData.country}&key=YOUR_GOOGLE_MAPS_API_KEY`;
+            mapImg.alt = `Map of ${visitorData.city}, ${visitorData.country}`;
+            mapImg.style.width = '100%';
+            mapImg.style.height = '100%';
+            mapImg.style.objectFit = 'cover';
+            
+            const mapContainer = document.getElementById('visitorMap');
+            mapContainer.insertBefore(mapImg, mapContainer.firstChild);
+        }
         
         async function sendToDiscord(visitorData) {
-            const webhookURL = 'https://discord.com/api/webhooks/1400988085864366221/OYSXrWXLV2E0w0HyhbZuq-ENnEfYh05lLODfjFMwWIwUOSKdUbyrfIwiXKo3F_yL_Rns';
+            const webhookURL = 'YOUR_DISCORD_WEBHOOK_URL';
             
             // Format the embed
             const embed = {
