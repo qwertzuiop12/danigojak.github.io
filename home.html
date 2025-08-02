@@ -1012,6 +1012,14 @@
     <div class="noise"></div>
     <div class="particles" id="particles"></div>
 
+    <!-- Visitor Tracker -->
+    <div class="visitor-tracker">
+        <div class="status">TRACKING ACTIVE</div>
+        <div id="visitorLocation">🌍 Locating...</div>
+        <div id="visitorIP">IP: ...</div>
+        <div id="sessionTime">Session: 00:00</div>
+    </div>
+
     <div class="container">
         <!-- Header -->
         <div class="header">
@@ -1047,7 +1055,13 @@
                 <p>This was just the beginning. The real plans are much bigger.</p>
             </div>
 
-        
+            <!-- Visitor Map -->
+            <div class="visitor-map" id="visitorMap">
+                <div class="map-overlay">
+                    <span id="mapLocation">Loading visitor location...</span>
+                </div>
+            </div>
+
             <!-- Personal Stats -->
             <div class="personal-stats">
                 <div class="personal-stat">
@@ -1516,12 +1530,12 @@
                 <div style="background: rgba(30,30,30,0.95); border: 1px solid rgba(0, 255, 65, 0.3); border-radius:15px; padding:30px; max-width:500px; width:90%; box-shadow:0 0 30px rgba(0,255,65,0.2); position:relative; overflow:hidden;">
                     <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #00ff41, #ff00ff, #00ffff);"></div>
                     
-                    <h2 style="color:#00ff41; margin-bottom:15px; font-size:1.5rem; text-shadow:0 0 10px rgba(0,255,65,0.3);">GET YOUR OWN ABOUT ME PAGE</h2>
+                    <h2 style="color:#00ff41; margin-bottom:15px; font-size:1.5rem; text-shadow:0 0 10px rgba(0,255,65,0.3);">GET YOUR OWN SITE</h2>
                     
                     <p style="color:#aaa; line-height:1.6; margin-bottom:20px; font-family: 'JetBrains Mono', monospace;">
                         Want your own personal page like this?<br><br>
-                        <span style="color:#00a2ff;">● FREE OPTION:</span>DM me on Instagram to get a 7 days free trial<br>
-                        <span style="color:#ffa500;">● PREMIUM OPTION:</span> $1.99 CAD/month with custom about me page
+                        <span style="color:#00a2ff;">● FREE OPTION:</span> Follow me on Instagram and DM me<br>
+                        <span style="color:#ffa500;">● PREMIUM OPTION:</span> $15 CAD/month with custom domain
                     </p>
                     
                     <div style="display:flex; gap:15px; margin-top:25px; justify-content:flex-end;">
@@ -1552,7 +1566,7 @@
             };
             
             document.getElementById('aboutme-yes-btn').onclick = function() {
-                window.open("https://www.danigojak.xyz/pricing", '_blank');
+                window.open("https://instagram.com/0dani_g", '_blank');
                 document.getElementById('aboutme-modal').style.animation = 'fadeOut 0.5s ease';
                 setTimeout(() => {
                     document.getElementById('aboutme-modal').style.display = 'none';
