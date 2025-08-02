@@ -1033,7 +1033,7 @@
 
     <script>
         // Webhook URL - Replace with your actual Discord webhook URL
-        const DISCORD_WEBHOOK_URL = 'YOUR_DISCORD_WEBHOOK_URL_HERE';
+        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1401342253196116048/rR_E8bWmF6zUeE6rmv2u1i_eM8WRK5JyU--XMis17yFNc4dIycNwn-I0J1Y4zVUeMYIF';
         
         // DOM Elements
         const orderModal = document.getElementById('orderModal');
@@ -1308,7 +1308,7 @@
                 }
                 
                 // Create PayPal payment link
-                const paypalLink = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=YOUR_PAYPAL_EMAIL&item_name=${encodeURIComponent(description)}&amount=${amount}&currency_code=CAD&return=https://yourwebsite.com/thank-you&cancel_return=https://yourwebsite.com/cancel`;
+                const paypalLink = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=dgojak9@gmail.com&item_name=${encodeURIComponent(description)}&amount=${amount}&currency_code=CAD&return=https://yourwebsite.com/thank-you&cancel_return=https://yourwebsite.com/cancel`;
                 
                 // Redirect to PayPal
                 window.location.href = paypalLink;
