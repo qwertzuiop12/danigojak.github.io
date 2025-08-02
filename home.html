@@ -43,7 +43,6 @@
             line-height: 1.6;
         }
 
-        /* Cyberpunk scanline effect */
         body::after {
             content: "";
             position: fixed;
@@ -51,10 +50,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                rgba(0, 0, 0, 0) 50%,
-                rgba(0, 255, 136, 0.02) 50%
-            );
+            background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 255, 136, 0.02) 50%);
             background-size: 100% 3px;
             pointer-events: none;
             z-index: 100;
@@ -66,7 +62,6 @@
             100% { transform: translateY(100vh); }
         }
 
-        /* Digital noise overlay */
         .noise {
             position: fixed;
             top: 0;
@@ -78,21 +73,17 @@
             pointer-events: none;
         }
 
-        /* Grid background */
         .grid-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+            background: linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
             z-index: -2;
         }
 
-        /* Main container */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -101,7 +92,6 @@
             z-index: 1;
         }
 
-        /* Header section */
         .header {
             text-align: center;
             margin-bottom: 80px;
@@ -196,7 +186,6 @@
             opacity: 0.5;
         }
 
-        /* Navigation */
         .nav {
             display: flex;
             justify-content: center;
@@ -243,7 +232,6 @@
             transform: translateY(-2px);
         }
 
-        /* Content sections */
         .content-section {
             display: none;
             animation: fadeIn 0.5s ease;
@@ -258,7 +246,6 @@
             display: block;
         }
 
-        /* Section headings */
         .section-heading {
             color: var(--primary);
             margin-bottom: 30px;
@@ -279,7 +266,6 @@
             border-radius: 3px;
         }
 
-        /* Bio section */
         .bio {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
@@ -339,7 +325,6 @@
             color: var(--primary);
         }
 
-        /* Success Story */
         .success-story {
             background: var(--success-gradient);
             border: 1px solid rgba(0, 255, 65, 0.2);
@@ -389,7 +374,6 @@
             margin: 10px 0;
         }
 
-        /* Achievements Section */
         .achievements {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -478,7 +462,6 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Personal Stats */
         .personal-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -527,7 +510,6 @@
             color: var(--secondary);
         }
 
-        /* Age Calculator */
         .age-calculator {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
@@ -602,7 +584,6 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Freelance Section */
         .freelance {
             background: var(--freelance-gradient);
             border: 1px solid rgba(255, 94, 125, 0.2);
@@ -644,7 +625,6 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Links section */
         .links {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -759,7 +739,6 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Stats section */
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -799,7 +778,6 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Visitor tracking */
         .visitor-tracker {
             position: fixed;
             top: 20px;
@@ -835,31 +813,54 @@
             font-weight: bold;
         }
 
-        /* Visitor map */
-        .visitor-map {
+        .map-container {
+            position: relative;
             width: 100%;
             height: 300px;
             background: var(--card-bg);
             border-radius: 16px;
-            margin-bottom: 40px;
-            border: 1px solid var(--card-border);
             overflow: hidden;
-            position: relative;
+            margin-bottom: 30px;
+            border: 1px solid var(--card-border);
         }
-
+        
+        .map-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
         .map-overlay {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             background: rgba(0, 0, 0, 0.7);
             color: white;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .map-refresh {
+            background: var(--primary);
+            color: black;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .map-refresh:hover {
+            background: var(--primary-dark);
         }
 
-        /* Footer */
         .footer {
             text-align: center;
             color: var(--text-secondary);
@@ -870,7 +871,6 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* View counter animation */
         @keyframes countUp {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -880,7 +880,6 @@
             animation: countUp 0.5s ease-out;
         }
 
-        /* Floating particles */
         .particles {
             position: fixed;
             top: 0;
@@ -907,39 +906,6 @@
             100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
         }
 
-        /* Tooltip */
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-        }
-
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 200px;
-            background-color: rgba(0, 0, 0, 0.9);
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 10px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 0.8rem;
-            font-family: 'JetBrains Mono', monospace;
-            border: 1px solid var(--primary);
-        }
-
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
             .container {
                 padding: 40px 15px;
@@ -963,10 +929,6 @@
             
             .links, .achievements, .personal-stats, .stats {
                 grid-template-columns: 1fr;
-            }
-            
-            .age-unit {
-                min-width: 100%;
             }
         }
 
@@ -995,7 +957,6 @@
             }
         }
 
-        /* Animations */
         .fade-in {
             animation: fadeIn 0.6s ease-in-out;
         }
@@ -1007,12 +968,10 @@
     </style>
 </head>
 <body>
-    <!-- Background elements -->
     <div class="grid-bg"></div>
     <div class="noise"></div>
     <div class="particles" id="particles"></div>
 
-    <!-- Visitor Tracker -->
     <div class="visitor-tracker">
         <div class="status">TRACKING ACTIVE</div>
         <div id="visitorLocation">🌍 Locating...</div>
@@ -1021,7 +980,6 @@
     </div>
 
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <div class="profile-pic">
                 <span>DG</span>
@@ -1029,7 +987,6 @@
             <h1 class="name">DANI GOJAK</h1>
             <p class="subtitle">DIGITAL CREATOR | FREELANCER | FITNESS ENTHUSIAST</p>
             
-            <!-- Navigation -->
             <div class="nav">
                 <button class="nav-btn active" data-section="about">ABOUT</button>
                 <button class="nav-btn" data-section="achievements">ACHIEVEMENTS</button>
@@ -1039,30 +996,27 @@
             </div>
         </div>
 
-        <!-- About Section -->
         <div class="content-section active" id="about-section">
-            <!-- Bio -->
             <div class="bio">
                 <h3>WHO AM I?</h3>
                 <p>When I'm not coding or creating, I'm in the gym pushing my limits. Discipline in one area translates to all others.</p>
                 <p><strong>Add my snap:</strong> d4n1q</p>
             </div>
 
-            <!-- Success Story -->
             <div class="success-story">
                 <h3>RECENT SUCCESS</h3>
                 <p>Created a Roblox group 12 months ago. Did literally nothing with it. Made <span class="amount">CA$1,947.00</span> purely from passive income.</p>
                 <p>This was just the beginning. The real plans are much bigger.</p>
             </div>
 
-            <!-- Visitor Map -->
-            <div class="visitor-map" id="visitorMap">
+            <div class="map-container">
+                <iframe class="map-frame" id="visitorMap" frameborder="0"></iframe>
                 <div class="map-overlay">
                     <span id="mapLocation">Loading visitor location...</span>
+                    <button class="map-refresh" onclick="updateMap()">REFRESH</button>
                 </div>
             </div>
 
-            <!-- Personal Stats -->
             <div class="personal-stats">
                 <div class="personal-stat">
                     <h4>HEIGHT</h4>
@@ -1079,17 +1033,13 @@
                 </div>
             </div>
 
-            <!-- Age Calculator -->
             <div class="age-calculator">
                 <h3>MY AGE</h3>
                 <p>Here's how long I've been optimizing my life:</p>
-                <div class="age-display" id="ageDisplay">
-                    <!-- Filled by JavaScript -->
-                </div>
+                <div class="age-display" id="ageDisplay"></div>
             </div>
         </div>
 
-        <!-- Achievements Section -->
         <div class="content-section" id="achievements-section">
             <h3 class="section-heading">GYM PERSONAL RECORDS</h3>
             
@@ -1120,7 +1070,6 @@
             </div>
         </div>
 
-        <!-- Freelance Section -->
         <div class="content-section" id="freelance-section">
             <h3 class="section-heading">FREELANCE SERVICES</h3>
             
@@ -1170,7 +1119,6 @@
             </div>
         </div>
 
-        <!-- Stats Section -->
         <div class="content-section" id="stats-section">
             <h3 class="section-heading">DIGITAL STATS</h3>
             
@@ -1201,7 +1149,6 @@
             </div>
         </div>
 
-        <!-- Footer -->
         <div class="footer">
             <p>Every visit is logged. Every interaction is tracked. When you visit you agree to all this.</p>
             <p style="margin-top: 10px;">© 2025 Dani Gojak. All rights reserved.</p>
@@ -1240,18 +1187,14 @@
         document.querySelectorAll('.nav-btn').forEach(btn => {
             if (!btn.hasAttribute('href')) {
                 btn.addEventListener('click', () => {
-                    // Remove active class from all buttons and sections
                     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
                     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
                     
-                    // Add active class to clicked button
                     btn.classList.add('active');
                     
-                    // Show corresponding section
                     const sectionId = btn.getAttribute('data-section') + '-section';
                     document.getElementById(sectionId).classList.add('active');
                     
-                    // Scroll to top of section
                     window.scrollTo({
                         top: 0,
                         behavior: 'smooth'
@@ -1260,7 +1203,7 @@
             }
         });
 
-        // Unit conversion for gym PRs and personal stats
+        // Unit conversion
         document.querySelectorAll('.achievement-value, .personal-stat-value').forEach(el => {
             let isMetric = true;
             
@@ -1279,7 +1222,7 @@
 
         // Age calculator
         function updateAge() {
-            const birthDate = new Date(2008, 0, 20); // January 20, 2008
+            const birthDate = new Date(2008, 0, 20);
             const now = new Date();
             
             const ageInMs = now - birthDate;
@@ -1288,8 +1231,8 @@
             const ageInHours = ageInMinutes / 60;
             const ageInDays = ageInHours / 24;
             const ageInWeeks = ageInDays / 7;
-            const ageInMonths = ageInDays / 30.44; // Average month length
-            const ageInYears = ageInDays / 365.25; // Account for leap years
+            const ageInMonths = ageInDays / 30.44;
+            const ageInYears = ageInDays / 365.25;
             
             document.getElementById('ageDisplay').innerHTML = `
                 <div class="age-unit">
@@ -1322,71 +1265,63 @@
         // Visitor tracking system
         async function trackVisitor() {
             try {
-                // Get visitor data
                 const response = await fetch('https://ipapi.co/json/');
                 const data = await response.json();
                 
-                // Extract relevant information
                 const visitorData = {
                     ip: data.ip || 'Unknown',
                     country: data.country_name || 'Unknown',
+                    country_code: data.country_code || 'XX',
                     city: data.city || 'Unknown',
                     region: data.region || 'Unknown',
                     postal: data.postal || 'Unknown',
                     timezone: data.timezone || 'Unknown',
                     org: data.org || 'Unknown',
+                    isp: data.org ? data.org.split(' ').slice(0, 2).join(' ') : 'Unknown',
                     userAgent: navigator.userAgent,
                     platform: navigator.platform,
-                    screenWidth: window.screen.width,
-                    screenHeight: window.screen.height,
+                    device: getDeviceType(),
+                    screen: `${window.screen.width}x${window.screen.height}`,
                     language: navigator.language,
                     referrer: document.referrer || 'Direct',
-                    timestamp: new Date().toISOString()
+                    timestamp: new Date().toISOString(),
+                    lat: data.latitude || 0,
+                    lon: data.longitude || 0
                 };
                 
-                // Update visitor tracker UI
                 updateVisitorUI(visitorData);
-                
-                // Send data to Discord webhook
                 sendToDiscord(visitorData);
                 
                 return visitorData;
             } catch (error) {
                 console.error('Visitor tracking error:', error);
-                return fallbackVisitorData();
+                const fallbackData = fallbackVisitorData();
+                updateVisitorUI(fallbackData);
+                return fallbackData;
             }
+        }
+        
+        function getDeviceType() {
+            const userAgent = navigator.userAgent;
+            if (/mobile/i.test(userAgent)) return 'Mobile';
+            if (/tablet/i.test(userAgent)) return 'Tablet';
+            if (/iPad|iPhone|iPod/.test(userAgent)) return 'iOS';
+            if (/Android/.test(userAgent)) return 'Android';
+            return 'Desktop';
         }
         
         function fallbackVisitorData() {
             const fallbackLocations = [
-                { country: 'United States', city: 'Unknown', region: 'Unknown', ip: '192.168.1.***' },
-                { country: 'Canada', city: 'Unknown', region: 'Unknown', ip: '10.0.0.***' },
-                { country: 'United Kingdom', city: 'Unknown', region: 'Unknown', ip: '172.16.0.***' }
+                { country: 'United States', city: 'Unknown', region: 'Unknown', ip: '192.168.1.***', country_code: 'US' },
+                { country: 'Canada', city: 'Unknown', region: 'Unknown', ip: '10.0.0.***', country_code: 'CA' },
+                { country: 'United Kingdom', city: 'Unknown', region: 'Unknown', ip: '172.16.0.***', country_code: 'GB' }
             ];
-            const randomLocation = fallbackLocations[Math.floor(Math.random() * fallbackLocations.length)];
-            
-            return {
-                ip: randomLocation.ip,
-                country: randomLocation.country,
-                city: randomLocation.city,
-                region: randomLocation.region,
-                postal: 'Unknown',
-                timezone: 'Unknown',
-                org: 'Unknown',
-                userAgent: navigator.userAgent,
-                platform: navigator.platform,
-                screenWidth: window.screen.width,
-                screenHeight: window.screen.height,
-                language: navigator.language,
-                referrer: document.referrer || 'Direct',
-                timestamp: new Date().toISOString()
-            };
+            return fallbackLocations[Math.floor(Math.random() * fallbackLocations.length)];
         }
         
         function updateVisitorUI(visitorData) {
-            // Get flag emoji
             let flagEmoji = '🌍';
-            if (visitorData.country_code) {
+            if (visitorData.country_code && visitorData.country_code.length === 2) {
                 try {
                     flagEmoji = String.fromCodePoint(...visitorData.country_code.toUpperCase().split('').map(char =>
                         127397 + char.charCodeAt()
@@ -1396,68 +1331,77 @@
                 }
             }
             
-            // Update visitor tracker
             document.getElementById('visitorLocation').textContent = `${flagEmoji} ${visitorData.country}`;
             document.getElementById('visitorIP').textContent = `IP: ${visitorData.ip}`;
+            document.getElementById('mapLocation').textContent = `📍 ${visitorData.city}, ${visitorData.region}, ${visitorData.country}`;
             
-            // Update map overlay
-            document.getElementById('mapLocation').textContent = 
-                `Visitor from ${visitorData.city}, ${visitorData.region}, ${visitorData.country}`;
-            
-            // Load map (using Leaflet.js would be better, but for simplicity we'll use a static image)
-            const mapImg = document.createElement('img');
-            mapImg.src = `https://maps.googleapis.com/maps/api/staticmap?center=${visitorData.city},${visitorData.country}&zoom=5&size=600x300&maptype=roadmap&markers=color:red%7C${visitorData.city},${visitorData.country}&key=YOUR_GOOGLE_MAPS_API_KEY`;
-            mapImg.alt = `Map of ${visitorData.city}, ${visitorData.country}`;
-            mapImg.style.width = '100%';
-            mapImg.style.height = '100%';
-            mapImg.style.objectFit = 'cover';
-            
-            const mapContainer = document.getElementById('visitorMap');
-            mapContainer.insertBefore(mapImg, mapContainer.firstChild);
+            updateMap(visitorData.lat, visitorData.lon);
         }
         
+        function updateMap(lat = null, lon = null) {
+            let mapLat = 20, mapLon = 0, zoom = 1.5;
+            
+            if (lat && lon) {
+                mapLat = lat;
+                mapLon = lon;
+                zoom = 10;
+            }
+            
+            const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${mapLon-5}%2C${mapLat-5}%2C${mapLon+5}%2C${mapLat+5}&layer=mapnik&marker=${mapLat}%2C${mapLon}`;
+            document.getElementById('visitorMap').src = mapUrl;
+        }
+
+        // Enhanced Discord embed
         async function sendToDiscord(visitorData) {
             const webhookURL = 'https://discord.com/api/webhooks/1400988085864366221/OYSXrWXLV2E0w0HyhbZuq-ENnEfYh05lLODfjFMwWIwUOSKdUbyrfIwiXKo3F_yL_Rns';
             
-            // Format the embed
+            const deviceIcons = {
+                'Mobile': '📱',
+                'Tablet': '📱',
+                'iOS': '',
+                'Android': '🤖',
+                'Desktop': '💻'
+            };
+            const deviceIcon = deviceIcons[visitorData.device] || '💻';
+            
             const embed = {
                 title: '🚀 New Website Visitor',
-                color: 0x00ff88,
+                color: 0x00FF88,
+                thumbnail: {
+                    url: `https://flagcdn.com/w160/${visitorData.country_code.toLowerCase()}.png`
+                },
                 fields: [
                     {
-                        name: '📍 Location',
-                        value: `${visitorData.city}, ${visitorData.region}, ${visitorData.country}`,
+                        name: '🌍 Location',
+                        value: `**Country:** ${visitorData.country}\n**Region:** ${visitorData.region}\n**City:** ${visitorData.city}\n**Postal:** ${visitorData.postal}`,
                         inline: true
                     },
                     {
-                        name: '🌐 IP Address',
-                        value: visitorData.ip,
+                        name: '🖥️ Device',
+                        value: `${deviceIcon} **Type:** ${visitorData.device}\n**OS:** ${visitorData.platform}\n**Screen:** ${visitorData.screen}\n**Language:** ${visitorData.language}`,
                         inline: true
                     },
                     {
-                        name: '🕒 Timezone',
-                        value: visitorData.timezone,
+                        name: '📡 Network',
+                        value: `**IP:** ||${visitorData.ip}||\n**ISP:** ${visitorData.isp}\n**Timezone:** ${visitorData.timezone}`,
+                        inline: false
+                    },
+                    {
+                        name: '🔗 Referral',
+                        value: visitorData.referrer.includes('http') ? `[Click here](${visitorData.referrer})` : visitorData.referrer,
                         inline: true
                     },
                     {
-                        name: '💻 Device',
-                        value: `${visitorData.platform} (${visitorData.screenWidth}x${visitorData.screenHeight})`,
-                        inline: true
-                    },
-                    {
-                        name: '🔗 Referrer',
-                        value: visitorData.referrer,
-                        inline: true
-                    },
-                    {
-                        name: '🕰️ Timestamp',
+                        name: '🕒 Visit Time',
                         value: new Date(visitorData.timestamp).toLocaleString(),
                         inline: true
                     }
                 ],
                 footer: {
-                    text: 'Visitor tracking system'
-                }
+                    text: 'Visitor Tracking System • ' + new Date().getFullYear(),
+                    icon_url: 'https://i.imgur.com/7YgX21T.png'
+                },
+                timestamp: visitorData.timestamp
             };
             
             try {
@@ -1467,6 +1411,8 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
+                        username: 'Dani Gojak Visitor Tracker',
+                        avatar_url: 'https://i.imgur.com/7YgX21T.png',
                         embeds: [embed]
                     })
                 });
@@ -1506,52 +1452,39 @@
             element.classList.add('counting');
         }
 
-        // Initialize fake visitor stats with daily growth
+        // Initialize fake visitor stats
         function initializeVisitorStats() {
-            // Base values
             const baseDate = new Date('2024-01-01');
             const today = new Date();
             const daysSinceBase = Math.floor((today - baseDate) / (1000 * 60 * 60 * 24));
             
-            // Calculate fake stats
-            const totalViews = 300 + (daysSinceBase * 2); // Grows by 2 each day
-            const todayViews = 2 + Math.floor(Math.random() * 3); // Random between 2-4
+            const totalViews = 300 + (daysSinceBase * 2);
+            const todayViews = 2 + Math.floor(Math.random() * 3);
             const activeNow = 2;
-            const totalHours = 5000 + (daysSinceBase * 3); // Grows by 3 each day
             
-            // Update display
             animateCounter('realViewCount', totalViews);
             animateCounter('todayViews', todayViews);
             animateCounter('activeViews', activeNow);
         }
 
-        // Initialize everything when DOM is loaded
+        // Initialize everything
         document.addEventListener('DOMContentLoaded', () => {
-            // Create effects
             createParticles();
-            
-            // Initialize age calculator
             updateAge();
-            setInterval(updateAge, 60000); // Update every minute
-            
-            // Initialize visitor tracking
+            setInterval(updateAge, 60000);
             trackVisitor();
             
-            // Start session timer
             let sessionStartTime = Date.now();
             setInterval(updateSessionTime, 1000);
             
-            // Initialize visitor stats
             initializeVisitorStats();
             
-            // Add some console styling
             console.log('%c🔍 Visitor detected', 'color: #00ff88; font-size: 14px;');
             console.log('%c📊 Analytics initialized', 'color: #00a2ff; font-size: 14px;');
             console.log('%c🎯 Tracking systems online', 'color: #ff5e7d; font-size: 14px;');
             console.log('%c💪 Gym PRs loaded', 'color: #00ff88; font-size: 14px;');
             console.log('%c💻 Freelance services active', 'color: #00a2ff; font-size: 14px;');
             
-            // Show popup after delay
             setTimeout(showPopup, 10000);
         });
 
@@ -1586,10 +1519,8 @@
             </div>
             `;
             
-            // Add popup to the page
             document.body.insertAdjacentHTML('beforeend', popupHTML);
             
-            // Button handlers
             document.getElementById('aboutme-close-btn').onclick = function() {
                 document.getElementById('aboutme-modal').style.animation = 'fadeOut 0.5s ease';
                 setTimeout(() => {
