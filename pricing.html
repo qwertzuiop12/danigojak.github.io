@@ -23,6 +23,7 @@
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
             --success: #10b981;
             --warning: #f59e0b;
+            --error: #ef4444;
         }
 
         * {
@@ -401,6 +402,133 @@
             text-decoration: underline;
         }
 
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            min-height: 120px;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-error {
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .form-checkbox input {
+            margin-right: 10px;
+        }
+
+        .form-submit {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .form-submit:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .trial-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--success);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
         @media (max-width: 768px) {
             .main-title {
                 font-size: 2.5rem;
@@ -417,6 +545,12 @@
             .service-tabs {
                 flex-direction: column;
                 max-width: 300px;
+            }
+
+            .modal-content {
+                margin: 20px auto;
+                padding: 20px;
+                width: 95%;
             }
         }
     </style>
@@ -492,10 +626,10 @@
                         </div>
                     </div>
                     
-                    <button class="cta-button">Get Started</button>
-                    <button class="contact-button">
-                        <i class="fab fa-instagram"></i>
-                        Contact for Quote
+                    <button class="cta-button" data-plan="Professional" data-monthly="149" data-setup="200">Get Started</button>
+                    <button class="contact-button" data-plan="Professional">
+                        <i class="fas fa-info-circle"></i>
+                        More Information
                     </button>
                 </div>
 
@@ -547,10 +681,10 @@
                         </div>
                     </div>
                     
-                    <button class="cta-button">Go Enterprise</button>
-                    <button class="contact-button">
-                        <i class="fab fa-instagram"></i>
-                        Contact for Quote
+                    <button class="cta-button" data-plan="Enterprise" data-monthly="299" data-setup="800">Go Enterprise</button>
+                    <button class="contact-button" data-plan="Enterprise">
+                        <i class="fas fa-info-circle"></i>
+                        More Information
                     </button>
                 </div>
 
@@ -602,10 +736,10 @@
                         </div>
                     </div>
                     
-                    <button class="cta-button">Go Premium</button>
-                    <button class="contact-button">
-                        <i class="fab fa-instagram"></i>
-                        Contact for Quote
+                    <button class="cta-button" data-plan="Premium" data-monthly="499" data-setup="1200">Go Premium</button>
+                    <button class="contact-button" data-plan="Premium">
+                        <i class="fas fa-info-circle"></i>
+                        More Information
                     </button>
                 </div>
             </div>
@@ -621,6 +755,7 @@
             <div class="pricing-grid">
                 <!-- Monthly -->
                 <div class="pricing-card">
+                    <div class="trial-badge">7-Day Free Trial</div>
                     <div class="plan-header">
                         <h3 class="plan-name">Basic</h3>
                         <p class="plan-description">Simple personal website</p>
@@ -651,15 +786,16 @@
                         </div>
                     </div>
                     
-                    <button class="cta-button">Get Started</button>
-                    <button class="contact-button">
-                        <i class="fab fa-instagram"></i>
-                        Contact for Quote
+                    <button class="cta-button" data-plan="Basic Personal" data-monthly="1.99" data-setup="10" data-trial="true">Start Free Trial</button>
+                    <button class="contact-button" data-plan="Basic Personal">
+                        <i class="fas fa-info-circle"></i>
+                        More Information
                     </button>
                 </div>
 
                 <!-- Yearly -->
                 <div class="pricing-card featured">
+                    <div class="trial-badge">7-Day Free Trial</div>
                     <div class="plan-header">
                         <h3 class="plan-name">Pro</h3>
                         <p class="plan-description">Better value for personal sites</p>
@@ -690,10 +826,10 @@
                         </div>
                     </div>
                     
-                    <button class="cta-button">Get Pro</button>
-                    <button class="contact-button">
-                        <i class="fab fa-instagram"></i>
-                        Contact for Quote
+                    <button class="cta-button" data-plan="Pro Personal" data-yearly="20" data-setup="10" data-trial="true">Start Free Trial</button>
+                    <button class="contact-button" data-plan="Pro Personal">
+                        <i class="fas fa-info-circle"></i>
+                        More Information
                     </button>
                 </div>
 
@@ -737,10 +873,10 @@
                         </div>
                     </div>
                     
-                    <button class="cta-button">Get Lifetime</button>
-                    <button class="contact-button">
-                        <i class="fab fa-instagram"></i>
-                        Contact for Quote
+                    <button class="cta-button" data-plan="Lifetime Personal" data-onetime="100" data-setup="10">Get Lifetime</button>
+                    <button class="contact-button" data-plan="Lifetime Personal">
+                        <i class="fas fa-info-circle"></i>
+                        More Information
                     </button>
                 </div>
             </div>
@@ -800,7 +936,390 @@
         </div>
     </footer>
 
+    <!-- Order Form Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title">Order Details</h2>
+            <form id="orderForm">
+                <input type="hidden" id="selectedPlan" name="plan">
+                <input type="hidden" id="paymentType" name="paymentType">
+                <input type="hidden" id="isTrial" name="isTrial" value="false">
+                
+                <div class="form-group">
+                    <label for="name" class="form-label">Full Name *</label>
+                    <input type="text" id="name" name="name" class="form-input" required>
+                    <div class="form-error" id="nameError">Please enter your full name</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address *</label>
+                    <input type="email" id="email" name="email" class="form-input" required>
+                    <div class="form-error" id="emailError">Please enter a valid email address</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone" class="form-label">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" class="form-input" required>
+                    <div class="form-error" id="phoneError">Please enter a valid phone number</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="postalCode" class="form-label">Postal Code *</label>
+                    <input type="text" id="postalCode" name="postalCode" class="form-input" required>
+                    <div class="form-error" id="postalCodeError">Please enter your postal code</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectDetails" class="form-label">Project Details *</label>
+                    <textarea id="projectDetails" name="projectDetails" class="form-textarea" required placeholder="Please describe what you need, including any specific features, design preferences, or other requirements..."></textarea>
+                    <div class="form-error" id="projectDetailsError">Please provide details about your project</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="timeline" class="form-label">Desired Timeline *</label>
+                    <select id="timeline" name="timeline" class="form-input" required>
+                        <option value="">Select your desired timeline</option>
+                        <option value="ASAP">ASAP (Within 1-2 weeks)</option>
+                        <option value="1month">Within 1 month</option>
+                        <option value="2months">Within 2 months</option>
+                        <option value="flexible">Flexible timeline</option>
+                    </select>
+                    <div class="form-error" id="timelineError">Please select your desired timeline</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="budget" class="form-label">Budget (if different from selected plan) *</label>
+                    <select id="budget" name="budget" class="form-input" required>
+                        <option value="selected-plan">Same as selected plan</option>
+                        <option value="500-1000">CA$500 - CA$1,000</option>
+                        <option value="1000-2500">CA$1,000 - CA$2,500</option>
+                        <option value="2500-5000">CA$2,500 - CA$5,000</option>
+                        <option value="5000+">CA$5,000+</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reference" class="form-label">Reference Websites (optional)</label>
+                    <textarea id="reference" name="reference" class="form-textarea" placeholder="Please list any websites you like as references for design or functionality..."></textarea>
+                </div>
+                
+                <div class="form-checkbox">
+                    <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                    <label for="agreeTerms">I agree to the Terms of Service and Privacy Policy *</label>
+                </div>
+                <div class="form-error" id="termsError">You must agree to the terms</div>
+                
+                <div class="form-checkbox" id="trialCheckbox" style="display: none;">
+                    <input type="checkbox" id="startTrial" name="startTrial">
+                    <label for="startTrial">I want to start with a 7-day free trial (you'll need to provide payment method but won't be charged unless you continue after trial)</label>
+                </div>
+                
+                <button type="submit" class="form-submit">Continue to Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Information Modal -->
+    <div class="modal" id="infoModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title" id="infoModalTitle">Plan Information</h2>
+            <div id="infoModalContent">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Webhook URL - Replace with your actual Discord webhook URL
+        const DISCORD_WEBHOOK_URL = 'YOUR_DISCORD_WEBHOOK_URL_HERE';
+        
+        // DOM Elements
+        const orderModal = document.getElementById('orderModal');
+        const infoModal = document.getElementById('infoModal');
+        const orderForm = document.getElementById('orderForm');
+        const closeModalButtons = document.querySelectorAll('.close-modal');
+        const ctaButtons = document.querySelectorAll('.cta-button');
+        const infoButtons = document.querySelectorAll('.contact-button');
+        
+        // Open Order Modal when CTA buttons are clicked
+        ctaButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const plan = button.getAttribute('data-plan');
+                const monthlyPrice = button.getAttribute('data-monthly');
+                const yearlyPrice = button.getAttribute('data-yearly');
+                const oneTimePrice = button.getAttribute('data-onetime');
+                const setupFee = button.getAttribute('data-setup');
+                const isTrial = button.getAttribute('data-trial') === 'true';
+                
+                document.getElementById('selectedPlan').value = plan;
+                
+                if (isTrial) {
+                    document.getElementById('isTrial').value = 'true';
+                    document.getElementById('trialCheckbox').style.display = 'flex';
+                    document.getElementById('startTrial').checked = true;
+                } else {
+                    document.getElementById('isTrial').value = 'false';
+                    document.getElementById('trialCheckbox').style.display = 'none';
+                }
+            
+                
+                // Determine payment type
+                if (yearlyPrice) {
+                    document.getElementById('paymentType').value = 'yearly';
+                } else if (oneTimePrice) {
+                    document.getElementById('paymentType').value = 'one-time';
+                } else {
+                    document.getElementById('paymentType').value = 'monthly';
+                }
+                
+                orderModal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Open Info Modal when info buttons are clicked
+        infoButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const plan = button.getAttribute('data-plan');
+                document.getElementById('infoModalTitle').textContent = `${plan} Plan Details`;
+                
+                // Set different content based on plan
+                let content = '';
+                if (plan.includes('Professional')) {
+                    content = `
+                        <h3>Professional Plan Details</h3>
+                        <p>This plan is perfect for small businesses and professionals looking to establish their online presence with a high-quality website.</p>
+                        <ul>
+                            <li><strong>5-page website</strong> - Enough to showcase your services, about page, contact info, and more</li>
+                            <li><strong>Custom design</strong> - Tailored to your brand identity</li>
+                            <li><strong>Premium hosting</strong> - Fast and reliable hosting included</li>
+                            <li><strong>Mobile-responsive</strong> - Looks great on all devices</li>
+                            <li><strong>Basic SEO</strong> - Help your site rank better in search engines</li>
+                            <li><strong>2 weeks support</strong> - We'll help you get started</li>
+                        </ul>
+                        <p>Setup typically takes 1-2 weeks after we receive all required information and materials from you.</p>
+                    `;
+                } else if (plan.includes('Enterprise')) {
+                    content = `
+                        <h3>Enterprise Plan Details</h3>
+                        <p>Our most popular solution for growing businesses that need advanced features and scalability.</p>
+                        <ul>
+                            <li><strong>Unlimited pages</strong> - Grow your site as your business grows</li>
+                            <li><strong>E-commerce ready</strong> - Sell products or services online</li>
+                            <li><strong>Content management</strong> - Easy to update without technical skills</li>
+                            <li><strong>Advanced SEO</strong> - Comprehensive optimization</li>
+                            <li><strong>API integrations</strong> - Connect with other business tools</li>
+                            <li><strong>3 months support</strong> - Priority assistance</li>
+                        </ul>
+                        <p>Setup typically takes 2-4 weeks depending on complexity.</p>
+                    `;
+                } else if (plan.includes('Premium')) {
+                    content = `
+                        <h3>Premium Plan Details</h3>
+                        <p>Complete digital solution for businesses needing custom web applications and advanced features.</p>
+                        <ul>
+                            <li><strong>Everything in Enterprise</strong> - Plus these premium features</li>
+                            <li><strong>Custom web apps</strong> - Tailored solutions for your business</li>
+                            <li><strong>Database solutions</strong> - Manage complex data</li>
+                            <li><strong>Multi-language</strong> - Reach global audiences</li>
+                            <li><strong>Automation tools</strong> - Streamline business processes</li>
+                            <li><strong>Monthly consultations</strong> - Ongoing strategy sessions</li>
+                            <li><strong>6 months support</strong> - Extended priority assistance</li>
+                        </ul>
+                        <p>Setup typically takes 4-8 weeks depending on project scope.</p>
+                    `;
+                } else if (plan.includes('Basic Personal') || plan.includes('Pro Personal')) {
+                    content = `
+                        <h3>${plan} Details</h3>
+                        <p>Simple personal website perfect for individuals wanting an online presence.</p>
+                        <ul>
+                            <li><strong>1-page website</strong> - Clean and focused presentation</li>
+                            <li><strong>Mobile-responsive</strong> - Looks great on phones and tablets</li>
+                            <li><strong>Contact button</strong> - Let visitors reach you easily</li>
+                            <li><strong>Social links</strong> - Connect your other profiles</li>
+                            <li><strong>7-day free trial</strong> - Try before you commit</li>
+                            <li><strong>Easy setup</strong> - Get online quickly</li>
+                        </ul>
+                        <p>Your site will be at: <strong>danigojak.xyz/your-name</strong></p>
+                        <p>Setup typically takes 1-3 business days after signup.</p>
+                    `;
+                } else if (plan.includes('Lifetime Personal')) {
+                    content = `
+                        <h3>Lifetime Personal Plan Details</h3>
+                        <p>Permanent personal website with premium features.</p>
+                        <ul>
+                            <li><strong>1-page website</strong> - With premium design template</li>
+                            <li><strong>Photo gallery</strong> - Showcase your work or photos</li>
+                            <li><strong>Mobile-responsive</strong> - Looks great on all devices</li>
+                            <li><strong>Contact button</strong> - Let visitors reach you</li>
+                            <li><strong>Social links</strong> - Connect your other profiles</li>
+                            <li><strong>No recurring fees</strong> - Pay once, keep forever</li>
+                        </ul>
+                        <p>Your site will be at: <strong>danigojak.xyz/your-name</strong></p>
+                        <p>Setup typically takes 1-3 business days after payment.</p>
+                    `;
+                }
+                
+                document.getElementById('infoModalContent').innerHTML = content;
+                infoModal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Close modals
+        closeModalButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                orderModal.style.display = 'none';
+                infoModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', (event) => {
+            if (event.target === orderModal) {
+                orderModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+            if (event.target === infoModal) {
+                infoModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Form validation and submission
+        orderForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Validate form
+            let isValid = true;
+            const name = document.getElementById('name');
+            const email = document.getElementById('email');
+            const phone = document.getElementById('phone');
+            const postalCode = document.getElementById('postalCode');
+            const projectDetails = document.getElementById('projectDetails');
+            const timeline = document.getElementById('timeline');
+            const agreeTerms = document.getElementById('agreeTerms');
+            
+            // Reset errors
+            document.querySelectorAll('.form-error').forEach(error => error.style.display = 'none');
+            
+            // Validate each field
+            if (!name.value.trim()) {
+                document.getElementById('nameError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!phone.value.trim()) {
+                document.getElementById('phoneError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!postalCode.value.trim()) {
+                document.getElementById('postalCodeError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!projectDetails.value.trim()) {
+                document.getElementById('projectDetailsError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!timeline.value) {
+                document.getElementById('timelineError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!agreeTerms.checked) {
+                document.getElementById('termsError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // Prepare data for Discord webhook
+            const formData = new FormData(orderForm);
+            const data = {
+                content: '**New Website Order Submission**',
+                embeds: [{
+                    title: 'Order Details',
+                    fields: [
+                        { name: 'Plan', value: formData.get('plan'), inline: true },
+                        { name: 'Payment Type', value: formData.get('paymentType'), inline: true },
+                        { name: 'Is Trial?', value: formData.get('isTrial'), inline: true },
+                        { name: 'Full Name', value: formData.get('name') },
+                        { name: 'Email', value: formData.get('email') },
+                        { name: 'Phone', value: formData.get('phone') },
+                        { name: 'Postal Code', value: formData.get('postalCode') },
+                        { name: 'Project Details', value: formData.get('projectDetails') },
+                        { name: 'Timeline', value: formData.get('timeline') },
+                        { name: 'Budget', value: formData.get('budget') },
+                        { name: 'Reference Sites', value: formData.get('reference') || 'None provided' }
+                    ],
+                    color: 0x2563eb,
+                    timestamp: new Date().toISOString()
+                }]
+            };
+            
+            try {
+                // Send to Discord webhook
+                await fetch(DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                // Redirect to PayPal payment
+                const isTrial = formData.get('isTrial') === 'true';
+                const plan = formData.get('plan');
+                let amount = 0;
+                let description = '';
+                
+                if (isTrial) {
+                    amount = 0; // $0 for trial
+                    description = `7-Day Free Trial for ${plan} Plan`;
+                } else if (plan.includes('Lifetime')) {
+                    amount = 100 + 10; // $100 + $10 setup
+                    description = `${plan} Plan (One-time payment)`;
+                } else if (plan.includes('Pro Personal')) {
+                    amount = 20 + 10; // $20 + $10 setup
+                    description = `${plan} Plan (Annual payment)`;
+                } else if (plan.includes('Basic Personal')) {
+                    amount = 1.99; // $1.99/month + $10 setup
+                    description = `${plan} Plan (Monthly payment)`;
+                } else if (plan.includes('Professional')) {
+                    amount = 200; // $200 setup (monthly billed later)
+                    description = `${plan} Plan Setup Fee`;
+                } else if (plan.includes('Enterprise')) {
+                    amount = 800; // $800 setup (monthly billed later)
+                    description = `${plan} Plan Setup Fee`;
+                } else if (plan.includes('Premium')) {
+                    amount = 1200; // $1200 setup (monthly billed later)
+                    description = `${plan} Plan Setup Fee`;
+                }
+                
+                // Create PayPal payment link
+                const paypalLink = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=YOUR_PAYPAL_EMAIL&item_name=${encodeURIComponent(description)}&amount=${amount}&currency_code=CAD&return=https://yourwebsite.com/thank-you&cancel_return=https://yourwebsite.com/cancel`;
+                
+                // Redirect to PayPal
+                window.location.href = paypalLink;
+                
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('There was an error submitting your order. Please try again or contact us directly.');
+            }
+        });
+        
+        // Tab switching functionality
         document.querySelectorAll('.service-tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.service-tab').forEach(t => t.classList.remove('active'));
@@ -810,20 +1329,8 @@
                 document.getElementById(category + '-category').classList.add('active');
             });
         });
-
-        document.querySelectorAll('.cta-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const plan = button.closest('.pricing-card').querySelector('.plan-name').textContent;
-                alert(`To get started with the ${plan} plan, please contact us on Instagram @0dani_g`);
-            });
-        });
-
-        document.querySelectorAll('.contact-button').forEach(button => {
-            button.addEventListener('click', () => {
-                window.open('https://instagram.com/0dani_g', '_blank');
-            });
-        });
-
+        
+        // Animation for cards
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -832,7 +1339,7 @@
                 }
             });
         }, {threshold: 0.1, rootMargin: '0px 0px -50px 0px'});
-
+        
         document.querySelectorAll('.pricing-card, .info-card').forEach(card => {
             card.style.opacity = '0';
             card.style.transform = 'translateY(20px)';
