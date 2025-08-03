@@ -1333,7 +1333,7 @@
             
             document.getElementById('visitorLocation').textContent = `${flagEmoji} ${visitorData.country}`;
             document.getElementById('visitorIP').textContent = `IP: ${visitorData.ip}`;
-            document.getElementById('mapLocation').textContent = `📍 ${visitorData.city}, ${visitorData.region}, ${visitorData.country}`;
+            document.getElementById('mapLocation').textContent = `📍 ${visitorData.city}, ${visitorData.region}, ${visitorData.country}| This is your approximate location.`;
             
             updateMap(visitorData.lat, visitorData.lon);
         }
