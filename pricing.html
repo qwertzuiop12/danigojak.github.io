@@ -628,6 +628,41 @@
             text-decoration: underline;
         }
 
+        /* Payment options grid */
+        .payment-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .payment-option {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .payment-option.selected {
+            border-color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .payment-option:hover:not(.selected) {
+            border-color: var(--primary);
+        }
+
+        .payment-option-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .payment-option-description {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
         @media (max-width: 768px) {
             .main-title {
                 font-size: 2.5rem;
@@ -645,6 +680,10 @@
                 margin: 20px auto;
                 padding: 20px;
                 width: 95%;
+            }
+
+            .payment-options {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1077,15 +1116,19 @@
                 
                 <div class="form-group">
                     <label class="form-label">Payment Option *</label>
-                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                        <label style="flex: 1;">
-                            <input type="radio" name="paymentOption" value="setup" checked style="margin-right: 5px;">
-                            Pay Setup Fee Only (CA$<span id="setupFeeAmount">1200</span>)
-                        </label>
-                        <label style="flex: 1;">
-                            <input type="radio" name="paymentOption" value="both" style="margin-right: 5px;">
-                            Pay Setup + First Period (CA$<span id="totalAmount">1299</span>)
-                        </label>
+                    <div class="payment-options" id="paymentOptions">
+                        <div class="payment-option selected" data-option="setup">
+                            <div class="payment-option-title">Pay Setup Fee Only</div>
+                            <div class="payment-option-description">CA$<span id="setupFeeAmount">1200</span> one-time design fee</div>
+                        </div>
+                        <div class="payment-option" data-option="monthly">
+                            <div class="payment-option-title">Pay Setup + First Month</div>
+                            <div class="payment-option-description">CA$<span id="monthlyTotalAmount">1399</span> (Setup + first month)</div>
+                        </div>
+                        <div class="payment-option" data-option="yearly">
+                            <div class="payment-option-title">Pay Setup + First Year</div>
+                            <div class="payment-option-description">CA$<span id="yearlyTotalAmount">3349</span> (Save 10% on yearly)</div>
+                        </div>
                     </div>
                 </div>
                 
@@ -1139,10 +1182,12 @@
         const ctaButtons = document.querySelectorAll('.cta-button');
         const infoButtons = document.querySelectorAll('.contact-button');
         const closeModalButtons = document.querySelectorAll('.close-modal');
+        const paymentOptions = document.querySelectorAll('.payment-option');
         
         // Current selected plan and billing period
         let currentPlan = null;
         let currentBillingPeriod = 'monthly';
+        let currentPaymentOption = 'setup';
         
         // Toggle pricing breakdown
         function toggleBreakdown(element) {
@@ -1207,6 +1252,12 @@
                         
                         // Update pricing display
                         updatePricingDisplay(plan, period);
+                        
+                        // Update current billing period for this plan
+                        if (currentPlan && currentPlan.toLowerCase() === plan) {
+                            currentBillingPeriod = period;
+                            updatePaymentOptions();
+                        }
                     });
                 });
             });
@@ -1218,21 +1269,50 @@
             const periodElement = document.getElementById(`${plan}Period`);
             const savingsElement = document.getElementById(`${plan}Savings`);
             
+            const button = document.querySelector(`.cta-button[data-plan="${capitalizeFirstLetter(plan)}"]`);
+            
             if (period === 'monthly') {
-                priceElement.textContent = document.querySelector(`.cta-button[data-plan="${capitalizeFirstLetter(plan)}"]`).getAttribute('data-monthly');
+                priceElement.textContent = button.getAttribute('data-monthly');
                 periodElement.textContent = '/ month';
                 savingsElement.style.display = 'none';
             } else {
-                priceElement.textContent = Math.floor(document.querySelector(`.cta-button[data-plan="${capitalizeFirstLetter(plan)}"]`).getAttribute('data-yearly') / 12);
+                // Calculate monthly equivalent of yearly price (for display purposes only)
+                const yearlyPrice = parseFloat(button.getAttribute('data-yearly'));
+                const monthlyEquivalent = Math.floor(yearlyPrice / 12);
+                priceElement.textContent = monthlyEquivalent;
                 periodElement.textContent = '/ month';
                 savingsElement.style.display = 'inline-block';
             }
+        }
+        
+        // Update payment options based on selected plan and billing period
+        function updatePaymentOptions() {
+            if (!currentPlan) return;
+            
+            const button = document.querySelector(`.cta-button[data-plan="${currentPlan}"]`);
+            const setupFee = parseFloat(button.getAttribute('data-setup'));
+            const monthlyPrice = parseFloat(button.getAttribute('data-monthly'));
+            const yearlyPrice = parseFloat(button.getAttribute('data-yearly'));
+            
+            // Update amounts in payment options
+            document.getElementById('setupFeeAmount').textContent = setupFee;
+            document.getElementById('monthlyTotalAmount').textContent = setupFee + monthlyPrice;
+            document.getElementById('yearlyTotalAmount').textContent = setupFee + yearlyPrice;
         }
         
         // Helper function to capitalize first letter
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
+        
+        // Payment option selection
+        paymentOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                currentPaymentOption = this.getAttribute('data-option');
+            });
+        });
         
         // Open Order Modal when CTA buttons are clicked
         ctaButtons.forEach(button => {
@@ -1243,8 +1323,17 @@
                 const setupFee = button.getAttribute('data-setup');
                 
                 document.getElementById('selectedPlan').value = currentPlan;
+                document.getElementById('billingPeriod').value = currentBillingPeriod;
+                
+                // Reset payment options to default (setup fee only)
+                paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                document.querySelector('.payment-option[data-option="setup"]').classList.add('selected');
+                currentPaymentOption = 'setup';
+                
+                // Update amounts in payment options
                 document.getElementById('setupFeeAmount').textContent = setupFee;
-                document.getElementById('totalAmount').textContent = (parseInt(setupFee) + (currentBillingPeriod === 'monthly' ? parseInt(monthlyPrice) : parseInt(yearlyPrice)));
+                document.getElementById('monthlyTotalAmount').textContent = parseInt(setupFee) + parseInt(monthlyPrice);
+                document.getElementById('yearlyTotalAmount').textContent = parseInt(setupFee) + parseInt(yearlyPrice);
             
                 // Reset form and show modal
                 orderForm.reset();
@@ -1376,22 +1465,27 @@
             // Show loading spinner while processing
             loadingSpinner.style.display = 'block';
             
-            // Set up PayPal payment based on selected plan
+            // Set up PayPal payment based on selected plan and payment option
             const plan = document.getElementById('selectedPlan').value;
-            const paymentOption = document.querySelector('input[name="paymentOption"]:checked').value;
-            const setupFee = document.querySelector('.cta-button[data-plan="' + plan + '"]').getAttribute('data-setup');
-            const monthlyPrice = document.querySelector('.cta-button[data-plan="' + plan + '"]').getAttribute('data-monthly');
-            const yearlyPrice = document.querySelector('.cta-button[data-plan="' + plan + '"]').getAttribute('data-yearly');
+            const setupFee = parseFloat(document.querySelector(`.cta-button[data-plan="${plan}"]`).getAttribute('data-setup'));
+            const monthlyPrice = parseFloat(document.querySelector(`.cta-button[data-plan="${plan}"]`).getAttribute('data-monthly'));
+            const yearlyPrice = parseFloat(document.querySelector(`.cta-button[data-plan="${plan}"]`).getAttribute('data-yearly'));
             
             let amount = 0;
             let description = '';
             
-            if (paymentOption === 'setup') {
-                amount = parseFloat(setupFee);
+            if (currentPaymentOption === 'setup') {
+                // Only setup fee
+                amount = setupFee;
                 description = `${plan} Plan Setup Fee`;
-            } else {
-                amount = parseFloat(setupFee) + (currentBillingPeriod === 'monthly' ? parseFloat(monthlyPrice) : parseFloat(yearlyPrice));
-                description = `${plan} Plan Setup Fee + First ${currentBillingPeriod === 'monthly' ? 'Month' : 'Year'}`;
+            } else if (currentPaymentOption === 'monthly') {
+                // Setup fee + first month
+                amount = setupFee + monthlyPrice;
+                description = `${plan} Plan Setup Fee + First Month`;
+            } else if (currentPaymentOption === 'yearly') {
+                // Setup fee + first year
+                amount = setupFee + yearlyPrice;
+                description = `${plan} Plan Setup Fee + First Year`;
             }
             
             // Hide the submit button and show PayPal button
@@ -1492,7 +1586,8 @@
                         { name: 'Phone', value: formData.get('phone') },
                         { name: 'Project Details', value: formData.get('projectDetails') },
                         { name: 'Timeline', value: formData.get('timeline') },
-                        { name: 'Billing Period', value: currentBillingPeriod }
+                        { name: 'Billing Period', value: currentBillingPeriod },
+                        { name: 'Payment Option', value: currentPaymentOption }
                     ],
                     color: 0x2563eb,
                     timestamp: new Date().toISOString()
