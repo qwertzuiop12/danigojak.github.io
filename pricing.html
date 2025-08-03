@@ -1571,7 +1571,7 @@
             });
         }
         
-        function sendOrderNotification(plan, amount, description) {
+        async function sendOrderNotification(plan, amount, description) {
             const formData = new FormData(orderForm);
             const data = {
                 content: '**New Website Order Submission**',
@@ -1584,7 +1584,7 @@
                         { name: 'Customer', value: formData.get('name') },
                         { name: 'Email', value: formData.get('email') },
                         { name: 'Phone', value: formData.get('phone') },
-                        { name: 'Project Details', value: formData.get('projectDetails') },
+                        { name: 'Project Details', value: formData.get('projectDetails').substring(0, 1000) + (formData.get('projectDetails').length > 1000 ? '...' : '') },
                         { name: 'Timeline', value: formData.get('timeline') },
                         { name: 'Billing Period', value: currentBillingPeriod },
                         { name: 'Payment Option', value: currentPaymentOption }
@@ -1594,13 +1594,21 @@
                 }]
             };
             
-            fetch(DISCORD_WEBHOOK_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).catch(error => console.error('Error sending notification:', error));
+            try {
+                const response = await fetch(DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (!response.ok) {
+                    console.error('Failed to send Discord notification:', response.status, response.statusText);
+                }
+            } catch (error) {
+                console.error('Error sending notification:', error);
+            }
         }
         
         // Animation for cards
