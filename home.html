@@ -1265,21 +1265,19 @@
         // Visitor tracking system
         async function trackVisitor() {
             try {
-                // First get IP data from ipapi
-                const ipResponse = await fetch('https://ipapi.co/json/');
-                const ipData = await ipResponse.json();
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
                 
-                // Prepare visitor data
                 const visitorData = {
-                    ip: ipData.ip || 'Unknown',
-                    country: ipData.country_name || 'Unknown',
-                    country_code: ipData.country_code || 'XX',
-                    city: ipData.city || 'Unknown',
-                    region: ipData.region || 'Unknown',
-                    postal: ipData.postal || 'Unknown',
-                    timezone: ipData.timezone || 'Unknown',
-                    org: ipData.org || 'Unknown',
-                    isp: ipData.org ? ipData.org.split(' ').slice(0, 2).join(' ') : 'Unknown',
+                    ip: data.ip || 'Unknown',
+                    country: data.country_name || 'Unknown',
+                    country_code: data.country_code || 'XX',
+                    city: data.city || 'Unknown',
+                    region: data.region || 'Unknown',
+                    postal: data.postal || 'Unknown',
+                    timezone: data.timezone || 'Unknown',
+                    org: data.org || 'Unknown',
+                    isp: data.org ? data.org.split(' ').slice(0, 2).join(' ') : 'Unknown',
                     userAgent: navigator.userAgent,
                     platform: navigator.platform,
                     device: getDeviceType(),
@@ -1287,60 +1285,22 @@
                     language: navigator.language,
                     referrer: document.referrer || 'Direct',
                     timestamp: new Date().toISOString(),
-                    lat: ipData.latitude || 0,
-                    lon: ipData.longitude || 0,
-                    page: window.location.href
+                    lat: data.latitude || 0,
+                    lon: data.longitude || 0
                 };
                 
                 updateVisitorUI(visitorData);
+                sendToDiscord(visitorData);
                 
-                const apiResponse = await fetch('https://api.danigojak.xyz/api/ip', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(visitorData)
-                });
-                
-                if (!apiResponse.ok) {
-                    throw new Error('Failed to send to backend');
-                }
-                
-                console.log('Visitor tracked successfully');
                 return visitorData;
-                
             } catch (error) {
                 console.error('Visitor tracking error:', error);
-                
-                const fallbackData = {
-                    ip: 'Unknown',
-                    country: 'Unknown',
-                    city: 'Unknown',
-                    region: 'Unknown',
-                    userAgent: navigator.userAgent,
-                    referrer: document.referrer || 'Direct',
-                    timestamp: new Date().toISOString(),
-                    error: error.message
-                };
-                
+                const fallbackData = fallbackVisitorData();
                 updateVisitorUI(fallbackData);
-                
-                try {
-                    await fetch('https://api.danigojak.xyz/api/ip', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(fallbackData)
-                    });
-                } catch (e) {
-                    console.error('Even fallback tracking failed:', e);
-                }
-                
                 return fallbackData;
             }
         }
-
+        
         function getDeviceType() {
             const userAgent = navigator.userAgent;
             if (/mobile/i.test(userAgent)) return 'Mobile';
@@ -1349,7 +1309,7 @@
             if (/Android/.test(userAgent)) return 'Android';
             return 'Desktop';
         }
-
+        
         function fallbackVisitorData() {
             const fallbackLocations = [
                 { country: 'United States', city: 'Unknown', region: 'Unknown', ip: '192.168.1.***', country_code: 'US' },
@@ -1389,6 +1349,76 @@
             
             const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${mapLon-5}%2C${mapLat-5}%2C${mapLon+5}%2C${mapLat+5}&layer=mapnik&marker=${mapLat}%2C${mapLon}`;
             document.getElementById('visitorMap').src = mapUrl;
+        }
+
+        // Enhanced Discord embed
+        async function sendToDiscord(visitorData) {
+            const webhookURL = 'https://discord.com/api/webhooks/1401566082958888960/ogWjUXePUDc1oOOJPAwzRFTOIIvcvz6kpv8dn81jfBnS4ITb-NuTfUD1hzgRBA2p-v-q';
+            
+            const deviceIcons = {
+                'Mobile': '📱',
+                'Tablet': '📱',
+                'iOS': '',
+                'Android': '🤖',
+                'Desktop': '💻'
+            };
+            const deviceIcon = deviceIcons[visitorData.device] || '💻';
+            
+            const embed = {
+                title: '🚀 New Website Visitor',
+                color: 0x00FF88,
+                thumbnail: {
+                    url: `https://flagcdn.com/w160/${visitorData.country_code.toLowerCase()}.png`
+                },
+                fields: [
+                    {
+                        name: '🌍 Location',
+                        value: `**Country:** ${visitorData.country}\n**Region:** ${visitorData.region}\n**City:** ${visitorData.city}\n**Postal:** ${visitorData.postal}`,
+                        inline: true
+                    },
+                    {
+                        name: '🖥️ Device',
+                        value: `${deviceIcon} **Type:** ${visitorData.device}\n**OS:** ${visitorData.platform}\n**Screen:** ${visitorData.screen}\n**Language:** ${visitorData.language}`,
+                        inline: true
+                    },
+                    {
+                        name: '📡 Network',
+                        value: `**IP:** ||${visitorData.ip}||\n**ISP:** ${visitorData.isp}\n**Timezone:** ${visitorData.timezone}`,
+                        inline: false
+                    },
+                    {
+                        name: '🔗 Referral',
+                        value: visitorData.referrer.includes('http') ? `[Click here](${visitorData.referrer})` : visitorData.referrer,
+                        inline: true
+                    },
+                    {
+                        name: '🕒 Visit Time',
+                        value: new Date(visitorData.timestamp).toLocaleString(),
+                        inline: true
+                    }
+                ],
+                footer: {
+                    text: 'Visitor Tracking System • ' + new Date().getFullYear(),
+                    icon_url: 'https://i.imgur.com/7YgX21T.png'
+                },
+                timestamp: visitorData.timestamp
+            };
+            
+            try {
+                await fetch(webhookURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: 'Dani Gojak Visitor Tracker',
+                        avatar_url: 'https://i.imgur.com/7YgX21T.png',
+                        embeds: [embed]
+                    })
+                });
+            } catch (error) {
+                console.error('Failed to send to Discord:', error);
+            }
         }
 
         // Session timer
