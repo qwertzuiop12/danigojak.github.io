@@ -1,14 +1,16 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional Web Services - Roqate</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Playfair+Display:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- PayPal SDK - Two different client IDs -->
-    
-    <script src="https://www.paypal.com/sdk/js?client-id=AVHF2J1-pW0lWCU7et1lSg3nqnXPNLSsQ61T_QYVu5dxznGoqtK-3crDjn02tKytAyS8UpcR420QgwYa&amp;currency=CAD" id="paypal-onetime-script" data-uid-auto="uid_rzrfqkrdjrrxdlyisejljfrdcclpzf"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AVPL-aWsiziJo49pdBJ_uOKJrhRIOl9M4-Wv3l_fizNuk-PdzEmv0dqgSBcdoJrZNqaJoccvJNpVj0h9&currency=CAD&vault=true&intent=subscription" id="paypal-subscription-script"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AVHF2J1-pW0lWCU7et1lSg3nqnXPNLSsQ61T_QYVu5dxznGoqtK-3crDjn02tKytAyS8UpcR420QgwYa&currency=CAD" id="paypal-onetime-script"></script>
     <style>
         :root {
             --primary: #2563eb;
@@ -742,7 +744,7 @@
                 
                 <div class="pricing-grid">
                     <!-- Starter -->
-                    <div class="pricing-card" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="pricing-card">
                         <div class="plan-header">
                             <h3 class="plan-name">Starter</h3>
                             <p class="plan-description">Perfect for small businesses and professionals</p>
@@ -763,19 +765,19 @@
                             <a class="toggle-breakdown" onclick="toggleBreakdown(this)">Show price breakdown</a>
                             <div class="pricing-breakdown">
                                 <div class="breakdown-item">
-                                    <span class="breakdown-label">Design &amp; Development:</span>
+                                    <span class="breakdown-label">Design & Development:</span>
                                     <span class="breakdown-value">CA$500 (one-time)</span>
                                 </div>
                                 <div class="breakdown-item">
-                                    <span class="breakdown-label">Hosting &amp; Domain:</span>
+                                    <span class="breakdown-label">Hosting & Domain:</span>
                                     <span class="breakdown-value">CA$30/month</span>
                                 </div>
                                 <div class="breakdown-item">
-                                    <span class="breakdown-label">Security &amp; Backups:</span>
+                                    <span class="breakdown-label">Security & Backups:</span>
                                     <span class="breakdown-value">CA$10/month</span>
                                 </div>
                                 <div class="breakdown-item">
-                                    <span class="breakdown-label">Updates &amp; Support:</span>
+                                    <span class="breakdown-label">Updates & Support:</span>
                                     <span class="breakdown-value">CA$15/month</span>
                                 </div>
                                 <div class="breakdown-total">
@@ -793,15 +795,15 @@
                             </div>
                             <div class="feature-item">
                                 <i class="fas fa-paint-brush feature-icon"></i>
-                                <span class="feature-text">Custom design &amp; branding</span>
+                                <span class="feature-text">Custom design & branding</span>
                             </div>
                             <div class="feature-item">
                                 <i class="fas fa-server feature-icon"></i>
-                                <span class="feature-text">Premium hosting &amp; domain</span>
+                                <span class="feature-text">Premium hosting & domain</span>
                             </div>
                             <div class="feature-item">
                                 <i class="fas fa-lock feature-icon"></i>
-                                <span class="feature-text">SSL certificate &amp; security</span>
+                                <span class="feature-text">SSL certificate & security</span>
                             </div>
                             <div class="feature-item">
                                 <i class="fas fa-mobile-alt feature-icon"></i>
@@ -809,7 +811,7 @@
                             </div>
                             <div class="feature-item">
                                 <i class="fas fa-envelope feature-icon"></i>
-                                <span class="feature-text">Contact forms &amp; email setup</span>
+                                <span class="feature-text">Contact forms & email setup</span>
                             </div>
                             <div class="feature-item">
                                 <i class="fas fa-search feature-icon"></i>
@@ -829,7 +831,7 @@
                     </div>
 
                     <!-- Growth (Featured) -->
-                    <div class="pricing-card featured" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="pricing-card featured">
                         <div class="plan-header">
                             <h3 class="plan-name">Growth</h3>
                             <p class="plan-description">Advanced solution for growing businesses</p>
@@ -850,19 +852,19 @@
                             <a class="toggle-breakdown" onclick="toggleBreakdown(this)">Show price breakdown</a>
                             <div class="pricing-breakdown">
                                 <div class="breakdown-item">
-                                    <span class="breakdown-label">Design &amp; Development:</span>
+                                    <span class="breakdown-label">Design & Development:</span>
                                     <span class="breakdown-value">CA$1,200 (one-time)</span>
                                 </div>
                                 <div class="breakdown-item">
-                                    <span class="breakdown-label">Hosting &amp; Domain:</span>
+                                    <span class="breakdown-label">Hosting & Domain:</span>
                                     <span class="breakdown-value">CA$50/month</span>
                                 </div>
                                 <div class="breakdown-item">
-                                    <span class="breakdown-label">Security &amp; Backups:</span>
+                                    <span class="breakdown-label">Security & Backups:</span>
                                     <span class="breakdown-value">CA$40/month</span>
                                 </div>
                                 <div class="breakdown-item">
-                                    <span class="breakdown-label">Updates &amp; Support:</span>
+                                    <span class="breakdown-label">Updates & Support:</span>
                                     <span class="breakdown-value">CA$109/month</span>
                                 </div>
                                 <div class="breakdown-total">
@@ -876,7 +878,7 @@
                         <div class="plan-features">
                             <div class="feature-item">
                                 <i class="fas fa-infinity feature-icon"></i>
-                                <span class="feature-text">Unlimited pages &amp; sections</span>
+                                <span class="feature-text">Unlimited pages & sections</span>
                             </div>
                             <div class="feature-item">
                                 <i class="fas fa-code feature-icon"></i>
@@ -888,15 +890,15 @@
                             </div>
                             <div class="feature-item">
                                 <i class="fas fa-tachometer-alt feature-icon"></i>
-                                <span class="feature-text">Enterprise hosting &amp; CDN</span>
+                                <span class="feature-text">Enterprise hosting & CDN</span>
                             </div>
                             <div class="feature-item">
                                 <i class="fas fa-chart-line feature-icon"></i>
-                                <span class="feature-text">Advanced SEO &amp; analytics</span>
+                                <span class="feature-text">Advanced SEO & analytics</span>
                             </div>
                             <div class="feature-item">
                                 <i class="fas fa-cog feature-icon"></i>
-                                <span class="feature-text">CMS &amp; content management</span>
+                                <span class="feature-text">CMS & content management</span>
                             </div>
                             <div class="feature-item">
                                 <i class="fas fa-plug feature-icon"></i>
@@ -916,7 +918,7 @@
                     </div>
 
                     <!-- Enterprise -->
-                    <div class="pricing-card" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="pricing-card">
                         <div class="plan-header">
                             <h3 class="plan-name">Enterprise</h3>
                             <p class="plan-description">Complete digital transformation solution</p>
@@ -937,19 +939,19 @@
                             <a class="toggle-breakdown" onclick="toggleBreakdown(this)">Show price breakdown</a>
                             <div class="pricing-breakdown">
                                 <div class="breakdown-item">
-                                    <span class="breakdown-label">Design &amp; Development:</span>
+                                    <span class="breakdown-label">Design & Development:</span>
                                     <span class="breakdown-value">CA$2,500 (one-time)</span>
                                 </div>
                                 <div class="breakdown-item">
-                                    <span class="breakdown-label">Hosting &amp; Domain:</span>
+                                    <span class="breakdown-label">Hosting & Domain:</span>
                                     <span class="breakdown-value">CA$100/month</span>
                                 </div>
                                 <div class="breakdown-item">
-                                    <span class="breakdown-label">Security &amp; Backups:</span>
+                                    <span class="breakdown-label">Security & Backups:</span>
                                     <span class="breakdown-value">CA$80/month</span>
                                 </div>
                                 <div class="breakdown-item">
-                                    <span class="breakdown-label">Updates &amp; Support:</span>
+                                    <span class="breakdown-label">Updates & Support:</span>
                                     <span class="breakdown-value">CA$219/month</span>
                                 </div>
                                 <div class="breakdown-total">
@@ -1025,7 +1027,7 @@
                         <h3>Service Level Agreement</h3>
                         <p>We guarantee 99.9% uptime for hosting services. Support response times vary by plan: Starter (48 business hours), Growth (24 business hours), Enterprise (12 business hours).</p>
                         
-                        <h3>Data &amp; Security</h3>
+                        <h3>Data & Security</h3>
                         <p>We implement industry-standard security measures including SSL encryption, regular backups, and software updates. Client data is never shared with third parties except as required to provide services.</p>
                         
                         <h3>Liability</h3>
@@ -1041,7 +1043,7 @@
                 <p class="section-subtitle">Transparent, fair, and designed for long-term success.</p>
                 
                 <div class="info-grid">
-                    <div class="info-card" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="info-card">
                         <div class="info-icon">
                             <i class="fas fa-hand-holding-usd"></i>
                         </div>
@@ -1049,7 +1051,7 @@
                         <p class="info-description">You pay once for the creative work (design/development) and a separate ongoing fee for the actual costs of keeping your site running securely.</p>
                     </div>
 
-                    <div class="info-card" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="info-card">
                         <div class="info-icon">
                             <i class="fas fa-shield-alt"></i>
                         </div>
@@ -1057,7 +1059,7 @@
                         <p class="info-description">The monthly fee covers everything needed to keep your site live and secure—no hidden costs for domains, hosting, or SSL certificates.</p>
                     </div>
 
-                    <div class="info-card" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="info-card">
                         <div class="info-icon">
                             <i class="fas fa-chart-line"></i>
                         </div>
@@ -1065,7 +1067,7 @@
                         <p class="info-description">Recurring revenue allows us to provide continuous updates, security patches, and support—not just build and abandon.</p>
                     </div>
 
-                    <div class="info-card" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="info-card">
                         <div class="info-icon">
                             <i class="fas fa-lock"></i>
                         </div>
@@ -1084,7 +1086,7 @@
                 <p class="footer-text">Contact us today for a free consultation and custom quote</p>
             </div>
             <div class="footer-bottom">
-                <p>© 2025 Roqate Professional Web Services. All rights reserved.</p>
+                <p>&copy; 2025 Roqate Professional Web Services. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -1092,7 +1094,7 @@
     <!-- Order Form Modal -->
     <div class="modal" id="orderModal">
         <div class="modal-content">
-            <span class="close-modal">×</span>
+            <span class="close-modal">&times;</span>
             <h2 class="modal-title">Order Details</h2>
             <form id="orderForm">
                 <input type="hidden" id="selectedPlan" name="plan">
@@ -1101,31 +1103,31 @@
                 
                 <div class="form-group">
                     <label for="name" class="form-label">Full Name *</label>
-                    <input type="text" id="name" name="name" class="form-input" required="">
+                    <input type="text" id="name" name="name" class="form-input" required>
                     <div class="form-error" id="nameError">Please enter your full name</div>
                 </div>
                 
                 <div class="form-group">
                     <label for="email" class="form-label">Email Address *</label>
-                    <input type="email" id="email" name="email" class="form-input" required="">
+                    <input type="email" id="email" name="email" class="form-input" required>
                     <div class="form-error" id="emailError">Please enter a valid email address</div>
                 </div>
                 
                 <div class="form-group">
                     <label for="phone" class="form-label">Phone Number *</label>
-                    <input type="tel" id="phone" name="phone" class="form-input" required="">
+                    <input type="tel" id="phone" name="phone" class="form-input" required>
                     <div class="form-error" id="phoneError">Please enter a valid phone number</div>
                 </div>
                 
                 <div class="form-group">
                     <label for="projectDetails" class="form-label">Project Details *</label>
-                    <textarea id="projectDetails" name="projectDetails" class="form-textarea" required="" placeholder="Please describe what you need, including any specific features, design preferences, or other requirements..."></textarea>
+                    <textarea id="projectDetails" name="projectDetails" class="form-textarea" required placeholder="Please describe what you need, including any specific features, design preferences, or other requirements..."></textarea>
                     <div class="form-error" id="projectDetailsError">Please provide details about your project</div>
                 </div>
                 
                 <div class="form-group">
                     <label for="timeline" class="form-label">Desired Timeline *</label>
-                    <select id="timeline" name="timeline" class="form-input" required="">
+                    <select id="timeline" name="timeline" class="form-input" required>
                         <option value="">Select your desired timeline</option>
                         <option value="ASAP">ASAP (Within 1-2 weeks)</option>
                         <option value="1month">Within 1 month</option>
@@ -1141,7 +1143,7 @@
                 </div>
                 
                 <div class="form-checkbox">
-                    <input type="checkbox" id="agreeTerms" name="agreeTerms" required="">
+                    <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
                     <label for="agreeTerms">I agree to the Terms of Service and Privacy Policy *</label>
                 </div>
                 <div class="form-error" id="termsError">You must agree to the terms</div>
@@ -1182,7 +1184,7 @@
     <!-- Information Modal -->
     <div class="modal" id="infoModal">
         <div class="modal-content">
-            <span class="close-modal">×</span>
+            <span class="close-modal">&times;</span>
             <h2 class="modal-title" id="infoModalTitle">Plan Information</h2>
             <div id="infoModalContent">
                 <!-- Content will be loaded dynamically -->
@@ -1193,7 +1195,7 @@
     <!-- Success Modal -->
     <div class="modal" id="successModal">
         <div class="modal-content" style="text-align: center;">
-            <span class="close-modal">×</span>
+            <span class="close-modal">&times;</span>
             <div style="font-size: 60px; color: var(--success); margin-bottom: 20px;">
                 <i class="fas fa-check-circle"></i>
             </div>
@@ -1754,5 +1756,5 @@
             initBillingToggles();
         });
     </script>
-
-</body></html>
+</body>
+</html>
