@@ -8,8 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- PayPal SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AVPL-aWsiziJo49pdBJ_uOKJrhRIOl9M4-Wv3l_fizNuk-PdzEmv0dqgSBcdoJrZNqaJoccvJNpVj0h9&currency=CAD"></script>
+    <!-- PayPal SDK - Two different client IDs -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AVPL-aWsiziJo49pdBJ_uOKJrhRIOl9M4-Wv3l_fizNuk-PdzEmv0dqgSBcdoJrZNqaJoccvJNpVj0h9&currency=CAD&vault=true&intent=subscription" id="paypal-subscription-script"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AVHF2J1-pW0lWCU7et1lSg3nqnXPNLSsQ61T_QYVu5dxznGoqtK-3crDjn02tKytAyS8UpcR420QgwYa&currency=CAD" id="paypal-onetime-script"></script>
     <style>
         :root {
             --primary: #2563eb;
@@ -563,6 +564,11 @@
             display: none;
         }
 
+        #paypal-subscription-button-container {
+            margin-top: 20px;
+            display: none;
+        }
+
         /* Loading spinner */
         .spinner {
             display: none;
@@ -631,7 +637,7 @@
         /* Payment options grid */
         .payment-options {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 10px;
             margin-bottom: 15px;
         }
@@ -663,6 +669,38 @@
             color: var(--text-secondary);
         }
 
+        .payment-option-note {
+            font-size: 0.8rem;
+            color: var(--success);
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .explanation-toggle {
+            color: var(--primary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .explanation-toggle:hover {
+            text-decoration: underline;
+        }
+
+        .payment-explanation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: rgba(248, 250, 252, 0.8);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .payment-explanation.show {
+            display: block;
+        }
+
         @media (max-width: 768px) {
             .main-title {
                 font-size: 2.5rem;
@@ -680,10 +718,6 @@
                 margin: 20px auto;
                 padding: 20px;
                 width: 95%;
-            }
-
-            .payment-options {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -722,7 +756,7 @@
                             
                             <div class="plan-price">
                                 <span class="price-currency">CA$</span>
-                                <span class="price-amount" id="starterPrice"></span>
+                                <span class="price-amount" id="starterPrice">99</span>
                                 <span class="price-period" id="starterPeriod">/ month</span>
                             </div>
                             <div class="setup-fee">+ CA$500 one-time design fee</div>
@@ -1120,22 +1154,26 @@
                         <div class="payment-option selected" data-option="setup">
                             <div class="payment-option-title">Pay Setup Fee Only</div>
                             <div class="payment-option-description">CA$<span id="setupFeeAmount">1200</span> one-time design fee</div>
+                            <div class="payment-option-note">Pay this first to start your project. You'll subscribe to hosting after approving your website.</div>
                         </div>
                         <div class="payment-option" data-option="monthly">
-                            <div class="payment-option-title">Pay Setup + First Month</div>
-                            <div class="payment-option-description">CA$<span id="monthlyTotalAmount">1399</span> (Setup + first month)</div>
+                            <div class="payment-option-title">Monthly Subscription</div>
+                            <div class="payment-option-description">CA$<span id="monthlyPriceAmount">199</span>/month (auto-renews)</div>
+                            <div class="payment-option-note">Only select this after your website is complete and you're ready to go live.</div>
                         </div>
                         <div class="payment-option" data-option="yearly">
-                            <div class="payment-option-title">Pay Setup + First Year</div>
-                            <div class="payment-option-description">CA$<span id="yearlyTotalAmount">3349</span> (Save 10% on yearly)</div>
+                            <div class="payment-option-title">Yearly Subscription</div>
+                            <div class="payment-option-description">CA$<span id="yearlyPriceAmount">2149</span>/year (auto-renews, save 10%)</div>
+                            <div class="payment-option-note">Only select this after your website is complete and you're ready to go live.</div>
                         </div>
                     </div>
                 </div>
                 
                 <button type="submit" class="form-submit">Continue to Payment</button>
                 
-                <!-- PayPal Button Container -->
-                <div id="paypal-button-container" style="margin-top:20px; display:none;"></div>
+                <!-- PayPal Button Containers -->
+                <div id="paypal-button-container"></div>
+                <div id="paypal-subscription-button-container"></div>
                 
                 <!-- Loading Spinner -->
                 <div class="spinner" id="loadingSpinner" style="display: none;"></div>
@@ -1178,6 +1216,7 @@
         const successModal = document.getElementById('successModal');
         const orderForm = document.getElementById('orderForm');
         const paypalButtonContainer = document.getElementById('paypal-button-container');
+        const paypalSubscriptionButtonContainer = document.getElementById('paypal-subscription-button-container');
         const loadingSpinner = document.getElementById('loadingSpinner');
         const ctaButtons = document.querySelectorAll('.cta-button');
         const infoButtons = document.querySelectorAll('.contact-button');
@@ -1215,7 +1254,9 @@
                 successModal.style.display = 'none';
                 document.body.style.overflow = 'auto';
                 paypalButtonContainer.style.display = 'none';
+                paypalSubscriptionButtonContainer.style.display = 'none';
                 paypalButtonContainer.innerHTML = '';
+                paypalSubscriptionButtonContainer.innerHTML = '';
             });
         });
         
@@ -1225,7 +1266,9 @@
                 orderModal.style.display = 'none';
                 document.body.style.overflow = 'auto';
                 paypalButtonContainer.style.display = 'none';
+                paypalSubscriptionButtonContainer.style.display = 'none';
                 paypalButtonContainer.innerHTML = '';
+                paypalSubscriptionButtonContainer.innerHTML = '';
             }
             if (event.target === infoModal) {
                 infoModal.style.display = 'none';
@@ -1276,11 +1319,8 @@
                 periodElement.textContent = '/ month';
                 savingsElement.style.display = 'none';
             } else {
-                // Calculate monthly equivalent of yearly price (for display purposes only)
-                const yearlyPrice = parseFloat(button.getAttribute('data-yearly'));
-                const monthlyEquivalent = Math.floor(yearlyPrice / 12);
-                priceElement.textContent = monthlyEquivalent;
-                periodElement.textContent = '/ month';
+                priceElement.textContent = button.getAttribute('data-yearly');
+                periodElement.textContent = '/ year';
                 savingsElement.style.display = 'inline-block';
             }
         }
@@ -1296,8 +1336,8 @@
             
             // Update amounts in payment options
             document.getElementById('setupFeeAmount').textContent = setupFee;
-            document.getElementById('monthlyTotalAmount').textContent = setupFee + monthlyPrice;
-            document.getElementById('yearlyTotalAmount').textContent = setupFee + yearlyPrice;
+            document.getElementById('monthlyPriceAmount').textContent = monthlyPrice;
+            document.getElementById('yearlyPriceAmount').textContent = yearlyPrice;
         }
         
         // Helper function to capitalize first letter
@@ -1332,14 +1372,16 @@
                 
                 // Update amounts in payment options
                 document.getElementById('setupFeeAmount').textContent = setupFee;
-                document.getElementById('monthlyTotalAmount').textContent = parseInt(setupFee) + parseInt(monthlyPrice);
-                document.getElementById('yearlyTotalAmount').textContent = parseInt(setupFee) + parseInt(yearlyPrice);
+                document.getElementById('monthlyPriceAmount').textContent = monthlyPrice;
+                document.getElementById('yearlyPriceAmount').textContent = yearlyPrice;
             
                 // Reset form and show modal
                 orderForm.reset();
                 document.querySelector('.form-submit').style.display = 'block';
                 paypalButtonContainer.style.display = 'none';
+                paypalSubscriptionButtonContainer.style.display = 'none';
                 paypalButtonContainer.innerHTML = '';
+                paypalSubscriptionButtonContainer.innerHTML = '';
                 orderModal.style.display = 'block';
                 document.body.style.overflow = 'hidden';
             });
@@ -1359,7 +1401,8 @@
                         <p>This plan is perfect for small businesses and professionals looking to establish their online presence with a high-quality website.</p>
                         <ul>
                             <li><strong>One-time design fee:</strong> CA$500 covers all custom design and development work</li>
-                            <li><strong>Monthly service:</strong> CA$99/month or CA$1,069/year (save 10%) covers hosting, domain, security, and support</li>
+                            <li><strong>Monthly service:</strong> CA$99/month (auto-renews) covers hosting, domain, security, and support</li>
+                            <li><strong>Yearly service:</strong> CA$1,069/year (auto-renews, save 10%) covers hosting, domain, security, and support</li>
                             <li><strong>5-page website</strong> - Enough to showcase your services, about page, contact info, and more</li>
                             <li><strong>Custom design</strong> - Tailored to your brand identity</li>
                             <li><strong>Premium hosting</strong> - Fast and reliable hosting included</li>
@@ -1376,7 +1419,8 @@
                         <p>Our most popular solution for growing businesses that need advanced features and scalability.</p>
                         <ul>
                             <li><strong>One-time design fee:</strong> CA$1,200 covers all custom design and development work</li>
-                            <li><strong>Monthly service:</strong> CA$199/month or CA$2,149/year (save 10%) covers hosting, domain, security, and support</li>
+                            <li><strong>Monthly service:</strong> CA$199/month (auto-renews) covers hosting, domain, security, and support</li>
+                            <li><strong>Yearly service:</strong> CA$2,149/year (auto-renews, save 10%) covers hosting, domain, security, and support</li>
                             <li><strong>Unlimited pages</strong> - Grow your site as your business grows</li>
                             <li><strong>E-commerce ready</strong> - Sell products or services online</li>
                             <li><strong>Content management</strong> - Easy to update without technical skills</li>
@@ -1393,7 +1437,8 @@
                         <p>Complete digital solution for businesses needing custom web applications and advanced features.</p>
                         <ul>
                             <li><strong>One-time design fee:</strong> CA$2,500 covers all custom design and development work</li>
-                            <li><strong>Monthly service:</strong> CA$399/month or CA$4,309/year (save 10%) covers hosting, domain, security, and support</li>
+                            <li><strong>Monthly service:</strong> CA$399/month (auto-renews) covers hosting, domain, security, and support</li>
+                            <li><strong>Yearly service:</strong> CA$4,309/year (auto-renews, save 10%) covers hosting, domain, security, and support</li>
                             <li><strong>Everything in Growth</strong> - Plus these premium features</li>
                             <li><strong>Custom web apps</strong> - Tailored solutions for your business</li>
                             <li><strong>Database solutions</strong> - Manage complex data</li>
@@ -1475,31 +1520,46 @@
             let description = '';
             
             if (currentPaymentOption === 'setup') {
-                // Only setup fee
+                // Only setup fee - use one-time payment
                 amount = setupFee;
                 description = `${plan} Plan Setup Fee`;
+                document.getElementById('paymentType').value = 'setup';
+                
+                // Hide the submit button and show PayPal button
+                document.querySelector('.form-submit').style.display = 'none';
+                renderPayPalButton(plan, amount, description, 'one-time');
             } else if (currentPaymentOption === 'monthly') {
-                // Setup fee + first month
-                amount = setupFee + monthlyPrice;
-                description = `${plan} Plan Setup Fee + First Month`;
+                // Monthly subscription only
+                amount = monthlyPrice;
+                description = `${plan} Plan (Monthly Subscription)`;
+                document.getElementById('paymentType').value = 'monthly';
+                document.getElementById('billingPeriod').value = 'monthly';
+                
+                // Hide the submit button and show PayPal subscription button
+                document.querySelector('.form-submit').style.display = 'none';
+                renderPayPalSubscriptionButton(plan, amount, description, 'monthly');
             } else if (currentPaymentOption === 'yearly') {
-                // Setup fee + first year
-                amount = setupFee + yearlyPrice;
-                description = `${plan} Plan Setup Fee + First Year`;
+                // Yearly subscription only
+                amount = yearlyPrice;
+                description = `${plan} Plan (Yearly Subscription)`;
+                document.getElementById('paymentType').value = 'yearly';
+                document.getElementById('billingPeriod').value = 'yearly';
+                
+                // Hide the submit button and show PayPal subscription button
+                document.querySelector('.form-submit').style.display = 'none';
+                renderPayPalSubscriptionButton(plan, amount, description, 'yearly');
             }
-            
-            // Hide the submit button and show PayPal button
-            document.querySelector('.form-submit').style.display = 'none';
-            renderPayPalButton(plan, amount, description);
             
             // Hide loading spinner once PayPal button is rendered
             loadingSpinner.style.display = 'none';
         });
         
-        // PayPal Button Configuration
+        // PayPal One-Time Button Configuration
         function renderPayPalButton(plan, amount, description) {
             // Clear any existing buttons
             paypalButtonContainer.innerHTML = '';
+            paypalSubscriptionButtonContainer.innerHTML = '';
+            paypalSubscriptionButtonContainer.style.display = 'none';
             paypalButtonContainer.style.display = 'block';
             
             // Show loading spinner while PayPal button initializes
@@ -1571,6 +1631,69 @@
             });
         }
         
+        // PayPal Subscription Button Configuration
+        function renderPayPalSubscriptionButton(plan, amount, description, billingPeriod) {
+            // Clear any existing buttons
+            paypalButtonContainer.innerHTML = '';
+            paypalButtonContainer.style.display = 'none';
+            paypalSubscriptionButtonContainer.innerHTML = '';
+            paypalSubscriptionButtonContainer.style.display = 'block';
+            
+            // Show loading spinner while PayPal button initializes
+            loadingSpinner.style.display = 'block';
+            
+            paypal.Buttons({
+                style: {
+                    shape: 'pill',
+                    color: 'blue',
+                    layout: 'vertical',
+                    label: 'subscribe'
+                },
+                createSubscription: function(data, actions) {
+                    return actions.subscription.create({
+                        plan_id: billingPeriod === 'monthly' ? 'P-123456789' : 'P-987654321', // Replace with your actual plan IDs
+                        custom_id: document.getElementById('email').value,
+                        application_context: {
+                            brand_name: 'Roqate Web Services',
+                            shipping_preference: 'NO_SHIPPING',
+                            user_action: 'SUBSCRIBE_NOW',
+                            payment_method: {
+                                payer_selected: 'PAYPAL',
+                                payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED'
+                            }
+                        }
+                    });
+                },
+                onApprove: function(data, actions) {
+                    // Hide loading spinner
+                    loadingSpinner.style.display = 'none';
+                    
+                    // Show success modal
+                    orderModal.style.display = 'none';
+                    successModal.style.display = 'block';
+                    
+                    // Send notification to admin
+                    sendOrderNotification(plan, amount, description);
+                },
+                onError: function(err) {
+                    // Hide loading spinner
+                    loadingSpinner.style.display = 'none';
+                    
+                    console.error('PayPal subscription error:', err);
+                    alert('There was an error processing your subscription. Please try again or contact support.');
+                },
+                onCancel: function(data) {
+                    // Hide loading spinner
+                    loadingSpinner.style.display = 'none';
+                    
+                    console.log('Subscription cancelled by user');
+                }
+            }).render('#paypal-subscription-button-container').then(() => {
+                // Hide loading spinner once button is rendered
+                loadingSpinner.style.display = 'none';
+            });
+        }
+        
         async function sendOrderNotification(plan, amount, description) {
             const formData = new FormData(orderForm);
             const data = {
@@ -1581,13 +1704,13 @@
                         { name: 'Plan', value: plan, inline: true },
                         { name: 'Amount', value: `CA$${amount}`, inline: true },
                         { name: 'Description', value: description, inline: true },
+                        { name: 'Payment Type', value: currentPaymentOption, inline: true },
+                        { name: 'Billing Period', value: currentBillingPeriod, inline: true },
                         { name: 'Customer', value: formData.get('name') },
                         { name: 'Email', value: formData.get('email') },
                         { name: 'Phone', value: formData.get('phone') },
                         { name: 'Project Details', value: formData.get('projectDetails').substring(0, 1000) + (formData.get('projectDetails').length > 1000 ? '...' : '') },
-                        { name: 'Timeline', value: formData.get('timeline') },
-                        { name: 'Billing Period', value: currentBillingPeriod },
-                        { name: 'Payment Option', value: currentPaymentOption }
+                        { name: 'Timeline', value: formData.get('timeline') }
                     ],
                     color: 0x2563eb,
                     timestamp: new Date().toISOString()
