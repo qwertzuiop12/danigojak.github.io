@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Roqate Blocks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg1: #0f1323;
+  --bg2: #111827;
+  --fg: #e5e7eb;
+  --muted: #9ca3af;
+  --pri1: #7c3aed;
+  --pri2: #06b6d4;
+  --acc1: #22d3ee;
+  --acc2: #a78bfa;
+  --good: #10b981;
+  --bad: #ef4444;
+  --warning: #f59e0b;
+  --cell-size: 48px;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial;
+  letter-spacing: .2px;
+  color: var(--fg);
+  background: 
+    radial-gradient(1200px 800px at 10% 10%, rgba(124,58,237,.35), transparent 60%),
+    radial-gradient(900px 600px at 90% 30%, rgba(6,182,212,.3), transparent 60%),
+    linear-gradient(160deg, var(--bg1), var(--bg2));
+  overflow: auto;
+}
+
+.app {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  position: relative;
+  border-radius: 12px;
+  background: conic-gradient(from 0deg, var(--pri1), var(--pri2), var(--acc1), var(--acc2), var(--pri1));
+  filter: hue-rotate(10deg) saturate(120%);
+  box-shadow: 
+    0 10px 30px rgba(124,58,237,.35),
+    0 0 0 1px rgba(255,255,255,.06) inset;
+}
+
+.logo:before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 10px;
+  background: 
+    radial-gradient(120px 90px at 30% 25%, rgba(255,255,255,.35), transparent),
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0));
+}
+
+.title {
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: .4px;
+}
+
+.sub {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.stats {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.06);
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 10px 25px rgba(0,0,0,.25),
+    0 0 0 1px rgba(255,255,255,.06) inset;
+}
+
+.badge strong {
+  font-size: 18px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, var(--pri1), var(--pri2));
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: .2px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(124,58,237,.35);
+  transition: transform .12s ease, filter .12s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn.alt {
+  background: linear-gradient(135deg, #0ea5e9, #22d3ee);
+  box-shadow: 0 10px 25px rgba(14,165,233,.35);
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 22px;
+  min-height: 0;
+}
+
+@media (max-width: 1000px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    order: -1;
+  }
+}
+
+.boardWrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  padding: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  backdrop-filter: blur(8px);
+  box-shadow: 
+    0 15px 40px rgba(0,0,0,.35),
+    0 0 0 1px rgba(255,255,255,.05) inset;
+  min-height: 420px;
+}
+
+.board {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+  box-shadow: 
+    0 12px 35px rgba(0,0,0,.35),
+    0 0 0 1px rgba(255,255,255,.06) inset;
+}
+
+.grid {
+  display: grid;
+  gap: 6px;
+}
+
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border-radius: 11px;
+  background: rgba(255,255,255,.06);
+  box-shadow: 
+    0 1px 0 rgba(255,255,255,.06) inset,
+    0 8px 18px rgba(0,0,0,.25);
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.cell.highlight {
+  animation: highlight 1.5s infinite;
+}
+
+@keyframes highlight {
+  0%, 100% {
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(255,255,255,0.6);
+  }
+}
+
+@media (max-width: 700px) {
+  :root {
+    --cell-size: 40px;
+  }
+}
+
+@media (max-width: 520px) {
+  :root {
+    --cell-size: 34px;
+  }
+}
+
+#cellOverlay {
+  position: absolute;
+  inset: 14px;
+  pointer-events: none;
+}
+
+.outlineCell {
+  position: absolute;
+  border: 2px dashed rgba(255,255,255,.25);
+  border-radius: 10px;
+  box-shadow: 
+    0 0 0 6px rgba(255,255,255,.04) inset,
+    0 8px 18px rgba(0,0,0,.25);
+  background: rgba(255,255,255,.04);
+}
+
+.outlineCell.ok {
+  border-color: rgba(16,185,129,.8);
+  box-shadow: 
+    0 0 0 6px rgba(16,185,129,.1) inset,
+    0 10px 24px rgba(16,185,129,.25);
+}
+
+.outlineCell.bad {
+  border-color: rgba(239,68,68,.85);
+  box-shadow: 
+    0 0 0 6px rgba(239,68,68,.12) inset,
+    0 10px 24px rgba(239,68,68,.28);
+}
+
+.dropHint {
+  display: none;
+}
+
+.pieceTray {
+  display: grid;
+  gap: 14px;
+}
+
+.pieces {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.piece {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  box-shadow: 
+    0 12px 30px rgba(0,0,0,.3),
+    0 0 0 1px rgba(255,255,255,.05) inset;
+  cursor: grab;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.piece:active {
+  cursor: grabbing;
+}
+
+.piece.highlight {
+  animation: pieceHighlight 1.5s infinite;
+}
+
+@keyframes pieceHighlight {
+  0%, 100% {
+    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.5), 0 12px 30px rgba(0,0,0,.3);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.8), 0 12px 30px rgba(0,0,0,.3);
+  }
+}
+
+.mini {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.1);
+  box-shadow: 
+    0 1px 0 rgba(255,255,255,.05) inset,
+    0 6px 12px rgba(0,0,0,.25);
+}
+
+.ghost {
+  position: fixed;
+  inset: auto;
+  z-index: 50;
+  pointer-events: none;
+  opacity: .9;
+  transform: scale(1);
+  filter: drop-shadow(0 20px 28px rgba(0,0,0,.35));
+}
+
+.ghost .mini {
+  background: linear-gradient(135deg, var(--pri1), var(--acc2));
+}
+
+.meta {
+  display: grid;
+  gap: 14px;
+}
+
+.card {
+  padding: 14px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  box-shadow: 
+    0 12px 30px rgba(0,0,0,.3),
+    0 0 0 1px rgba(255,255,255,.05) inset;
+}
+
+.progress {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  overflow: hidden;
+  position: relative;
+}
+
+.progress > i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--pri1), var(--pri2), var(--acc1));
+  box-shadow: 0 8px 18px rgba(124,58,237,.45);
+  transition: width 0.3s ease;
+}
+
+.progress:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255,255,255,0.1) 50%, 
+    transparent);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.level-up {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(124, 58, 237, 0.4), transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.level-up.active {
+  opacity: 1;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  top: 14px;
+  transform: translateX(-50%) scale(.95);
+  opacity: 0;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(16,185,129,.15);
+  color: #ecfdf5;
+  font-weight: 700;
+  letter-spacing: .3px;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 10px 24px rgba(0,0,0,.35),
+    0 0 0 1px rgba(16,185,129,.35) inset;
+  z-index: 60;
+  transition: transform .18s ease, opacity .18s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.toast.warning {
+  background: rgba(245, 158, 11, 0.15);
+  box-shadow: 
+    0 10px 24px rgba(0,0,0,.35),
+    0 0 0 1px rgba(245, 158, 11, 0.35) inset;
+}
+
+.pulse {
+  animation: pulse 1.2s ease infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+.blast {
+  position: absolute;
+  pointer-events: none;
+  inset: 0;
+  overflow: visible;
+}
+
+.spark {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.3) 40%, transparent 60%);
+}
+
+.clearLine {
+  position: absolute;
+  background: linear-gradient(90deg, rgba(255,255,255,.1), rgba(255,255,255,.5), rgba(255,255,255,.1));
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.shake {
+  animation: shake .18s ease;
+}
+
+@keyframes shake {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(2px,0); }
+  50% { transform: translate(-2px,0); }
+  75% { transform: translate(1px,0); }
+  100% { transform: translate(0,0); }
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  opacity: .9;
+  flex-wrap: wrap;
+}
+
+.link {
+  color: #a5b4fc;
+  text-decoration: none;
+}
+
+.hintKey {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.1) inset;
+  background: rgba(255,255,255,.06);
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-content {
+  background: linear-gradient(180deg, rgba(17,24,39,0.95), rgba(11,15,27,0.95));
+  border-radius: 20px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 
+    0 20px 50px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(255,255,255,0.05) inset;
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+  transform: scale(1);
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.modal-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.modal-btn:active {
+  transform: scale(0.98);
+}
+
+.modal-btn.primary {
+  background: linear-gradient(135deg, var(--pri1), var(--pri2));
+  color: white;
+}
+
+.modal-btn.secondary {
+  background: rgba(255,255,255,0.08);
+  color: var(--fg);
+}
+
+.tutorial {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pri1), var(--pri2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(124,58,237,.35);
+  z-index: 10;
+  transition: transform 0.2s ease;
+}
+
+.tutorial:hover {
+  transform: scale(1.1);
+}
+
+.tutorial-content {
+  margin-top: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.tutorial-item {
+  margin-bottom: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.tutorial-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(124,58,237,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.combo-meter {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.7);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease, top 0.3s ease;
+}
+
+.combo-meter.show {
+  opacity: 1;
+  top: -40px;
+}
+
+.combo-meter.x2 { background: rgba(16,185,129,0.7); }
+.combo-meter.x3 { background: linear-gradient(90deg, #10b981, #06b6d4); }
+.combo-meter.x4 { background: linear-gradient(90deg, #06b6d4, #3b82f6); }
+.combo-meter.x5 { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+.combo-meter.x6 { background: linear-gradient(90deg, #8b5cf6, #ec4899); }
+.combo-meter.x7 { background: linear-gradient(90deg, #ec4899, #ef4444); }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="brand">
+      <div class="logo pulse"></div>
+      <div>
+        <div class="title">Roqate Blocks</div>
+        <div class="sub">Drag, place, blast. Fill rows or columns to clear.</div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="badge" id="scoreBadge"><span>Score</span><strong id="score">0</strong></div>
+      <div class="badge"><span>Best</span><strong id="best">0</strong></div>
+      <div class="badge"><span>Streak</span><strong id="streak">0</strong></div>
+    </div>
+    <div class="controls">
+      <button class="btn alt" id="hintBtn">Hint</button>
+      <button class="btn" id="newBtn">New Game</button>
+    </div>
+  </div>
+  <div class="main">
+    <div class="boardWrap">
+      <div class="board">
+        <div class="grid" id="grid"></div>
+        <div id="cellOverlay"></div>
+        <div class="blast" id="blast"></div>
+      </div>
+    </div>
+    <div class="sidebar">
+      <div class="pieceTray card">
+        <div class="sub">Pieces</div>
+        <div class="pieces" id="pieces"></div>
+      </div>
+      <div class="meta">
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div>Progress</div><div id="lvlLabel">Lv 1</div></div>
+          <div class="progress" style="margin-top:10px">
+            <i id="xp"></i>
+            <div class="level-up" id="levelUp"></div>
+          </div>
+        </div>
+        <div class="card" style="display:grid;gap:10px">
+          <div>Controls</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="hintKey">H</span><span class="sub">hint</span><span class="hintKey">ESC</span><span class="sub">cancel</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="sub">No ads. No timers. Just vibes.</div>
+    <a href="#" class="link" id="share">Share score</a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="ghost" id="ghost" hidden></div>
+
+<div class="modal" id="gameOverModal">
+  <div class="modal-content">
+    <div class="modal-title">Game Over</div>
+    <div style="display: grid; gap: 12px;">
+      <div style="display: flex; justify-content: space-between;">
+        <span>Score:</span>
+        <strong id="finalScore">0</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <span>Best:</span>
+        <strong id="finalBest">0</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <span>Level:</span>
+        <strong id="finalLevel">1</strong>
+      </div>
+    </div>
+    <div class="modal-buttons">
+      <button class="modal-btn secondary" id="cancelBtn">Cancel</button>
+      <button class="modal-btn primary" id="restartBtn">New Game</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="tutorialModal">
+  <div class="modal-content">
+    <div class="modal-title">How to Play</div>
+    <div class="tutorial-content">
+      <div class="tutorial-item">
+        <div class="tutorial-icon">1</div>
+        <div>Drag pieces from the tray onto the board</div>
+      </div>
+      <div class="tutorial-item">
+        <div class="tutorial-icon">2</div>
+        <div>Complete full rows or columns to clear them</div>
+      </div>
+      <div class="tutorial-item">
+        <div class="tutorial-icon">3</div>
+        <div>Clearing multiple lines at once gives bonus points</div>
+      </div>
+      <div class="tutorial-item">
+        <div class="tutorial-icon">4</div>
+        <div>When you run out of moves, the game ends</div>
+      </div>
+    </div>
+    <div class="modal-buttons">
+      <button class="modal-btn primary" id="gotItBtn">Got it!</button>
+    </div>
+  </div>
+</div>
+
+<div class="tutorial" id="tutorialBtn">?</div>
+
+<script>
+const S = 8; // Board size
+const MAX_LEVEL = 20;
+const LEVEL_UP_XP = 100;
+const COMBO_DURATION = 2000; // 2 seconds to maintain combo
+
+// DOM elements
+const gridEl = document.getElementById('grid');
+const overlay = document.getElementById('cellOverlay');
+const blast = document.getElementById('blast');
+const piecesEl = document.getElementById('pieces');
+const ghost = document.getElementById('ghost');
+const scoreEl = document.getElementById('score');
+const bestEl = document.getElementById('best');
+const streakEl = document.getElementById('streak');
+const xpEl = document.getElementById('xp');
+const lvlLabel = document.getElementById('lvlLabel');
+const levelUpFx = document.getElementById('levelUp');
+const toast = document.getElementById('toast');
+const newBtn = document.getElementById('newBtn');
+const hintBtn = document.getElementById('hintBtn');
+const share = document.getElementById('share');
+const gameOverModal = document.getElementById('gameOverModal');
+const finalScoreEl = document.getElementById('finalScore');
+const finalBestEl = document.getElementById('finalBest');
+const finalLevelEl = document.getElementById('finalLevel');
+const restartBtn = document.getElementById('restartBtn');
+const cancelBtn = document.getElementById('cancelBtn');
+const tutorialModal = document.getElementById('tutorialModal');
+const tutorialBtn = document.getElementById('tutorialBtn');
+const gotItBtn = document.getElementById('gotItBtn');
+
+// Game state
+let board, available, dragPiece, hoverPos, score, best, streak, xp, lvl, holdingId;
+let cellPx = 48;
+let lastClearTime = 0;
+let currentCombo = 0;
+let comboTimeout = null;
+
+// Initialize the game grid
+function initGrid() {
+  gridEl.style.gridTemplateColumns = `repeat(${S}, 1fr)`;
+  gridEl.style.gridTemplateRows = `repeat(${S}, 1fr)`;
+  gridEl.innerHTML = '';
+  
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < S * S; i++) {
+    const d = document.createElement('div');
+    d.className = 'cell';
+    d.dataset.i = i;
+    frag.appendChild(d);
+  }
+  gridEl.appendChild(frag);
+  
+  cellPx = gridEl.querySelector('.cell').offsetWidth;
+}
+
+// All possible piece shapes
+const SHAPES = [
+  [[1]], 
+  [[1,1]], 
+  [[1,1,1]], 
+  [[1],[1],[1]], 
+  [[1,1],[1,0]], 
+  [[1,1],[0,1]], 
+  [[1,1],[1,1]], 
+  [[1,1,1],[0,1,0]], 
+  [[1,1,1,1]], 
+  [[1],[1],[1],[1]], 
+  [[1,1,0],[0,1,1]], 
+  [[0,1,1],[1,1,0]], 
+  [[1,1,1],[1,0,0]], 
+  [[1,1,1],[0,0,1]], 
+  [[1,1,1],[0,1,0],[0,1,0]], 
+  [[1,0],[1,1],[0,1]], 
+  [[0,1],[1,1],[1,0]], 
+  [[1,1,1],[1,1,1]], 
+  [[1,1,1],[1,0,1]], 
+  [[1,1,1],[1,1,0]], 
+  [[1,1,1],[0,1,1]]
+];
+
+// Rotate a matrix 90 degrees clockwise
+function rot(m) {
+  const h = m.length, w = m[0].length;
+  const r = Array.from({length: w}, () => Array(h).fill(0));
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      r[x][h-1-y] = m[y][x];
+    }
+  }
+  return r;
+}
+
+// Get all filled cells in a shape
+function shapeCells(m) {
+  const a = [];
+  for (let y = 0; y < m.length; y++) {
+    for (let x = 0; x < m[0].length; x++) {
+      if (m[y][x]) a.push([x,y]);
+    }
+  }
+  return a;
+}
+
+// Random integer
+function rand(n) {
+  return Math.floor(Math.random() * n);
+}
+
+// Create a new set of 3 random pieces
+function newSet() {
+  available = [];
+  for (let i = 0; i < 3; i++) {
+    let s = JSON.parse(JSON.stringify(SHAPES[rand(SHAPES.length)]));
+    // Randomly rotate pieces
+    if (Math.random() < 0.5) {
+      for (let r = 0; r < rand(4); r++) {
+        s = rot(s);
+      }
+    }
+    available.push(s);
+  }
+  renderPieces();
+  
+  // Highlight pieces that can be placed
+  setTimeout(() => {
+    available.forEach((piece, i) => {
+      if (canPlaceAnywhere(piece)) {
+        piecesEl.children[i].classList.add('highlight');
+      } else {
+        piecesEl.children[i].classList.remove('highlight');
+      }
+    });
+  }, 100);
+}
+
+// Check if a piece can be placed anywhere on the board
+function canPlaceAnywhere(piece) {
+  for (let y = 0; y < S; y++) {
+    for (let x = 0; x < S; x++) {
+      if (canPlace(piece, [x, y])) return true;
+    }
+  }
+  return false;
+}
+
+// Reset game state
+function reset() {
+  board = Array.from({length: S}, () => Array(S).fill(0));
+  score = 0;
+  streak = 0;
+  xp = 0;
+  lvl = 1;
+  available = [];
+  hoverPos = null;
+  dragPiece = null;
+  holdingId = null;
+  currentCombo = 0;
+  lastClearTime = 0;
+  
+  scoreEl.textContent = '0';
+  streakEl.textContent = '0';
+  xpEl.style.width = '0%';
+  lvlLabel.textContent = 'Lv 1';
+  
+  // Reset cell styles
+  gridEl.querySelectorAll('.cell').forEach(c => {
+    c.style.background = 'rgba(255,255,255,.06)';
+    c.style.boxShadow = '0 1px 0 rgba(255,255,255,.06) inset, 0 8px 18px rgba(0,0,0,.25)';
+  });
+  
+  clearOverlay();
+  newSet();
+  save();
+}
+
+// Save game state to localStorage
+function save() {
+  try {
+    localStorage.setItem('roqate_state', JSON.stringify({
+      board, available, score, best, streak, xp, lvl
+    }));
+  } catch (e) {}
+}
+
+// Load game state from localStorage
+function load() {
+  try {
+    const d = JSON.parse(localStorage.getItem('roqate_state') || 'null');
+    if (!d) return false;
+    
+    board = d.board;
+    available = d.available;
+    score = d.score;
+    best = d.best || 0;
+    streak = d.streak || 0;
+    xp = d.xp || 0;
+    lvl = d.lvl || 1;
+    
+    renderBoard();
+    renderPieces();
+    updateHUD();
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+// Update all HUD elements
+function updateHUD() {
+  scoreEl.textContent = score;
+  bestEl.textContent = best || 0;
+  streakEl.textContent = streak;
+  
+  const pct = Math.min(100, (xp % LEVEL_UP_XP));
+  xpEl.style.width = pct + '%';
+  lvlLabel.textContent = 'Lv ' + lvl;
+}
+
+// Render the game board
+function renderBoard() {
+  for (let y = 0; y < S; y++) {
+    for (let x = 0; x < S; x++) {
+      const idx = y * S + x;
+      const c = gridEl.children[idx];
+      
+      if (board[y][x]) {
+        // Calculate color based on piece value
+        const hue = 200 + board[y][x] * 14;
+        c.style.background = `linear-gradient(135deg, hsl(${hue},80%,60%), hsl(${hue + 60},80%,55%))`;
+        c.style.boxShadow = '0 2px 0 rgba(255,255,255,.08) inset, 0 12px 22px rgba(0,0,0,.35)';
+      } else {
+        c.style.background = 'rgba(255,255,255,.06)';
+        c.style.boxShadow = '0 1px 0 rgba(255,255,255,.06) inset, 0 8px 18px rgba(0,0,0,.25)';
+      }
+    }
+  }
+}
+
+// Render the piece tray
+function renderPieces() {
+  piecesEl.innerHTML = '';
+  
+  available.forEach((m, i) => {
+    const w = m[0].length, h = m.length;
+    const p = document.createElement('div');
+    p.className = 'piece';
+    p.style.gridTemplateColumns = `repeat(${w}, 1fr)`;
+    p.style.gridTemplateRows = `repeat(${h}, 1fr)`;
+    p.dataset.i = i;
+    
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const d = document.createElement('div');
+        d.className = 'mini';
+        if (m[y][x]) {
+          d.style.background = `linear-gradient(135deg, hsl(${180 + i * 30},80%,60%), hsl(${260 + i * 30},80%,55%))`;
+        }
+        p.appendChild(d);
+      }
+    }
+    
+    p.addEventListener('pointerdown', onPick, {passive: false});
+    p.addEventListener('touchstart', onPick, {passive: false});
+    piecesEl.appendChild(p);
+  });
+}
+
+// Handle piece pickup
+function onPick(e) {
+  e.preventDefault();
+  const i = +e.currentTarget.dataset.i;
+  holdingId = i;
+  dragPiece = available[i];
+  
+  // Build the ghost/dragging element
+  buildGhost(dragPiece);
+  ghost.hidden = false;
+  moveGhost(getPt(e).pageX, getPt(e).pageY);
+  
+  // Add event listeners for dragging
+  document.addEventListener('pointermove', onDrag, {passive: false});
+  document.addEventListener('pointerup', onDrop);
+  document.addEventListener('touchmove', onDrag, {passive: false});
+  document.addEventListener('touchend', onDrop);
+}
+
+// Build the ghost element for dragging
+function buildGhost(m) {
+  ghost.innerHTML = '';
+  const w = m[0].length, h = m.length;
+  ghost.style.display = 'grid';
+  ghost.style.gridTemplateColumns = `repeat(${w}, 1fr)`;
+  ghost.style.gridTemplateRows = `repeat(${h}, 1fr)`;
+  
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const d = document.createElement('div');
+      d.className = 'mini';
+      if (m[y][x]) {
+        d.style.background = `linear-gradient(135deg, hsl(${205 + y*8 + x*12},80%,65%), hsl(${275 + y*8 + x*12},80%,55%))`;
+      } else {
+        d.style.opacity = .12;
+      }
+      ghost.appendChild(d);
+    }
+  }
+}
+
+// Get point coordinates from event
+function getPt(e) {
+  return e.touches ? e.touches[0] : e;
+}
+
+// Move the ghost element to follow cursor
+function moveGhost(px, py) {
+  ghost.style.left = px - ghost.offsetWidth / 2 + 'px';
+  ghost.style.top = py - ghost.offsetHeight / 2 + 'px';
+}
+
+// Convert screen coordinates to grid position
+function posFromPoint(px, py) {
+  const r = gridEl.getBoundingClientRect();
+  if (px < r.left || py < r.top || px > r.right || py > r.bottom) return null;
+  
+  const x = Math.floor((px - r.left) / cellPx);
+  const y = Math.floor((py - r.top) / cellPx);
+  if (x < 0 || y < 0 || x >= S || y >= S) return null;
+  
+  return [x, y];
+}
+
+// Check if a piece can be placed at a position
+function canPlace(m, at) {
+  if (!at) return false;
+  
+  const cells = shapeCells(m);
+  for (const [dx, dy] of cells) {
+    const x = at[0] + dx, y = at[1] + dy;
+    if (x < 0 || y < 0 || x >= S || y >= S) return false;
+    if (board[y][x]) return false;
+  }
+  return true;
+}
+
+// Show placement outline
+function showOutline(at, m, ok) {
+  overlay.innerHTML = '';
+  if (!at) return;
+  
+  const step = cellPx + 6;
+  const cells = shapeCells(m);
+  
+  for (const [dx, dy] of cells) {
+    const o = document.createElement('div');
+    o.className = 'outlineCell ' + (ok ? 'ok' : 'bad');
+    o.style.width = cellPx + 'px';
+    o.style.height = cellPx + 'px';
+    o.style.left = (at[0] + dx) * step + 'px';
+    o.style.top = (at[1] + dy) * step + 'px';
+    overlay.appendChild(o);
+  }
+}
+
+// Clear placement outlines
+function clearOverlay() {
+  overlay.innerHTML = '';
+}
+
+// Handle piece dragging
+function onDrag(e) {
+  const pt = getPt(e);
+  moveGhost(pt.pageX, pt.pageY);
+  
+  const pos = posFromPoint(pt.clientX, pt.clientY);
+  hoverPos = pos;
+  const ok = canPlace(dragPiece, pos);
+  showOutline(pos, dragPiece, ok);
+}
+
+// Handle piece drop
+function onDrop() {
+  document.removeEventListener('pointermove', onDrag);
+  document.removeEventListener('pointerup', onDrop);
+  document.removeEventListener('touchmove', onDrag);
+  document.removeEventListener('touchend', onDrop);
+  
+  ghost.hidden = true;
+  if (!dragPiece) return;
+  
+  const pos = hoverPos;
+  const ok = canPlace(dragPiece, pos);
+  
+  if (!ok) {
+    // Shake piece to indicate invalid placement
+    piecesEl.children[holdingId]?.classList.add('shake');
+    setTimeout(() => {
+      piecesEl.children[holdingId]?.classList.remove('shake');
+    }, 220);
+    
+    dragPiece = null;
+    holdingId = null;
+    clearOverlay();
+    return;
+  }
+  
+  // Place the piece
+  place(dragPiece, pos);
+  available.splice(holdingId, 1);
+  renderPieces();
+  afterPlace();
+  
+  dragPiece = null;
+  holdingId = null;
+  clearOverlay();
+  
+  // Haptic feedback (if available)
+  try {
+    navigator.vibrate && navigator.vibrate(12);
+  } catch (_) {}
+}
+
+// Place a piece on the board
+function place(m, at) {
+  const cells = shapeCells(m);
+  const tint = 1 + Math.floor(Math.random() * 8);
+  
+  for (const [dx, dy] of cells) {
+    board[at[1] + dy][at[0] + dx] = tint;
+  }
+  
+  renderBoard();
+  pulseAt(at, m);
+}
+
+// Create particle effect at placement location
+function pulseAt(at, m) {
+  const w = m[0].length, h = m.length;
+  const r = gridEl.getBoundingClientRect();
+  const x = r.left + window.scrollX + (at[0] + w/2) * (cellPx + 6);
+  const y = r.top + window.scrollY + (at[1] + h/2) * (cellPx + 6);
+  
+  for (let i = 0; i < 12; i++) {
+    const s = document.createElement('div');
+    s.className = 'spark';
+    s.style.left = x + 'px';
+    s.style.top = y + 'px';
+    
+    const a = Math.random() * Math.PI * 2;
+    const d = 40 + Math.random() * 80;
+    const dx = Math.cos(a) * d, dy = Math.sin(a) * d;
+    const t = 450 + Math.random() * 400;
+    
+    s.animate([
+      {transform: `translate(0,0)`, opacity: 1},
+      {transform: `translate(${dx}px,${dy}px)`, opacity: 0}
+    ], {
+      duration: t,
+      easing: 'cubic-bezier(.2,.8,.2,1)'
+    }).onfinish = () => s.remove();
+    
+    blast.appendChild(s);
+  }
+}
+
+// Check for completed rows/columns
+function checkClears() {
+  const rows = [], cols = [];
+  
+  // Check rows
+  for (let y = 0; y < S; y++) {
+    let full = true;
+    for (let x = 0; x < S; x++) {
+      if (!board[y][x]) {
+        full = false;
+        break;
+      }
+    }
+    if (full) rows.push(y);
+  }
+  
+  // Check columns
+  for (let x = 0; x < S; x++) {
+    let full = true;
+    for (let y = 0; y < S; y++) {
+      if (!board[y][x]) {
+        full = false;
+        break;
+      }
+    }
+    if (full) cols.push(x);
+  }
+  
+  return {rows, cols};
+}
+
+// Clear completed lines and return number of cells cleared
+function clearLines(info) {
+  if (info.rows.length === 0 && info.cols.length === 0) return 0;
+  
+  // Collect all unique cells to clear
+  const t = new Set();
+  info.rows.forEach(y => {
+    for (let x = 0; x < S; x++) t.add(y * S + x);
+  });
+  info.cols.forEach(x => {
+    for (let y = 0; y < S; y++) t.add(y * S + x);
+  });
+  
+  const d = [...t].map(i => [i % S, Math.floor(i / S)]);
+  
+  // Show clear effects
+  sweepFx(info);
+  
+  // Actually clear the cells
+  let cleared = 0;
+  for (const [x, y] of d) {
+    if (board[y][x]) {
+      board[y][x] = 0;
+      cleared++;
+    }
+  }
+  
+  renderBoard();
+  return cleared;
+}
+
+// Show line clear effects
+function sweepFx({rows, cols}) {
+  const r = gridEl.getBoundingClientRect();
+  
+  // Row effects
+  rows.forEach(y => {
+    const line = document.createElement('div');
+    line.className = 'clearLine';
+    line.style.height = (cellPx + 6) - 6 + 'px';
+    line.style.width = r.width - 28 + 'px';
+    line.style.left = r.left + 14 + 'px';
+    line.style.top = r.top + 14 + y * (cellPx + 6) + 'px';
+    document.body.appendChild(line);
+    
+    line.animate([
+      {transform: 'translateX(-20px)', opacity: .0},
+      {transform: 'translateX(0)', opacity: 1},
+      {transform: 'translateX(20px)', opacity: .0}
+    ], {
+      duration: 420,
+      easing: 'cubic-bezier(.2,.8,.2,1)'
+    }).onfinish = () => line.remove();
+  });
+  
+  // Column effects
+  cols.forEach(x => {
+    const line = document.createElement('div');
+    line.className = 'clearLine';
+    line.style.width = (cellPx + 6) - 6 + 'px';
+    line.style.height = r.height - 28 + 'px';
+    line.style.left = r.left + 14 + x * (cellPx + 6) + 'px';
+    line.style.top = r.top + 14 + 'px';
+    document.body.appendChild(line);
+    
+    line.animate([
+      {transform: 'translateY(-20px)', opacity: .0},
+      {transform: 'translateY(0)', opacity: 1},
+      {transform: 'translateY(20px)', opacity: .0}
+    ], {
+      duration: 420,
+      easing: 'cubic-bezier(.2,.8,.2,1)'
+    }).onfinish = () => line.remove();
+  });
+}
+
+// Handle post-placement logic
+function afterPlace() {
+  const info = checkClears();
+  const n = clearLines(info);
+  
+  // Calculate score gain
+  const now = Date.now();
+  const isCombo = now - lastClearTime < COMBO_DURATION;
+  lastClearTime = now;
+  
+  if (info.rows.length + info.cols.length > 0) {
+    if (isCombo) {
+      currentCombo++;
+      showCombo(currentCombo);
+    } else {
+      currentCombo = 1;
+    }
+    
+    // Reset combo timer
+    if (comboTimeout) clearTimeout(comboTimeout);
+    comboTimeout = setTimeout(() => {
+      currentCombo = 0;
+    }, COMBO_DURATION);
+  }
+  
+  // Base points + cleared cells + combo bonus
+  const baseGain = shapeCells(dragPiece || [[1]]).length;
+  const clearBonus = n > 0 ? n * 10 : 0;
+  const lineBonus = (info.rows.length + info.cols.length) * 5;
+  const comboMultiplier = 1 + (currentCombo * 0.2);
+  
+  const gain = Math.floor((baseGain + clearBonus + lineBonus) * comboMultiplier);
+  score += gain;
+  best = Math.max(best || 0, score);
+  
+  // Update streak
+  streak = info.rows.length + info.cols.length > 0 ? streak + 1 : 0;
+  
+  // XP and level progression
+  const prevLevel = lvl;
+  xp += gain;
+  
+  // Level up if enough XP
+  while (xp >= LEVEL_UP_XP && lvl < MAX_LEVEL) {
+    xp -= LEVEL_UP_XP;
+    lvl++;
+    levelUpFx.classList.add('active');
+    setTimeout(() => levelUpFx.classList.remove('active'), 1000);
+    pop('Level Up!', 'warning');
+  }
+  
+  updateHUD();
+  pop(`+${gain}`);
+  save();
+  
+  // Get new pieces if tray is empty
+  if (available.length === 0) newSet();
+  
+  // Check for game over
+  if (gameOver()) endGame();
+}
+
+// Show combo meter
+function showCombo(count) {
+  if (count < 2) return;
+  
+  const comboEl = document.createElement('div');
+  comboEl.className = `combo-meter x${Math.min(count, 7)}`;
+  comboEl.textContent = `${count}x COMBO!`;
+  
+  // Position near the board
+  const boardRect = gridEl.getBoundingClientRect();
+  comboEl.style.left = `${boardRect.left + boardRect.width / 2}px`;
+  comboEl.style.top = `${boardRect.top - 10}px`;
+  
+  document.body.appendChild(comboEl);
+  
+  // Show and then fade out
+  setTimeout(() => comboEl.classList.add('show'), 10);
+  setTimeout(() => {
+    comboEl.classList.remove('show');
+    setTimeout(() => comboEl.remove(), 300);
+  }, 1500);
+}
+
+// Show toast message
+function pop(t, type = '') {
+  toast.textContent = t;
+  toast.className = 'toast ' + (type ? type : '');
+  toast.classList.add('show');
+  
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 800);
+}
+
+// Check if game is over (no valid moves)
+function gameOver() {
+  for (let i = 0; i < available.length; i++) {
+    const m = available[i];
+    for (let y = 0; y < S; y++) {
+      for (let x = 0; x < S; x++) {
+        if (canPlace(m, [x, y])) return false;
+      }
+    }
+  }
+  return available.length > 0;
+}
+
+// Handle game over
+function endGame() {
+  pop('No moves');
+  piecesEl.style.pointerEvents = 'none';
+  
+  // Show game over modal after delay
+  setTimeout(() => {
+    finalScoreEl.textContent = score;
+    finalBestEl.textContent = best;
+    finalLevelEl.textContent = lvl;
+    gameOverModal.classList.add('show');
+  }, 900);
+}
+
+// Show hint (flashes a valid placement)
+function hint() {
+  for (let i = 0; i < available.length; i++) {
+    const m = available[i];
+    for (let y = 0; y < S; y++) {
+      for (let x = 0; x < S; x++) {
+        if (canPlace(m, [x, y])) {
+          flashHint([x, y], m);
+          return;
+        }
+      }
+    }
+  }
+  pop('No hint');
+}
+
+// Flash hint at position
+function flashHint(at, m) {
+  const step = cellPx + 6;
+  overlay.innerHTML = '';
+  
+  const cells = shapeCells(m);
+  for (const [dx, dy] of cells) {
+    const o = document.createElement('div');
+    o.className = 'outlineCell ok';
+    o.style.width = cellPx + 'px';
+    o.style.height = cellPx + 'px';
+    o.style.left = (at[0] + dx) * step + 'px';
+    o.style.top = (at[1] + dy) * step + 'px';
+    overlay.appendChild(o);
+  }
+  
+  setTimeout(() => {
+    overlay.innerHTML = '';
+  }, 700);
+}
+
+// Share score
+function shareScore() {
+  try {
+    const t = `I scored ${score} in Roqate Blocks (Level ${lvl})!`;
+    if (navigator.share) {
+      navigator.share({
+        title: 'Roqate Blocks',
+        text: t,
+        url: window.location.href
+      });
+    } else {
+      navigator.clipboard.writeText(t);
+      pop('Copied to clipboard');
+    }
+  } catch (e) {
+    pop('Share failed');
+  }
+}
+
+// Handle keyboard input
+function key(e) {
+  if (e.key === 'Escape') {
+    ghost.hidden = true;
+    dragPiece = null;
+    holdingId = null;
+    clearOverlay();
+  }
+  if (e.key === 'h' || e.key === 'H') hint();
+}
+
+// Event listeners
+newBtn.onclick = () => {
+  if (score > 0) {
+    if (confirm('Start a new game? Your current progress will be lost.')) {
+      reset();
+    }
+  } else {
+    reset();
+  }
+}
+
+hintBtn.onclick = () => hint();
+share.onclick = e => {
+  e.preventDefault();
+  shareScore();
+};
+
+restartBtn.onclick = () => {
+  gameOverModal.classList.remove('show');
+  reset();
+};
+
+cancelBtn.onclick = () => {
+  gameOverModal.classList.remove('show');
+  piecesEl.style.pointerEvents = 'auto';
+};
+
+tutorialBtn.onclick = () => {
+  tutorialModal.classList.add('show');
+};
+
+gotItBtn.onclick = () => {
+  tutorialModal.classList.remove('show');
+};
+
+// Handle window resize
+window.addEventListener('resize', () => {
+  cellPx = gridEl.querySelector('.cell').offsetWidth;
+});
+
+// Keyboard controls
+document.addEventListener('keydown', key, {passive: true});
+
+// Initialize game
+initGrid();
+
+// Try to load saved game, otherwise start new
+if (!load()) reset();
+
+// Show tutorial on first visit
+if (!localStorage.getItem('roqate_tutorial')) {
+  setTimeout(() => {
+    tutorialModal.classList.add('show');
+    localStorage.setItem('roqate_tutorial', '1');
+  }, 1000);
+}
+</script>
+</body>
+</html>
