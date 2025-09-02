@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Dani Gojak — OnlyFans (Parody)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+<meta name="robots" content="noindex,noimageindex" />
+<meta name="theme-color" content="#00aff0" />
+<style>
+:root{
+  --bg:#fff;--text:#242529;--muted:#6b7280;--border:#e5e7eb;--soft:#f6f7f8;
+  --accent:#00aff0;--accent2:#0aa3de;--chip:#eef7ff;--shadow:0 10px 30px rgba(0,0,0,.08);
+  --r:14px;
+}
+html{height:-webkit-fill-available}
+body{min-height:100vh;min-height:-webkit-fill-available;margin:0;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+*{box-sizing:border-box}
+img{display:block;max-width:100%}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:0 16px}
+
+/* Header */
+.header{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--border)}
+.header__in{height:56px;display:flex;align-items:center;gap:10px}
+.logo{display:inline-block;height:26px;width:118px;background:linear-gradient(#00aff0,#00aff0);-webkit-mask:url('https://static2.onlyfans.com/static/prod/f/202509011524-053ed9aa21/images/of-logo-b.svg') center/contain no-repeat;mask:url('https://static2.onlyfans.com/static/prod/f/202509011524-053ed9aa21/images/of-logo-b.svg') center/contain no-repeat;}
+.header__menu{margin-left:auto;display:flex;gap:6px}
+.icon-btn{height:36px;width:36px;border-radius:8px;border:1px solid var(--border);background:#fff;display:grid;place-items:center;cursor:pointer}
+.icon{width:18px;height:18px;display:block}
+
+/* Profile */
+.cover{position:relative;height:220px;background:#cfefff center/cover no-repeat;border-bottom:1px solid var(--border)}
+.cover::after{content:"";position:absolute;inset:0;background:inherit;filter:blur(24px) saturate(1.1);transform:scale(1.05)}
+.profile-head{position:relative;transform:translateY(-42px)}
+.profile-row{display:flex;align-items:flex-end;gap:14px}
+.avatar{width:100px;height:100px;border-radius:50%;border:4px solid #fff;overflow:hidden;box-shadow:var(--shadow);background:#ddd}
+.name-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.name{font-weight:900;font-size:22px}
+.badge{width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:12px}
+.username{color:#687280;margin-top:2px}
+.actions{margin-left:auto;display:flex;gap:8px}
+.btn{border:1px solid var(--border);background:#fff;border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:700}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:active{background:var(--accent2)}
+.quick-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.stat{background:var(--chip);border:1px solid #d9eeff;border-radius:999px;padding:6px 10px;font-weight:700;color:#0b4d64}
+
+/* Tabs */
+.tabs{position:sticky;top:56px;z-index:30;background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.tabs__in{display:flex;gap:6px;padding:8px 16px}
+.tab{padding:10px 12px;border-radius:10px;font-weight:700;color:#334155;cursor:pointer}
+.tab.current{background:#eaf7ff;color:#09506e}
+
+/* Feed */
+.section-title{padding:16px;font-weight:800;text-transform:uppercase;color:#4b5563;border-top:1px solid var(--border);background:#fff}
+.feed{padding:16px;display:grid;gap:16px;background:#fff}
+.post{border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.post-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.post-meta{color:#6b7280;font-size:13px}
+.locked{display:flex;align-items:center;gap:10px;background:#f1f5f9;border:1px dashed #cbd5e1;border-radius:12px;padding:14px}
+.locked .tag{font-size:12px;color:#64748b}
+.sub-btn{margin-top:10px}
+.tools{display:flex;gap:6px;margin-top:10px}
+.tool-btn{height:32px;width:32px;border-radius:10px;border:1px solid var(--border);background:#fff;display:grid;place-items:center}
+
+/* Footer & cookies */
+.footer{padding:28px 0;color:#8a8f98}
+.cookies{position:fixed;left:0;right:0;bottom:0;z-index:20;background:#f5f7fa;border-top:1px solid var(--border)}
+.cookies__in{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.cookies__text{color:#111}
+
+/* Age Gate */
+#gate{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center}
+.gate-card{width:100%;max-width:520px;background:#fff;border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:var(--shadow);text-align:center}
+.gate-title{font-weight:900;font-size:22px;margin:6px 0}
+.gate-info{color:#4b5563}
+.gate-actions{display:grid;gap:10px;margin-top:14px}
+.gate-btn{border:1px solid var(--border);background:#fff;border-radius:12px;padding:12px 14px;cursor:pointer;font-weight:800}
+.gate-btn.accept{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* Warning Modal */
+.warning-modal{position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center}
+.warning-content{width:90%;max-width:600px;background:#fff;border-radius:18px;padding:24px;max-height:80vh;overflow-y:auto}
+.warning-title{font-weight:900;font-size:20px;margin-bottom:16px;color:#dc2626}
+.warning-text{margin-bottom:20px;line-height:1.6}
+.warning-list{margin:16px 0;padding-left:20px}
+.warning-list li{margin-bottom:8px}
+.warning-close{text-align:right}
+
+/* Freaky Mode (page-level fullscreen; video covers screen) */
+#freak{position:fixed;inset:0;z-index:2000;display:none;background:#000}
+#freak video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
+#flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:2100}
+
+/* App hidden until accept */
+#app{visibility:hidden}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container header__in">
+    <span class="logo" aria-label="OnlyFans logo"></span>
+    <div class="header__menu">
+      <button class="icon-btn" id="copyLinkBtn" title="Copy profile link">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a5 5 0 0 1 5-5h3v2H8a3 3 0 1 0 0 6h3v2H8a5 5 0 0 1-5-5Zm8-3h5a5 5 0 1 1 0 10h-5v-2h5a3 3 0 1 0 0-6h-5V9Z" fill="#111"/></svg>
+      </button>
+      <button class="icon-btn" id="themeBtn" title="Toggle theme (visual only)">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9c0-.5 0-1-.1-1.5A7 7 0 1 1 12 3Z" fill="#111"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- App (hidden until gate accept) -->
+<div id="app">
+  <div id="cover" class="cover"></div>
+
+  <div class="container profile-head">
+    <div class="profile-row">
+      <div class="avatar"><img id="avatarImg" alt="Profile avatar"></div>
+      <div>
+        <div class="name-wrap">
+          <div class="name">Dani Gojak</div>
+          <div class="badge" title="Verified">✓</div>
+        </div>
+        <div class="username">@danigojak</div>
+
+        <div class="quick-stats">
+          <div class="stat">12 Photos</div>
+          <div class="stat">4 Videos</div>
+          <div class="stat">2.0K Likes</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn">Share</button>
+        <button class="btn primary" id="subTop">Subscribe for free</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <nav class="tabs">
+    <div class="tabs__in">
+      <div class="tab current">16 posts</div>
+      <div class="tab">16 Media</div>
+    </div>
+  </nav>
+
+  <div class="section-title">Recent</div>
+
+  <!-- Feed -->
+  <section class="feed container">
+    <!-- Example posts -->
+    <article class="post">
+      <div class="post-head">
+        <img id="mini1" style="width:40px;height:40px;border-radius:50%" alt="">
+        <div>
+          <div style="font-weight:800;display:flex;align-items:center;gap:6px">Dani Gojak <span class="badge" style="width:16px;height:16px;font-size:10px">✓</span></div>
+          <div class="post-meta">@danigojak • Aug 29, 2024</div>
+        </div>
+      </div>
+      <div style="margin-bottom:10px">Quick bike ride</div>
+      <div class="locked">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#64748b" d="M17 8h-1V6a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2ZM10 6a2 2 0 1 1 4 0v2h-4V6Zm7 12H7v-8h10v8Z"/></svg>
+        <div><strong>Locked video</strong><div class="tag">0:04 • Subscribe to unlock</div></div>
+      </div>
+      <div class="sub-btn"><button class="btn primary">Subscribe to see user's posts</button></div>
+      <div class="tools">
+        <button class="tool-btn" title="Like" disabled>
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10Z" fill="#111"/></svg>
+        </button>
+        <button class="tool-btn" title="Comment" disabled>
+          <svg class="icon" viewBox="0 0 24 24"><path d="M21 12a8 8 0 1 1-3.2-6.4L21 5l-.8 2.5A7.9 7.9 0 0 1 21 12Z" fill="#111"/></svg>
+        </button>
+      </div>
+    </article>
+
+    <article class="post">
+      <div class="post-head">
+        <img id="mini2" style="width:40px;height:40px;border-radius:50%" alt="">
+        <div>
+          <div style="font-weight:800;display:flex;align-items:center;gap:6px">Dani Gojak <span class="badge" style="width:16px;height:16px;font-size:10px">✓</span></div>
+          <div class="post-meta">@danigojak • Jul 27, 2023</div>
+        </div>
+      </div>
+      <div style="margin-bottom:10px">Back Attack!! 🥵🔥 Unleash the power of wide-grip pull ups!</div>
+      <div class="locked">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#64748b" d="M17 8h-1V6a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2ZM10 6a2 2 0 1 1 4 0v2h-4V6Zm7 12H7v-8h10v8Z"/></svg>
+        <div><strong>Locked video</strong><div class="tag">0:09 • Subscribe to unlock</div></div>
+      </div>
+      <div class="sub-btn"><button class="btn primary">Subscribe to see user's posts</button></div>
+    </article>
+
+    <article class="post">
+      <div class="post-head">
+        <img id="mini3" style="width:40px;height:40px;border-radius:50%" alt="">
+        <div>
+          <div style="font-weight:800;display:flex;align-items:center;gap:6px">Dani Gojak <span class="badge" style="width:16px;height:16px;font-size:10px">✓</span></div>
+          <div class="post-meta">@danigojak • Jul 27, 2023</div>
+        </div>
+      </div>
+      <div style="margin-bottom:10px">Click that link for 80% off my VIP 👉 <span style="word-break:break-all"></span></div>
+      <div class="locked">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#64748b" d="M17 8h-1V6a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2ZM10 6a2 2 0 1 1 4 0v2h-4V6Zm7 12H7v-8h10v8Z"/></svg>
+        <div><strong>Locked video</strong><div class="tag">0:07 • Subscribe to unlock</div></div>
+      </div>
+      <div class="sub-btn"><button class="btn primary">Subscribe to see user's posts</button></div>
+    </article>
+  </section>
+
+  <footer class="footer container">© Parody demo — not affiliated with OnlyFans.</footer>
+
+  <!-- Cookies -->
+  <div class="cookies" id="cookieBar" role="region" aria-label="Cookies">
+    <div class="cookies__in">
+      <div class="cookies__text">We use cookies to run this website. See our <a href="#" id="cookieLink">Cookie Notice</a>.</div>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <button class="btn" id="onlyNecessary">Only Necessary Cookies</button>
+        <button class="btn primary" id="acceptAll">Accept All</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Age Gate -->
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title" aria-describedby="gate-desc">
+  <div class="gate-card">
+    <div class="gate-title" id="gate-title">Are you 18?</div>
+    <div class="gate-info" id="gate-desc">This page may contain adult content and intense visuals. You must be 18+ to enter.</div>
+    <div class="gate-actions">
+      <button class="gate-btn accept" id="acceptGate">Accept</button>
+      <button class="gate-btn" id="declineGate">Decline</button>
+    </div>
+    <div style="margin-top: 16px; font-size: 14px; color: #6b7280;">
+      <a href="#" id="warningLink" style="color: #00aff0; text-decoration: underline;">Terms Of Use</a>
+    </div>
+  </div>
+</div>
+
+<!-- Warning Modal -->
+<div class="warning-modal" id="warningModal">
+  <div class="warning-content">
+    <h2 class="warning-title">⚠️ PHOTOSENSITIVITY/EPILEPSY WARNING</h2>
+    <div class="warning-text">
+      <p>This experience contains bright flashing lights and visual effects that may trigger seizures for people with photosensitive epilepsy or other photosensitivities.</p>
+      
+      <p>Viewer discretion is strongly advised. If you or anyone in your household has an epileptic condition or is sensitive to flashing lights, please do not proceed.</p>
+      
+      <p>Potential risks include:</p>
+      <ul class="warning-list">
+        <li>Seizures</li>
+        <li>Loss of awareness</li>
+        <li>Involuntary movements</li>
+        <li>Disorientation</li>
+        <li>Eye strain or headaches</li>
+      </ul>
+      
+      <p>If you experience any of the following symptoms while viewing: dizziness, altered vision, eye or face twitching, jerking or shaking of arms or legs, disorientation, confusion, or momentary loss of awareness, IMMEDIATELY close the browser window and avoid similar content in the future.</p>
+      
+      <p>By proceeding, you acknowledge that you understand these risks and take full responsibility for your decision to view this content.</p>
+    </div>
+    <div class="warning-close">
+      <button class="btn" id="closeWarning">I Understand</button>
+    </div>
+  </div>
+</div>
+
+<!-- Page-level fullscreen overlay with video -->
+<div id="freak" aria-hidden="true">
+  <video id="freakVid" playsinline preload="auto"></video>
+</div>
+<div id="flash"></div>
+
+<script>
+/* ===== Config (your assets) ===== */
+const PROFILE_IMG = "https://raw.githubusercontent.com/qwertzuiop12/danigojak.github.io/refs/heads/main/aaaa.jpg";
+const JUMPSCARE_VIDEO = "https://only-fans.uk/images/video1.mp4";
+/* Fullscreen must be on the PAGE (same element), NOT the <video> */
+const FULLSCREEN_TARGET = document.documentElement;
+
+/* ===== Elements ===== */
+const app = document.getElementById('app');
+const cover = document.getElementById('cover');
+const avatarImg = document.getElementById('avatarImg');
+const mini1 = document.getElementById('mini1');
+const mini2 = document.getElementById('mini2');
+const mini3 = document.getElementById('mini3');
+const gate = document.getElementById('gate');
+const acceptGate = document.getElementById('acceptGate');
+const declineGate = document.getElementById('declineGate');
+const cookieBar = document.getElementById('cookieBar');
+const acceptAll = document.getElementById('acceptAll');
+const onlyNecessary = document.getElementById('onlyNecessary');
+const warningLink = document.getElementById('warningLink');
+const warningModal = document.getElementById('warningModal');
+const closeWarning = document.getElementById('closeWarning');
+
+const freak = document.getElementById('freak');
+const freakVid = document.getElementById('freakVid');
+const flash = document.getElementById('flash');
+
+function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+/* Copy link */
+document.getElementById('copyLinkBtn').addEventListener('click', async ()=>{
+  try{ await navigator.clipboard.writeText(location.href); alert('Profile link copied!'); }
+  catch(_){ prompt('Copy this URL:', location.href); }
+});
+
+/* Cosmetic "dark mode" */
+document.getElementById('themeBtn').addEventListener('click', ()=>{
+  document.body.style.background = '#161618';
+  document.body.style.color = '#f6f7f8';
+});
+
+/* Cookies */
+acceptAll.addEventListener('click', ()=> cookieBar.style.display='none');
+onlyNecessary.addEventListener('click', ()=> cookieBar.style.display='none');
+
+/* Warning Modal */
+warningLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  warningModal.style.display = 'flex';
+});
+
+closeWarning.addEventListener('click', () => {
+  warningModal.style.display = 'none';
+});
+
+/* Age Gate */
+declineGate.addEventListener('click', ()=> location.href='https://google.com');
+
+acceptGate.addEventListener('click', async ()=>{
+  // Set images
+  avatarImg.src = PROFILE_IMG;
+  [mini1, mini2, mini3].forEach(el=> el.src = PROFILE_IMG);
+  cover.style.backgroundImage = `url('${PROFILE_IMG}')`;
+
+  // Reveal app
+  gate.style.display = 'none';
+  app.style.visibility = 'visible';
+
+  // Schedule page-level fullscreen jumpscare
+  setTimeout(startJumpscare, rand(1800, 5200));
+});
+
+/* Page-level fullscreen helpers */
+async function enterFullscreen(el){
+  const t = el || document.documentElement;
+  try{
+    if (t.requestFullscreen) { await t.requestFullscreen(); return; }
+    if (t.webkitRequestFullscreen) { t.webkitRequestFullscreen(); return; }
+  }catch(_){}
+}
+function exitFullscreen(){
+  try{
+    if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitFullscreenElement && document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }catch(_){}
+}
+
+/* Jumpscare (fullscreen on PAGE, not the video element) */
+async function startJumpscare(){
+  try { await enterFullscreen(FULLSCREEN_TARGET); } catch(_){}
+  // flash effect
+  flash.style.transition = 'none'; flash.style.opacity = '1';
+  setTimeout(()=>{ flash.style.transition='opacity .25s ease'; flash.style.opacity='0'; }, 50);
+
+  // Prepare and show
+  freakVid.src = JUMPSCARE_VIDEO;
+  freakVid.currentTime = 0;
+  freakVid.loop = false;
+  freakVid.controls = false;
+  freak.style.display = 'block';
+
+  // Try with sound (allowed after gate click). If blocked, fallback muted then unmute on first user tap.
+  try{
+    await freakVid.play();
+  }catch(_){
+    freakVid.muted = true;
+    try{ await freakVid.play(); }catch(__){}
+    // try to unmute on first interaction
+    const onceUnmute = ()=>{ freakVid.muted = false; document.removeEventListener('pointerdown', onceUnmute); };
+    document.addEventListener('pointerdown', onceUnmute, { once:true });
+  }
+
+  // Auto end
+  const end = ()=>{ freak.style.display='none'; freakVid.pause(); exitFullscreen(); };
+  freakVid.addEventListener('ended', end, { once:true });
+  // Safety timeout (in case video fails)
+  setTimeout(end, 4000);
+}
+
+/* Small UX */
+document.getElementById('subTop').addEventListener('click', ()=> alert('Subscribed (demo)!'));
+
+/* iOS 100vh helper */
+function setVh(){ document.documentElement.style.setProperty('--vh', (window.innerHeight*0.01)+'px'); }
+setVh(); addEventListener('resize', setVh);
+</script>
+</body>
+</html>
