@@ -1,1760 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Web Services - Roqate</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- PayPal SDK - Two different client IDs -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AVPL-aWsiziJo49pdBJ_uOKJrhRIOl9M4-Wv3l_fizNuk-PdzEmv0dqgSBcdoJrZNqaJoccvJNpVj0h9&currency=CAD&vault=true&intent=subscription" id="paypal-subscription-script"></script>
-    <script src="https://www.paypal.com/sdk/js?client-id=Acqbs0biecuhoROvNvTeW-CdrYxK9AdyAZripz1eEPY3SmxFuTFP_tb0MHvHJmMhXeBz8j9fcbL9My7-&currency=CAD" id="paypal-onetime-script"></script>
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #64748b;
-            --accent: #0f172a;
-            --bg-light: #ffffff;
-            --bg-gray: #f8fafc;
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
-            --border: #e2e8f0;
-            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-light);
-            color: var(--text-primary);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header Styles */
-        .header {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            padding: 80px 0;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .profile-section {
-            margin-bottom: 40px;
-        }
-
-        .profile-initials {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 30px;
-            font-size: 36px;
-            font-weight: 700;
-            color: white;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .main-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-            letter-spacing: -0.02em;
-        }
-
-        .subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 40px;
-            font-weight: 400;
-        }
-
-        .pricing-section {
-            padding: 80px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-        }
-
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 60px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 80px;
-        }
-
-        .pricing-card {
-            background: white;
-            border: 2px solid var(--border);
-            border-radius: 16px;
-            padding: 40px 30px;
-            transition: all 0.3s ease;
-            position: relative;
-            box-shadow: var(--shadow);
-        }
-
-        .pricing-card:hover {
-            border-color: var(--primary);
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
-        }
-
-        .pricing-card.featured {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 1px var(--primary), var(--shadow-lg);
-            transform: scale(1.05);
-        }
-
-        .pricing-card.featured::before {
-            content: 'MOST POPULAR';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--primary);
-            color: white;
-            padding: 6px 20px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        .plan-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .plan-name {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-
-        .plan-description {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-
-        .billing-toggle {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: var(--bg-gray);
-            border-radius: 50px;
-            padding: 5px;
-            margin: 0 auto 20px;
-            max-width: 280px;
-        }
-
-        .billing-option {
-            flex: 1;
-            padding: 8px 12px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .billing-option.active {
-            background: white;
-            color: var(--primary);
-            box-shadow: var(--shadow);
-            font-weight: 600;
-        }
-
-        .billing-option:not(.active):hover {
-            opacity: 0.8;
-        }
-
-        .plan-price {
-            display: flex;
-            align-items: baseline;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .price-amount {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .price-currency {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-
-        .price-period {
-            font-size: 1rem;
-            color: var(--text-secondary);
-        }
-
-        .setup-fee {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            text-align: center;
-            margin-top: 8px;
-        }
-
-        .savings-badge {
-            display: inline-block;
-            background: var(--success);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-top: 8px;
-        }
-
-        .plan-features {
-            margin-bottom: 30px;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 16px;
-            font-size: 0.95rem;
-        }
-
-        .feature-icon {
-            color: var(--success);
-            font-size: 16px;
-            margin-top: 2px;
-            flex-shrink: 0;
-        }
-
-        .feature-text {
-            color: var(--text-primary);
-            line-height: 1.5;
-        }
-
-        .cta-button {
-            width: 100%;
-            padding: 16px 24px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-bottom: 12px;
-        }
-
-        .cta-button:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .contact-button {
-            width: 100%;
-            padding: 12px 24px;
-            background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .contact-button:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .info-section {
-            background: var(--bg-gray);
-            padding: 80px 0;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        .info-card {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-        }
-
-        .info-card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
-        }
-
-        .info-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 24px;
-            color: white;
-            font-size: 24px;
-        }
-
-        .info-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 16px;
-        }
-
-        .info-description {
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .terms-section {
-            background: var(--bg-gray);
-            padding: 40px;
-            border-radius: 16px;
-            margin-bottom: 60px;
-        }
-
-        .terms-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .terms-content {
-            max-height: 300px;
-            overflow-y: auto;
-            padding-right: 20px;
-        }
-
-        .terms-content h3 {
-            font-size: 1.2rem;
-            margin: 20px 0 10px;
-            color: var(--text-primary);
-        }
-
-        .terms-content p {
-            margin-bottom: 15px;
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-        }
-
-        .terms-content ul {
-            margin-bottom: 15px;
-            padding-left: 20px;
-        }
-
-        .terms-content li {
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-        }
-
-        .footer {
-            background: var(--accent);
-            color: white;
-            padding: 60px 0 40px;
-            text-align: center;
-        }
-
-        .footer-content {
-            margin-bottom: 30px;
-        }
-
-        .footer-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-
-        .footer-text {
-            color: #94a3b8;
-            margin-bottom: 8px;
-        }
-
-        .footer-bottom {
-            padding-top: 30px;
-            border-top: 1px solid #334155;
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            overflow-y: auto;
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 600px;
-            box-shadow: var(--shadow-lg);
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-secondary);
-        }
-
-        .modal-title {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-            font-family: 'Playfair Display', serif;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .form-textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 1rem;
-            min-height: 120px;
-            resize: vertical;
-            transition: border-color 0.2s;
-        }
-
-        .form-textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .form-error {
-            color: var(--error);
-            font-size: 0.85rem;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .form-checkbox {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .form-checkbox input {
-            margin-right: 10px;
-        }
-
-        .form-submit {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 14px 24px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.2s;
-        }
-
-        .form-submit:hover {
-            background-color: var(--primary-dark);
-        }
-
-        /* PayPal Button Container */
-        #paypal-button-container {
-            margin-top: 20px;
-            display: none;
-        }
-
-        #paypal-subscription-button-container {
-            margin-top: 20px;
-            display: none;
-        }
-
-        /* Loading spinner */
-        .spinner {
-            display: none;
-            width: 40px;
-            height: 40px;
-            margin: 20px auto;
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            border-top: 4px solid var(--primary);
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Pricing breakdown toggle */
-        .pricing-breakdown {
-            margin-top: 20px;
-            padding: 15px;
-            background: var(--bg-gray);
-            border-radius: 8px;
-            display: none;
-        }
-
-        .pricing-breakdown.show {
-            display: block;
-        }
-
-        .breakdown-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            padding-bottom: 8px;
-            border-bottom: 1px dashed var(--border);
-        }
-
-        .breakdown-label {
-            color: var(--text-secondary);
-        }
-
-        .breakdown-value {
-            font-weight: 500;
-        }
-
-        .breakdown-total {
-            font-weight: 600;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid var(--border);
-        }
-
-        .toggle-breakdown {
-            color: var(--primary);
-            font-size: 0.9rem;
-            cursor: pointer;
-            margin-top: 10px;
-            display: inline-block;
-        }
-
-        .toggle-breakdown:hover {
-            text-decoration: underline;
-        }
-
-        /* Payment options grid */
-        .payment-options {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .payment-option {
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .payment-option.selected {
-            border-color: var(--primary);
-            background-color: rgba(37, 99, 235, 0.05);
-        }
-
-        .payment-option:hover:not(.selected) {
-            border-color: var(--primary);
-        }
-
-        .payment-option-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .payment-option-description {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .payment-option-note {
-            font-size: 0.8rem;
-            color: var(--success);
-            margin-top: 5px;
-            font-style: italic;
-        }
-
-        .explanation-toggle {
-            color: var(--primary);
-            font-size: 0.85rem;
-            cursor: pointer;
-            margin-top: 5px;
-            display: inline-block;
-        }
-
-        .explanation-toggle:hover {
-            text-decoration: underline;
-        }
-
-        .payment-explanation {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: rgba(248, 250, 252, 0.8);
-            border-radius: 8px;
-            font-size: 0.85rem;
-            display: none;
-        }
-
-        .payment-explanation.show {
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 2.5rem;
-            }
-
-            .pricing-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .pricing-card.featured {
-                transform: none;
-            }
-
-            .modal-content {
-                margin: 20px auto;
-                padding: 20px;
-                width: 95%;
-            }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gojak — Web Design & Dev ($25/hr)</title>
+<meta name="description" content="Gojak. Next-gen web design, development, fixes, performance, and SEO. $25/hr. Call 226-583-0657 or email dgojak9@gmail.com.">
+<link rel="canonical" href="https://danigojak.xyz/">
+<meta name="theme-color" content="#0a0b1a">
+<meta name="color-scheme" content="dark only">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Gojak — Web Design & Dev">
+<meta property="og:description" content="Design, build, and fix websites with rare aesthetics and elite performance. $25/hr.">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0c0c0f;       /* deep near-black */
+  --bg2:#15161b;      /* softer section background */
+  --ink:#f5f5f5;      /* refined off-white */
+  --muted:#a0a0a5;    /* elegant muted gray */
+  --line:rgba(255,255,255,.05);
+
+  /* FX blobs - subtle, luxury tones */
+  --fx1:#b08968;      /* bronze glow */
+  --fx2:#c4d0d6;      /* soft blue */
+  --fx3:#d6ccdc;      /* muted lilac */
+  --fx4:#ada0b4;      /* lavender haze */
+
+  /* Brand accents - premium */
+  --brand1:#a29e99;   /* gold/bronze */
+  --brand2:#e8e8f3;   /* royal violet */
+  --brand3:#cdb8b6;   /* muted coral */
+}
+
+
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:Sora,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(1200px 800px at 120% -10%,rgba(124,255,192,.12),transparent),radial-gradient(900px 600px at -20% 10%,rgba(109,211,255,.12),transparent),linear-gradient(180deg,var(--bg),var(--bg2));color:#eef0ff;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.container{max-width:1180px;margin:0 auto;padding:0 22px}
+.nav{position:sticky;top:0;z-index:60;background:rgba(6,7,24,.6);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-in{height:64px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:10px;align-items:center;font-weight:800;letter-spacing:-.02em}
+.brand-badge{width:28px;height:28px;border-radius:8px;background:conic-gradient(from 210deg at 50% 50%,var(--brand1),var(--brand2),var(--brand3),var(--brand1));box-shadow:0 0 40px -8px var(--brand2) inset,0 0 20px -8px var(--brand1)}
+.nav a{padding:10px 12px;border-radius:10px;font-weight:600;color:#cfd4ff}
+.nav a:hover{background:rgba(255,255,255,.05)}
+.hero{position:relative;padding:96px 0 56px;isolation:isolate}
+.h1{font-size:clamp(38px,7vw,72px);line-height:1.02;font-weight:800;letter-spacing:-.02em}
+.h1 span{background:linear-gradient(90deg,var(--brand1),var(--brand2),var(--brand3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{margin-top:16px;max-width:62ch;color:#c7cbff}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border-radius:14px;font-weight:800}
+.btn-primary{background:linear-gradient(135deg,var(--brand1),var(--brand2));color:#04101a;box-shadow:0 14px 40px -18px var(--brand2)}
+.btn-ghost{border:1px solid var(--line);background:rgba(255,255,255,.02);color:#dce0ff}
+.btn:hover{transform:translateY(-1px);transition:.15s cubic-bezier(.2,.8,.2,1)}
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:#b7bcff;background:rgba(255,255,255,.03);border:1px solid var(--line);padding:8px 10px;border-radius:999px;margin-top:14px}
+.grid{display:grid;gap:16px}
+.section{padding:60px 0;border-top:1px solid var(--line)}
+.h2{font-size:28px;letter-spacing:-.01em;margin-bottom:12px}
+.sub{color:#bfc5ff;margin-bottom:22px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:8px;transform-style:preserve-3d;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.card:before{content:"";position:absolute;inset:-1px;border-radius:16px;background:radial-gradient(180px 80px at var(--mx,50%) 0%,rgba(124,255,192,.25),transparent),radial-gradient(180px 80px at calc(100% - var(--mx,50%)) 100%,rgba(109,211,255,.2),transparent);opacity:.5;pointer-events:none}
+.card:hover{border-color:#7e83ff;box-shadow:0 24px 60px -30px rgba(124,128,255,.55);transform:translateY(-2px) rotateX(2deg) rotateY(-2deg)}
+.card h3{font-size:18px}
+.list{display:grid;gap:6px;color:#d8dcff;font-size:14px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.kpi{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}
+.kpi strong{font-size:24px}
+.portfolio{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+.tile{grid-column:span 4;background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:16px;overflow:hidden;position:relative;transform:translateZ(0)}
+.tile img{width:100%;height:170px;object-fit:cover;display:block;filter:saturate(1.1)}
+.tile b{position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,.35);padding:6px 10px;border-radius:10px;font-size:12px}
+.process{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.step{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:14px}
+.contact{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
+.box{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:16px;padding:18px}
+.rate{display:flex;gap:10px;align-items:baseline;margin-top:14px}
+.rate strong{font-size:40px;letter-spacing:-.02em;background:linear-gradient(90deg,var(--fx1),var(--fx2),var(--fx3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.footer{padding:28px 0;color:#a8afff;text-align:center;border-top:1px solid var(--line)}
+.fx-wrap{position:absolute;inset:0;pointer-events:none;z-index:-1}
+.fx-blob {
+  position: absolute;
+  filter: blur(60px);
+  opacity: .35;
+  mix-blend-mode: screen;
+}
+.fx-1{width:520px;height:520px;background:radial-gradient(circle at 30% 30%,var(--fx1),transparent 60%);top:-120px;left:-120px}
+.fx-2{width:480px;height:480px;background:radial-gradient(circle at 70% 40%,var(--fx2),transparent 60%);top:-80px;right:-140px}
+.fx-3{width:560px;height:560px;background:radial-gradient(circle at 50% 70%,var(--fx3),transparent 60%);bottom:-160px;left:10%}
+.fx-noise{position:absolute;inset:-20%;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.05'/></svg>");opacity:.35}
+.fx-canvas{position:absolute;inset:0}
+@media(max-width:1080px){.cards{grid-template-columns:1fr 1fr}.process{grid-template-columns:repeat(3,1fr)}.contact{grid-template-columns:1fr}}
+@media(max-width:720px){.cards{grid-template-columns:1fr}.portfolio .tile{grid-column:span 12}.process{grid-template-columns:1fr 1fr}}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"Gojak by Dani Gojak","url":"https://danigojak.xyz","telephone":"+1-226-583-0657","description":"Design, development, fixes, performance, SEO. $25/hr.","areaServed":{"@type":"Country","name":"Canada"},"priceRange":"$"}
+</script>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="profile-section">
-                <div class="profile-initials">Roqate</div>
-                <h1 class="main-title">Professional Web Services</h1>
-                <p class="subtitle">Custom design paid once. Ongoing hosting, security, and updates billed as a subscription, monthly or save with a discounted annual plan.</p>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content Area -->
-    <main id="mainContent">
-        <!-- Pricing Section -->
-        <section class="pricing-section">
-            <div class="container">
-                <h2 class="section-title">Web Services Pricing</h2>
-                <p class="section-subtitle">Choose the plan that fits your needs. Pay once for custom design/development, then select your preferred billing cycle for ongoing service.</p>
-                
-                <div class="pricing-grid">
-                    <!-- Starter -->
-                    <div class="pricing-card">
-                        <div class="plan-header">
-                            <h3 class="plan-name">Starter</h3>
-                            <p class="plan-description">Perfect for small businesses and professionals</p>
-                            
-                            <div class="billing-toggle" id="starterToggle">
-                                <div class="billing-option active" data-plan="starter" data-period="monthly">Monthly</div>
-                                <div class="billing-option" data-plan="starter" data-period="yearly">Yearly (Save 10%)</div>
-                            </div>
-                            
-                            <div class="plan-price">
-                                <span class="price-currency">CA$</span>
-                                <span class="price-amount" id="starterPrice">99</span>
-                                <span class="price-period" id="starterPeriod">/ month</span>
-                            </div>
-                            <div class="setup-fee">+ CA$500 one-time design fee</div>
-                            <div class="savings-badge" id="starterSavings" style="display: none;">Save CA$118.80/year</div>
-                            
-                            <a class="toggle-breakdown" onclick="toggleBreakdown(this)">Show price breakdown</a>
-                            <div class="pricing-breakdown">
-                                <div class="breakdown-item">
-                                    <span class="breakdown-label">Design & Development:</span>
-                                    <span class="breakdown-value">CA$500 (one-time)</span>
-                                </div>
-                                <div class="breakdown-item">
-                                    <span class="breakdown-label">Hosting & Domain:</span>
-                                    <span class="breakdown-value">CA$30/month</span>
-                                </div>
-                                <div class="breakdown-item">
-                                    <span class="breakdown-label">Security & Backups:</span>
-                                    <span class="breakdown-value">CA$10/month</span>
-                                </div>
-                                <div class="breakdown-item">
-                                    <span class="breakdown-label">Updates & Support:</span>
-                                    <span class="breakdown-value">CA$15/month</span>
-                                </div>
-                                <div class="breakdown-total">
-                                    <span class="breakdown-label">Total Monthly:</span>
-                                    <span class="breakdown-value">CA$99/month</span>
-                                </div>
-                                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-secondary);">Save CA$30/month compared to managing separately</p>
-                            </div>
-                        </div>
-                        
-                        <div class="plan-features">
-                            <div class="feature-item">
-                                <i class="fas fa-file-alt feature-icon"></i>
-                                <span class="feature-text">5-page professional website</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-paint-brush feature-icon"></i>
-                                <span class="feature-text">Custom design & branding</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-server feature-icon"></i>
-                                <span class="feature-text">Premium hosting & domain</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-lock feature-icon"></i>
-                                <span class="feature-text">SSL certificate & security</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-mobile-alt feature-icon"></i>
-                                <span class="feature-text">Mobile-responsive design</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-envelope feature-icon"></i>
-                                <span class="feature-text">Contact forms & email setup</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-search feature-icon"></i>
-                                <span class="feature-text">Basic SEO optimization</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-headset feature-icon"></i>
-                                <span class="feature-text">2 weeks support</span>
-                            </div>
-                        </div>
-                        
-                        <button class="cta-button" data-plan="Starter" data-monthly="99" data-yearly="1069" data-setup="500">Get Started</button> 
-                        <button class="contact-button" data-plan="Starter">
-                            <i class="fas fa-info-circle"></i>
-                            More Information
-                        </button>
-                    </div>
-
-                    <!-- Growth (Featured) -->
-                    <div class="pricing-card featured">
-                        <div class="plan-header">
-                            <h3 class="plan-name">Growth</h3>
-                            <p class="plan-description">Advanced solution for growing businesses</p>
-                            
-                            <div class="billing-toggle" id="growthToggle">
-                                <div class="billing-option active" data-plan="growth" data-period="monthly">Monthly</div>
-                                <div class="billing-option" data-plan="growth" data-period="yearly">Yearly (Save 10%)</div>
-                            </div>
-                            
-                            <div class="plan-price">
-                                <span class="price-currency">CA$</span>
-                                <span class="price-amount" id="growthPrice">199</span>
-                                <span class="price-period" id="growthPeriod">/ month</span>
-                            </div>
-                            <div class="setup-fee">+ CA$1,200 one-time design fee</div>
-                            <div class="savings-badge" id="growthSavings" style="display: none;">Save CA$238.80/year</div>
-                            
-                            <a class="toggle-breakdown" onclick="toggleBreakdown(this)">Show price breakdown</a>
-                            <div class="pricing-breakdown">
-                                <div class="breakdown-item">
-                                    <span class="breakdown-label">Design & Development:</span>
-                                    <span class="breakdown-value">CA$1,200 (one-time)</span>
-                                </div>
-                                <div class="breakdown-item">
-                                    <span class="breakdown-label">Hosting & Domain:</span>
-                                    <span class="breakdown-value">CA$50/month</span>
-                                </div>
-                                <div class="breakdown-item">
-                                    <span class="breakdown-label">Security & Backups:</span>
-                                    <span class="breakdown-value">CA$40/month</span>
-                                </div>
-                                <div class="breakdown-item">
-                                    <span class="breakdown-label">Updates & Support:</span>
-                                    <span class="breakdown-value">CA$109/month</span>
-                                </div>
-                                <div class="breakdown-total">
-                                    <span class="breakdown-label">Total Monthly:</span>
-                                    <span class="breakdown-value">CA$199/month</span>
-                                </div>
-                                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-secondary);">Save CA$50/month compared to managing separately</p>
-                            </div>
-                        </div>
-                        
-                        <div class="plan-features">
-                            <div class="feature-item">
-                                <i class="fas fa-infinity feature-icon"></i>
-                                <span class="feature-text">Unlimited pages & sections</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-code feature-icon"></i>
-                                <span class="feature-text">Advanced custom development</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-shopping-cart feature-icon"></i>
-                                <span class="feature-text">E-commerce functionality</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-tachometer-alt feature-icon"></i>
-                                <span class="feature-text">Enterprise hosting & CDN</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-chart-line feature-icon"></i>
-                                <span class="feature-text">Advanced SEO & analytics</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-cog feature-icon"></i>
-                                <span class="feature-text">CMS & content management</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-plug feature-icon"></i>
-                                <span class="feature-text">API integrations</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-headset feature-icon"></i>
-                                <span class="feature-text">3 months priority support</span>
-                            </div>
-                        </div>
-                        
-                        <button class="cta-button" data-plan="Growth" data-monthly="199" data-yearly="2149" data-setup="1200">Get Growth</button>
-                        <button class="contact-button" data-plan="Growth">
-                            <i class="fas fa-info-circle"></i>
-                            More Information
-                        </button>
-                    </div>
-
-                    <!-- Enterprise -->
-                    <div class="pricing-card">
-                        <div class="plan-header">
-                            <h3 class="plan-name">Enterprise</h3>
-                            <p class="plan-description">Complete digital transformation solution</p>
-                            
-                            <div class="billing-toggle" id="enterpriseToggle">
-                                <div class="billing-option active" data-plan="enterprise" data-period="monthly">Monthly</div>
-                                <div class="billing-option" data-plan="enterprise" data-period="yearly">Yearly (Save 10%)</div>
-                            </div>
-                            
-                            <div class="plan-price">
-                                <span class="price-currency">CA$</span>
-                                <span class="price-amount" id="enterprisePrice">399</span>
-                                <span class="price-period" id="enterprisePeriod">/ month</span>
-                            </div>
-                            <div class="setup-fee">+ CA$2,500 one-time design fee</div>
-                            <div class="savings-badge" id="enterpriseSavings" style="display: none;">Save CA$478.80/year</div>
-                            
-                            <a class="toggle-breakdown" onclick="toggleBreakdown(this)">Show price breakdown</a>
-                            <div class="pricing-breakdown">
-                                <div class="breakdown-item">
-                                    <span class="breakdown-label">Design & Development:</span>
-                                    <span class="breakdown-value">CA$2,500 (one-time)</span>
-                                </div>
-                                <div class="breakdown-item">
-                                    <span class="breakdown-label">Hosting & Domain:</span>
-                                    <span class="breakdown-value">CA$100/month</span>
-                                </div>
-                                <div class="breakdown-item">
-                                    <span class="breakdown-label">Security & Backups:</span>
-                                    <span class="breakdown-value">CA$80/month</span>
-                                </div>
-                                <div class="breakdown-item">
-                                    <span class="breakdown-label">Updates & Support:</span>
-                                    <span class="breakdown-value">CA$219/month</span>
-                                </div>
-                                <div class="breakdown-total">
-                                    <span class="breakdown-label">Total Monthly:</span>
-                                    <span class="breakdown-value">CA$399/month</span>
-                                </div>
-                                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-secondary);">Save CA$100/month compared to managing separately</p>
-                            </div>
-                        </div>
-                        
-                        <div class="plan-features">
-                            <div class="feature-item">
-                                <i class="fas fa-check-double feature-icon"></i>
-                                <span class="feature-text">Everything in Growth</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-window-restore feature-icon"></i>
-                                <span class="feature-text">Custom web applications</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-database feature-icon"></i>
-                                <span class="feature-text">Advanced database solutions</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-language feature-icon"></i>
-                                <span class="feature-text">Multi-language support</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-robot feature-icon"></i>
-                                <span class="feature-text">Advanced automation tools</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-tag feature-icon"></i>
-                                <span class="feature-text">White-label solutions</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-calendar-check feature-icon"></i>
-                                <span class="feature-text">Monthly strategy consultations</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-headset feature-icon"></i>
-                                <span class="feature-text">6 months priority support</span>
-                            </div>
-                        </div>
-                        
-                        <button class="cta-button" data-plan="Enterprise" data-monthly="399" data-yearly="4309" data-setup="2500">Get Enterprise</button>
-                        <button class="contact-button" data-plan="Enterprise">
-                            <i class="fas fa-info-circle"></i>
-                            More Information
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Terms Section -->
-                <div class="terms-section">
-                    <h3 class="terms-title">Terms of Service</h3>
-                    <div class="terms-content">
-                        <h3>Service Description</h3>
-                        <p>Our web services include custom design, development, hosting, maintenance, and support as outlined in your selected plan. The one-time design fee covers all initial creative work, while the recurring subscription covers ongoing operational costs.</p>
-                        
-                        <h3>Payment Terms</h3>
-                        <p>The one-time design fee is due before work begins. Recurring subscriptions are billed according to your selected cycle (monthly or yearly). Monthly plans auto-bill each month until cancelled. Yearly plans auto-renew at the discounted rate unless cancelled with 30 days notice.</p>
-                        
-                        <h3>Automatic Renewal</h3>
-                        <p>All subscriptions automatically renew at the end of each billing cycle. You will be notified by email before each renewal. To cancel, please provide written notice at least 30 days before your renewal date.</p>
-                        
-                        <h3>Cancellation Policy</h3>
-                        <p>You may cancel your subscription at any time, but no refunds are provided for partial billing periods. Upon cancellation, your website will remain active until the end of your current billing period.</p>
-                        
-                        <h3>Refund Policy</h3>
-                        <p>The one-time design fee is non-refundable once work has begun. Subscription fees are non-refundable except as required by law. We offer a 14-day satisfaction guarantee for new clients.</p>
-                        
-                        <h3>Service Level Agreement</h3>
-                        <p>We guarantee 99.9% uptime for hosting services. Support response times vary by plan: Starter (48 business hours), Growth (24 business hours), Enterprise (12 business hours).</p>
-                        
-                        <h3>Data & Security</h3>
-                        <p>We implement industry-standard security measures including SSL encryption, regular backups, and software updates. Client data is never shared with third parties except as required to provide services.</p>
-                        
-                        <h3>Liability</h3>
-                        <p>Our liability is limited to the fees paid for services. We are not liable for indirect, incidental, or consequential damages. Clients are responsible for maintaining their own content backups.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="info-section">
-            <div class="container">
-                <h2 class="section-title">Why Our Pricing Model Works</h2>
-                <p class="section-subtitle">Transparent, fair, and designed for long-term success.</p>
-                
-                <div class="info-grid">
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-hand-holding-usd"></i>
-                        </div>
-                        <h3 class="info-title">Fair Pricing</h3>
-                        <p class="info-description">You pay once for the creative work (design/development) and a separate ongoing fee for the actual costs of keeping your site running securely.</p>
-                    </div>
-
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h3 class="info-title">No Surprises</h3>
-                        <p class="info-description">The monthly fee covers everything needed to keep your site live and secure—no hidden costs for domains, hosting, or SSL certificates.</p>
-                    </div>
-
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3 class="info-title">Sustainable Service</h3>
-                        <p class="info-description">Recurring revenue allows us to provide continuous updates, security patches, and support—not just build and abandon.</p>
-                    </div>
-
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <h3 class="info-title">Price Lock Guarantee</h3>
-                        <p class="info-description">Your monthly rate won't increase for at least 3 years. Yearly subscribers are guaranteed their rate for the duration of their subscription.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <h3 class="footer-title">Ready to Get Started?</h3>
-                <p class="footer-text">Contact us today for a free consultation and custom quote</p>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Roqate Professional Web Services. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Order Form Modal -->
-    <div class="modal" id="orderModal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2 class="modal-title">Order Details</h2>
-            <form id="orderForm">
-                <input type="hidden" id="selectedPlan" name="plan">
-                <input type="hidden" id="paymentType" name="paymentType">
-                <input type="hidden" id="billingPeriod" name="billingPeriod">
-                
-                <div class="form-group">
-                    <label for="name" class="form-label">Full Name *</label>
-                    <input type="text" id="name" name="name" class="form-input" required>
-                    <div class="form-error" id="nameError">Please enter your full name</div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email" class="form-label">Email Address *</label>
-                    <input type="email" id="email" name="email" class="form-input" required>
-                    <div class="form-error" id="emailError">Please enter a valid email address</div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="phone" class="form-label">Phone Number *</label>
-                    <input type="tel" id="phone" name="phone" class="form-input" required>
-                    <div class="form-error" id="phoneError">Please enter a valid phone number</div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="projectDetails" class="form-label">Project Details *</label>
-                    <textarea id="projectDetails" name="projectDetails" class="form-textarea" required placeholder="Please describe what you need, including any specific features, design preferences, or other requirements..."></textarea>
-                    <div class="form-error" id="projectDetailsError">Please provide details about your project</div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="timeline" class="form-label">Desired Timeline *</label>
-                    <select id="timeline" name="timeline" class="form-input" required>
-                        <option value="">Select your desired timeline</option>
-                        <option value="ASAP">ASAP (Within 1-2 weeks)</option>
-                        <option value="1month">Within 1 month</option>
-                        <option value="2months">Within 2 months</option>
-                        <option value="flexible">Flexible timeline</option>
-                    </select>
-                    <div class="form-error" id="timelineError">Please select your desired timeline</div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="reference" class="form-label">Reference Websites (optional)</label>
-                    <textarea id="reference" name="reference" class="form-textarea" placeholder="Please list any websites you like as references for design or functionality..."></textarea>
-                </div>
-                
-                <div class="form-checkbox">
-                    <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
-                    <label for="agreeTerms">I agree to the Terms of Service and Privacy Policy *</label>
-                </div>
-                <div class="form-error" id="termsError">You must agree to the terms</div>
-                
-                <div class="form-group">
-                    <label class="form-label">Payment Option *</label>
-                    <div class="payment-options" id="paymentOptions">
-                        <div class="payment-option selected" data-option="setup">
-                            <div class="payment-option-title">Pay Setup Fee Only</div>
-                            <div class="payment-option-description">CA$<span id="setupFeeAmount">1200</span> one-time design fee</div>
-                            <div class="payment-option-note">Pay this first to start your project. You'll subscribe to hosting after approving your website.</div>
-                        </div>
-                        <div class="payment-option" data-option="monthly">
-                            <div class="payment-option-title">Monthly Subscription</div>
-                            <div class="payment-option-description">CA$<span id="monthlyPriceAmount">199</span>/month (auto-renews)</div>
-                            <div class="payment-option-note">Only select this after your website is complete and you're ready to go live.</div>
-                        </div>
-                        <div class="payment-option" data-option="yearly">
-                            <div class="payment-option-title">Yearly Subscription</div>
-                            <div class="payment-option-description">CA$<span id="yearlyPriceAmount">2149</span>/year (auto-renews, save 10%)</div>
-                            <div class="payment-option-note">Only select this after your website is complete and you're ready to go live.</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <button type="submit" class="form-submit">Continue to Payment</button>
-                
-                <!-- PayPal Button Containers -->
-                <div id="paypal-button-container"></div>
-                <div id="paypal-subscription-button-container"></div>
-                
-                <!-- Loading Spinner -->
-                <div class="spinner" id="loadingSpinner" style="display: none;"></div>
-            </form>
-        </div>
+<nav class="nav">
+  <div class="container nav-in">
+    <div class="brand"><span ></span>Gojak</div>
+    <div>
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
     </div>
+  </div>
+</nav>
 
-    <!-- Information Modal -->
-    <div class="modal" id="infoModal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2 class="modal-title" id="infoModalTitle">Plan Information</h2>
-            <div id="infoModalContent">
-                <!-- Content will be loaded dynamically -->
-            </div>
-        </div>
+<header class="hero">
+  <div class="fx-wrap">
+    <div class="fx-blob fx-1"></div>
+    <div class="fx-blob fx-2"></div>
+    <div class="fx-blob fx-3"></div>
+    <canvas id="stars" class="fx-canvas"></canvas>
+    <div class="fx-noise"></div>
+  </div>
+  <div class="container">
+    <h1 class="h1"><span>Websites nobody forgets.</span> Built clean, fast, and organized.</h1>
+    <p class="lead">Design, development, fixes, migrations, speed, and SEO with a rare visual style. $25/hr. No subscriptions, no on-site payments.</p>
+    <div class="row">
+      <a class="btn btn-primary" href="tel:+12265830657">Call 226-583-0657</a>
+      <a class="btn btn-ghost" href="mailto:dgojak9@gmail.com?subject=Website%20Help&body=Link%3A%0AGoal%3A%0ADeadline%3A">Email dgojak9@gmail.com</a>
     </div>
+  </div>
+</header>
 
-    <!-- Success Modal -->
-    <div class="modal" id="successModal">
-        <div class="modal-content" style="text-align: center;">
-            <span class="close-modal">&times;</span>
-            <div style="font-size: 60px; color: var(--success); margin-bottom: 20px;">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <h2 class="modal-title">Thank You!</h2>
-            <p style="margin-bottom: 30px; font-size: 1.1rem;">Your order has been received successfully.</p>
-            <p style="margin-bottom: 30px;">We'll contact you within 24 hours to discuss your project details and next steps.</p>
-            <button class="form-submit" onclick="closeSuccessModal()">Close</button>
+<main>
+  <section id="services" class="section">
+    <div class="container">
+      <div class="h2">Services</div>
+      <div class="sub">Pick a task or a full build. Results first, visuals elite.</div>
+      <div class="cards">
+        <div class="card" data-tilt>
+          <h3>Design</h3>
+          <div class="list">
+            <div>Signature visuals and components</div>
+            <div>Mobile-first layouts and typography</div>
+          </div>
         </div>
+        <div class="card" data-tilt>
+          <h3>Development</h3>
+          <div class="list">
+            <div>WordPress, Webflow, Shopify, custom</div>
+            <div>Accessibility and form flows</div>
+          </div>
+        </div>
+        <div class="card" data-tilt>
+          <h3>Fix & Improve</h3>
+          <div class="list">
+            <div>Bugs, layout collisions, CLS/LCP</div>
+            <div>Checkout and conversion issues</div>
+          </div>
+        </div>
+        <div class="card" data-tilt>
+          <h3>Performance</h3>
+          <div class="list">
+            <div>Image strategy, code splitting</div>
+            <div>Core Web Vitals tuning</div>
+          </div>
+        </div>
+        <div class="card" data-tilt>
+          <h3>SEO</h3>
+          <div class="list">
+            <div>Technical audit, metadata, schema</div>
+            <div>Sitemaps, redirects, indexing</div>
+          </div>
+        </div>
+        <div class="card" data-tilt>
+          <h3>Migrations</h3>
+          <div class="list">
+            <div>Replatform without losing SEO</div>
+            <div>URL mapping and content transfer</div>
+          </div>
+        </div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><strong>24–72h</strong><div class="sub" style="margin:0;color:#aeb5ff">Typical turnaround</div></div>
+        <div class="kpi"><strong>100%</strong><div class="sub" style="margin:0;color:#aeb5ff">Ownership stays with you</div></div>
+        <div class="kpi"><strong>$25</strong><div class="sub" style="margin:0;color:#aeb5ff">Simple hourly rate</div></div>
+      </div>
     </div>
+  </section>
 
-    <script>
-        // Webhook URL - Replace with your actual Discord webhook URL
-        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1401567373659738195/g2RtASQ_vSZl2OA3AD-DuoIV8HsqYp0y_zuYC33vEhKIYY80c0Cy2tykbgICK5KUcCz1';
-        
-        // DOM Elements
-        const orderModal = document.getElementById('orderModal');
-        const infoModal = document.getElementById('infoModal');
-        const successModal = document.getElementById('successModal');
-        const orderForm = document.getElementById('orderForm');
-        const paypalButtonContainer = document.getElementById('paypal-button-container');
-        const paypalSubscriptionButtonContainer = document.getElementById('paypal-subscription-button-container');
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        const ctaButtons = document.querySelectorAll('.cta-button');
-        const infoButtons = document.querySelectorAll('.contact-button');
-        const closeModalButtons = document.querySelectorAll('.close-modal');
-        const paymentOptions = document.querySelectorAll('.payment-option');
-        
-        // Current selected plan and billing period
-        let currentPlan = null;
-        let currentBillingPeriod = 'monthly';
-        let currentPaymentOption = 'setup';
-        
-        // Toggle pricing breakdown
-        function toggleBreakdown(element) {
-            const breakdown = element.nextElementSibling;
-            if (breakdown.classList.contains('show')) {
-                breakdown.classList.remove('show');
-                element.textContent = 'Show price breakdown';
-            } else {
-                breakdown.classList.add('show');
-                element.textContent = 'Hide price breakdown';
-            }
-        }
-        
-        // Close success modal
-        function closeSuccessModal() {
-            successModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-        
-        // Close modals
-        closeModalButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                orderModal.style.display = 'none';
-                infoModal.style.display = 'none';
-                successModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-                paypalButtonContainer.style.display = 'none';
-                paypalSubscriptionButtonContainer.style.display = 'none';
-                paypalButtonContainer.innerHTML = '';
-                paypalSubscriptionButtonContainer.innerHTML = '';
-            });
-        });
-        
-        // Close modal when clicking outside
-        window.addEventListener('click', (event) => {
-            if (event.target === orderModal) {
-                orderModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-                paypalButtonContainer.style.display = 'none';
-                paypalSubscriptionButtonContainer.style.display = 'none';
-                paypalButtonContainer.innerHTML = '';
-                paypalSubscriptionButtonContainer.innerHTML = '';
-            }
-            if (event.target === infoModal) {
-                infoModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-            if (event.target === successModal) {
-                successModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        });
-        
-        // Initialize billing toggles
-        function initBillingToggles() {
-            document.querySelectorAll('.billing-toggle').forEach(toggle => {
-                const options = toggle.querySelectorAll('.billing-option');
-                options.forEach(option => {
-                    option.addEventListener('click', function() {
-                        const plan = this.getAttribute('data-plan');
-                        const period = this.getAttribute('data-period');
-                        
-                        // Update active state
-                        options.forEach(opt => opt.classList.remove('active'));
-                        this.classList.add('active');
-                        
-                        // Update pricing display
-                        updatePricingDisplay(plan, period);
-                        
-                        // Update current billing period for this plan
-                        if (currentPlan && currentPlan.toLowerCase() === plan) {
-                            currentBillingPeriod = period;
-                            updatePaymentOptions();
-                        }
-                    });
-                });
-            });
-        }
-        
-        // Update pricing display when billing period changes
-        function updatePricingDisplay(plan, period) {
-            const priceElement = document.getElementById(`${plan}Price`);
-            const periodElement = document.getElementById(`${plan}Period`);
-            const savingsElement = document.getElementById(`${plan}Savings`);
-            
-            const button = document.querySelector(`.cta-button[data-plan="${capitalizeFirstLetter(plan)}"]`);
-            
-            if (period === 'monthly') {
-                priceElement.textContent = button.getAttribute('data-monthly');
-                periodElement.textContent = '/ month';
-                savingsElement.style.display = 'none';
-            } else {
-                priceElement.textContent = button.getAttribute('data-yearly');
-                periodElement.textContent = '/ year';
-                savingsElement.style.display = 'inline-block';
-            }
-        }
-        
-        // Update payment options based on selected plan and billing period
-        function updatePaymentOptions() {
-            if (!currentPlan) return;
-            
-            const button = document.querySelector(`.cta-button[data-plan="${currentPlan}"]`);
-            const setupFee = parseFloat(button.getAttribute('data-setup'));
-            const monthlyPrice = parseFloat(button.getAttribute('data-monthly'));
-            const yearlyPrice = parseFloat(button.getAttribute('data-yearly'));
-            
-            // Update amounts in payment options
-            document.getElementById('setupFeeAmount').textContent = setupFee;
-            document.getElementById('monthlyPriceAmount').textContent = monthlyPrice;
-            document.getElementById('yearlyPriceAmount').textContent = yearlyPrice;
-        }
-        
-        // Helper function to capitalize first letter
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-        
-        // Payment option selection
-        paymentOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                paymentOptions.forEach(opt => opt.classList.remove('selected'));
-                this.classList.add('selected');
-                currentPaymentOption = this.getAttribute('data-option');
-            });
-        });
-        
-        // Open Order Modal when CTA buttons are clicked
-        ctaButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                currentPlan = button.getAttribute('data-plan');
-                const monthlyPrice = button.getAttribute('data-monthly');
-                const yearlyPrice = button.getAttribute('data-yearly');
-                const setupFee = button.getAttribute('data-setup');
-                
-                document.getElementById('selectedPlan').value = currentPlan;
-                document.getElementById('billingPeriod').value = currentBillingPeriod;
-                
-                // Reset payment options to default (setup fee only)
-                paymentOptions.forEach(opt => opt.classList.remove('selected'));
-                document.querySelector('.payment-option[data-option="setup"]').classList.add('selected');
-                currentPaymentOption = 'setup';
-                
-                // Update amounts in payment options
-                document.getElementById('setupFeeAmount').textContent = setupFee;
-                document.getElementById('monthlyPriceAmount').textContent = monthlyPrice;
-                document.getElementById('yearlyPriceAmount').textContent = yearlyPrice;
-            
-                // Reset form and show modal
-                orderForm.reset();
-                document.querySelector('.form-submit').style.display = 'block';
-                paypalButtonContainer.style.display = 'none';
-                paypalSubscriptionButtonContainer.style.display = 'none';
-                paypalButtonContainer.innerHTML = '';
-                paypalSubscriptionButtonContainer.innerHTML = '';
-                orderModal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            });
-        });
-        
-        // Open Info Modal when info buttons are clicked
-        infoButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const plan = button.getAttribute('data-plan');
-                document.getElementById('infoModalTitle').textContent = `${plan} Plan Details`;
-                
-                // Set different content based on plan
-                let content = '';
-                if (plan.includes('Starter')) {
-                    content = `
-                        <h3>Starter Plan Details</h3>
-                        <p>This plan is perfect for small businesses and professionals looking to establish their online presence with a high-quality website.</p>
-                        <ul>
-                            <li><strong>One-time design fee:</strong> CA$500 covers all custom design and development work</li>
-                            <li><strong>Monthly service:</strong> CA$99/month (auto-renews) covers hosting, domain, security, and support</li>
-                            <li><strong>Yearly service:</strong> CA$1,069/year (auto-renews, save 10%) covers hosting, domain, security, and support</li>
-                            <li><strong>5-page website</strong> - Enough to showcase your services, about page, contact info, and more</li>
-                            <li><strong>Custom design</strong> - Tailored to your brand identity</li>
-                            <li><strong>Premium hosting</strong> - Fast and reliable hosting included</li>
-                            <li><strong>Mobile-responsive</strong> - Looks great on all devices</li>
-                            <li><strong>Basic SEO</strong> - Help your site rank better in search engines</li>
-                            <li><strong>2 weeks support</strong> - We'll help you get started</li>
-                        </ul>
-                        <p><strong>Billing:</strong> Monthly plans auto-bill each month. Yearly plans auto-renew at the discounted rate unless cancelled with 30 days notice.</p>
-                        <p><strong>Typical timeline:</strong> 1-2 weeks after we receive all required information and materials from you.</p>
-                    `;
-                } else if (plan.includes('Growth')) {
-                    content = `
-                        <h3>Growth Plan Details</h3>
-                        <p>Our most popular solution for growing businesses that need advanced features and scalability.</p>
-                        <ul>
-                            <li><strong>One-time design fee:</strong> CA$1,200 covers all custom design and development work</li>
-                            <li><strong>Monthly service:</strong> CA$199/month (auto-renews) covers hosting, domain, security, and support</li>
-                            <li><strong>Yearly service:</strong> CA$2,149/year (auto-renews, save 10%) covers hosting, domain, security, and support</li>
-                            <li><strong>Unlimited pages</strong> - Grow your site as your business grows</li>
-                            <li><strong>E-commerce ready</strong> - Sell products or services online</li>
-                            <li><strong>Content management</strong> - Easy to update without technical skills</li>
-                            <li><strong>Advanced SEO</strong> - Comprehensive optimization</li>
-                            <li><strong>API integrations</strong> - Connect with other business tools</li>
-                            <li><strong>3 months support</strong> - Priority assistance</li>
-                        </ul>
-                        <p><strong>Billing:</strong> Monthly plans auto-bill each month. Yearly plans auto-renew at the discounted rate unless cancelled with 30 days notice.</p>
-                        <p><strong>Typical timeline:</strong> 2-4 weeks depending on complexity.</p>
-                    `;
-                } else if (plan.includes('Enterprise')) {
-                    content = `
-                        <h3>Enterprise Plan Details</h3>
-                        <p>Complete digital solution for businesses needing custom web applications and advanced features.</p>
-                        <ul>
-                            <li><strong>One-time design fee:</strong> CA$2,500 covers all custom design and development work</li>
-                            <li><strong>Monthly service:</strong> CA$399/month (auto-renews) covers hosting, domain, security, and support</li>
-                            <li><strong>Yearly service:</strong> CA$4,309/year (auto-renews, save 10%) covers hosting, domain, security, and support</li>
-                            <li><strong>Everything in Growth</strong> - Plus these premium features</li>
-                            <li><strong>Custom web apps</strong> - Tailored solutions for your business</li>
-                            <li><strong>Database solutions</strong> - Manage complex data</li>
-                            <li><strong>Multi-language</strong> - Reach global audiences</li>
-                            <li><strong>Automation tools</strong> - Streamline business processes</li>
-                            <li><strong>Monthly consultations</strong> - Ongoing strategy sessions</li>
-                            <li><strong>6 months support</strong> - Extended priority assistance</li>
-                        </ul>
-                        <p><strong>Billing:</strong> Monthly plans auto-bill each month. Yearly plans auto-renew at the discounted rate unless cancelled with 30 days notice.</p>
-                        <p><strong>Typical timeline:</strong> 4-8 weeks depending on project scope.</p>
-                    `;
-                }
-                
-                document.getElementById('infoModalContent').innerHTML = content;
-                infoModal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            });
-        });
-        
-        // Form validation and submission
-        orderForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // Validate form
-            let isValid = true;
-            const name = document.getElementById('name');
-            const email = document.getElementById('email');
-            const phone = document.getElementById('phone');
-            const projectDetails = document.getElementById('projectDetails');
-            const timeline = document.getElementById('timeline');
-            const agreeTerms = document.getElementById('agreeTerms');
-            
-            // Reset errors
-            document.querySelectorAll('.form-error').forEach(error => error.style.display = 'none');
-            
-            // Validate each field
-            if (!name.value.trim()) {
-                document.getElementById('nameError').style.display = 'block';
-                isValid = false;
-            }
-            
-            if (!email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
-                document.getElementById('emailError').style.display = 'block';
-                isValid = false;
-            }
-            
-            if (!phone.value.trim()) {
-                document.getElementById('phoneError').style.display = 'block';
-                isValid = false;
-            }
-            
-            if (!projectDetails.value.trim()) {
-                document.getElementById('projectDetailsError').style.display = 'block';
-                isValid = false;
-            }
-            
-            if (!timeline.value) {
-                document.getElementById('timelineError').style.display = 'block';
-                isValid = false;
-            }
-            
-            if (!agreeTerms.checked) {
-                document.getElementById('termsError').style.display = 'block';
-                isValid = false;
-            }
-            
-            if (!isValid) return;
-            
-            // Show loading spinner while processing
-            loadingSpinner.style.display = 'block';
-            
-            // Set up PayPal payment based on selected plan and payment option
-            const plan = document.getElementById('selectedPlan').value;
-            const setupFee = parseFloat(document.querySelector(`.cta-button[data-plan="${plan}"]`).getAttribute('data-setup'));
-            const monthlyPrice = parseFloat(document.querySelector(`.cta-button[data-plan="${plan}"]`).getAttribute('data-monthly'));
-            const yearlyPrice = parseFloat(document.querySelector(`.cta-button[data-plan="${plan}"]`).getAttribute('data-yearly'));
-            
-            let amount = 0;
-            let description = '';
-            
-            if (currentPaymentOption === 'setup') {
-                // Only setup fee - use one-time payment
-                amount = setupFee;
-                description = `${plan} Plan Setup Fee`;
-                document.getElementById('paymentType').value = 'setup';
-                
-                // Hide the submit button and show PayPal button
-                document.querySelector('.form-submit').style.display = 'none';
-                renderPayPalButton(plan, amount, description, 'one-time');
-            } else if (currentPaymentOption === 'monthly') {
-                // Monthly subscription only
-                amount = monthlyPrice;
-                description = `${plan} Plan (Monthly Subscription)`;
-                document.getElementById('paymentType').value = 'monthly';
-                document.getElementById('billingPeriod').value = 'monthly';
-                
-                // Hide the submit button and show PayPal subscription button
-                document.querySelector('.form-submit').style.display = 'none';
-                renderPayPalSubscriptionButton(plan, amount, description, 'monthly');
-            } else if (currentPaymentOption === 'yearly') {
-                // Yearly subscription only
-                amount = yearlyPrice;
-                description = `${plan} Plan (Yearly Subscription)`;
-                document.getElementById('paymentType').value = 'yearly';
-                document.getElementById('billingPeriod').value = 'yearly';
-                
-                // Hide the submit button and show PayPal subscription button
-                document.querySelector('.form-submit').style.display = 'none';
-                renderPayPalSubscriptionButton(plan, amount, description, 'yearly');
-            }
-            
-            // Hide loading spinner once PayPal button is rendered
-            loadingSpinner.style.display = 'none';
-        });
-        
-        // PayPal One-Time Button Configuration
-        function renderPayPalButton(plan, amount, description) {
-            // Clear any existing buttons
-            paypalButtonContainer.innerHTML = '';
-            paypalSubscriptionButtonContainer.innerHTML = '';
-            paypalSubscriptionButtonContainer.style.display = 'none';
-            paypalButtonContainer.style.display = 'block';
-            
-            // Show loading spinner while PayPal button initializes
-            loadingSpinner.style.display = 'block';
-            
-            paypal.Buttons({
-                style: {
-                    shape: 'pill',
-                    color: 'blue',
-                    layout: 'vertical',
-                    label: 'paypal'
-                },
-                createOrder: function(data, actions) {
-                    return actions.order.create({
-                        purchase_units: [{
-                            description: description,
-                            amount: {
-                                value: amount,
-                                currency_code: 'CAD',
-                                breakdown: {
-                                    item_total: {
-                                        value: amount,
-                                        currency_code: 'CAD'
-                                    }
-                                }
-                            },
-                            items: [
-                                {
-                                    name: description,
-                                    unit_amount: {
-                                        value: amount,
-                                        currency_code: 'CAD'
-                                    },
-                                    quantity: '1'
-                                }
-                            ]
-                        }]
-                    });
-                },
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(details) {
-                        // Hide loading spinner
-                        loadingSpinner.style.display = 'none';
-                        
-                        // Show success modal
-                        orderModal.style.display = 'none';
-                        successModal.style.display = 'block';
-                        
-                        // Send notification to admin
-                        sendOrderNotification(plan, amount, description);
-                    });
-                },
-                onError: function(err) {
-                    // Hide loading spinner
-                    loadingSpinner.style.display = 'none';
-                    
-                    console.error('PayPal error:', err);
-                    alert('There was an error processing your payment. Please try again or contact support.');
-                },
-                onCancel: function(data) {
-                    // Hide loading spinner
-                    loadingSpinner.style.display = 'none';
-                    
-                    console.log('Payment cancelled by user');
-                }
-            }).render('#paypal-button-container').then(() => {
-                // Hide loading spinner once button is rendered
-                loadingSpinner.style.display = 'none';
-            });
-        }
-        
-        // PayPal Subscription Button Configuration
-        function renderPayPalSubscriptionButton(plan, amount, description, billingPeriod) {
-            // Clear any existing buttons
-            paypalButtonContainer.innerHTML = '';
-            paypalButtonContainer.style.display = 'none';
-            paypalSubscriptionButtonContainer.innerHTML = '';
-            paypalSubscriptionButtonContainer.style.display = 'block';
-            
-            // Show loading spinner while PayPal button initializes
-            loadingSpinner.style.display = 'block';
-            
-            paypal.Buttons({
-                style: {
-                    shape: 'pill',
-                    color: 'blue',
-                    layout: 'vertical',
-                    label: 'subscribe'
-                },
-                createSubscription: function(data, actions) {
-                    return actions.subscription.create({
-                        plan_id: billingPeriod === 'monthly' ? 'P-123456789' : 'P-987654321', // Replace with your actual plan IDs
-                        custom_id: document.getElementById('email').value,
-                        application_context: {
-                            brand_name: 'Roqate Web Services',
-                            shipping_preference: 'NO_SHIPPING',
-                            user_action: 'SUBSCRIBE_NOW',
-                            payment_method: {
-                                payer_selected: 'PAYPAL',
-                                payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED'
-                            }
-                        }
-                    });
-                },
-                onApprove: function(data, actions) {
-                    // Hide loading spinner
-                    loadingSpinner.style.display = 'none';
-                    
-                    // Show success modal
-                    orderModal.style.display = 'none';
-                    successModal.style.display = 'block';
-                    
-                    // Send notification to admin
-                    sendOrderNotification(plan, amount, description);
-                },
-                onError: function(err) {
-                    // Hide loading spinner
-                    loadingSpinner.style.display = 'none';
-                    
-                    console.error('PayPal subscription error:', err);
-                    alert('There was an error processing your subscription. Please try again or contact support.');
-                },
-                onCancel: function(data) {
-                    // Hide loading spinner
-                    loadingSpinner.style.display = 'none';
-                    
-                    console.log('Subscription cancelled by user');
-                }
-            }).render('#paypal-subscription-button-container').then(() => {
-                // Hide loading spinner once button is rendered
-                loadingSpinner.style.display = 'none';
-            });
-        }
-        
-        async function sendOrderNotification(plan, amount, description) {
-            const formData = new FormData(orderForm);
-            const data = {
-                content: '**New Website Order Submission**',
-                embeds: [{
-                    title: 'Order Details',
-                    fields: [
-                        { name: 'Plan', value: plan, inline: true },
-                        { name: 'Amount', value: `CA$${amount}`, inline: true },
-                        { name: 'Description', value: description, inline: true },
-                        { name: 'Payment Type', value: currentPaymentOption, inline: true },
-                        { name: 'Billing Period', value: currentBillingPeriod, inline: true },
-                        { name: 'Customer', value: formData.get('name') },
-                        { name: 'Email', value: formData.get('email') },
-                        { name: 'Phone', value: formData.get('phone') },
-                        { name: 'Project Details', value: formData.get('projectDetails').substring(0, 1000) + (formData.get('projectDetails').length > 1000 ? '...' : '') },
-                        { name: 'Timeline', value: formData.get('timeline') }
-                    ],
-                    color: 0x2563eb,
-                    timestamp: new Date().toISOString()
-                }]
-            };
-            
-            try {
-                const response = await fetch(DISCORD_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-                
-                if (!response.ok) {
-                    console.error('Failed to send Discord notification:', response.status, response.statusText);
-                }
-            } catch (error) {
-                console.error('Error sending notification:', error);
-            }
-        }
-        
-        // Animation for cards
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, {threshold: 0.1, rootMargin: '0px 0px -50px 0px'});
-        
-        document.querySelectorAll('.pricing-card, .info-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(card);
-        });
 
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            initBillingToggles();
-        });
-    </script>
+
+  <section id="process" class="section">
+    <div class="container">
+      <div class="h2">Process</div>
+      <div class="process">
+        <div class="step"><strong>1</strong><div class="sub" style="margin:6px 0 0 0">Call or email</div></div>
+        <div class="step"><strong>2</strong><div class="sub" style="margin:6px 0 0 0">Plan and estimate</div></div>
+        <div class="step"><strong>3</strong><div class="sub" style="margin:6px 0 0 0">Design and build</div></div>
+        <div class="step"><strong>4</strong><div class="sub" style="margin:6px 0 0 0">Launch</div></div>
+        <div class="step"><strong>5</strong><div class="sub" style="margin:6px 0 0 0">Support as needed</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="h2">Contact</div>
+      <div class="contact">
+        <div class="box">
+          <div class="grid" style="gap:10px">
+            <div class="sub" style="margin:0">Gojak</div>
+            <div>Phone: <a href="tel:+12265830657">226-583-0657</a></div>
+            <div>Email: <a href="mailto:dgojak9@gmail.com">dgojak9@gmail.com</a></div>
+            <div class="rate"><strong>$25/hr</strong><span class="sub" style="margin:0">Pay after work</span></div>
+            <div class="row">
+              <a class="btn btn-primary" href="tel:+12265830657">Call Now</a>
+              <a class="btn btn-ghost" href="mailto:dgojak9@gmail.com?subject=Website%20Help&body=Link%3A%0AGoal%3A%0ADeadline%3A">Email Now</a>
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="h3" style="font-weight:700;margin-bottom:8px">What I Do</div>
+          <div class="list">
+            <div>Design and build new sites</div>
+            <div>Fix bugs and broken layouts</div>
+            <div>Speed and Core Web Vitals</div>
+            <div>SEO setup and technical cleanup</div>
+            <div>Migrate platforms without losing SEO</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">© <span id="y"></span> Gojak </div>
+</footer>
+
+<canvas id="grid3d" class="fx-canvas" style="pointer-events:none;position:fixed;left:0;bottom:-10vh;width:100vw;height:42vh;opacity:.35"></canvas>
+
+<script>
+document.getElementById('y').textContent=new Date().getFullYear()
+const s=document.getElementById('stars'),ctx=s.getContext('2d');let pr=[],w,h;function rs(){w=s.width=innerWidth;h=s.height=innerHeight;pr=Array.from({length:Math.min(140,Math.floor(w*h/12000))},()=>({x:Math.random()*w,y:Math.random()*h,z:Math.random()*1.2+0.2,v:(Math.random()*.4+.2)}))}rs();addEventListener('resize',rs);function tick(){ctx.clearRect(0,0,w,h);for(const p of pr){p.y+=p.v;p.x+=Math.sin(p.y*.003)*.2;if(p.y>h+20){p.y=-10;p.x=Math.random()*w}ctx.globalAlpha=p.z;ctx.fillStyle='#a7b8ff';ctx.fillRect(p.x,p.y,2*p.z,2*p.z)}requestAnimationFrame(tick)}tick()
+document.querySelectorAll('.card').forEach(c=>{c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,cx=x/r.width-.5,cy=y/r.height-.5;c.style.setProperty('--mx',x+'px');c.style.transform=`rotateX(${(-cy*6).toFixed(2)}deg) rotateY(${(cx*6).toFixed(2)}deg) translateZ(0)`});c.addEventListener('mouseleave',()=>{c.style.transform='rotateX(0) rotateY(0)'})})
+const g=document.getElementById('grid3d'),gx=g.getContext('2d');function grid(){g.width=innerWidth;g.height=parseInt(getComputedStyle(g).height);const cw=g.width,ch=g.height,cs=40,px=0.6;gx.clearRect(0,0,cw,ch);gx.save();gx.translate(cw/2,ch*.15);gx.transform(1,px,-px,0.6,0,0);for(let y=-ch;y<ch*2;y+=cs){gx.strokeStyle='rgba(158,167,255,.14)';gx.beginPath();gx.moveTo(-cw,y);gx.lineTo(cw,y);gx.stroke()}for(let x=-cw;x<cw;x+=cs){gx.strokeStyle='rgba(124,255,192,.12)';gx.beginPath();gx.moveTo(x,-ch);gx.lineTo(x,ch*2);gx.stroke()}gx.restore()}grid();addEventListener('resize',grid)
+</script>
 </body>
 </html>
