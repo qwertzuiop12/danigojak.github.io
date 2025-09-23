@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Casino Suite</title>
@@ -40,6 +38,10 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+        }
+
+        body.terms-locked {
+            overflow: hidden;
         }
 
         body::before {
@@ -174,6 +176,359 @@
             justify-content: space-around;
             margin-top: 15px;
             flex-wrap: wrap;
+        }
+
+        .loan-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .loan-metric {
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 12px;
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+        }
+
+        .metric-label {
+            display: block;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .loan-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .terms-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 5000;
+            padding: 20px;
+        }
+
+        .terms-overlay.active {
+            display: flex;
+        }
+
+        .terms-modal {
+            max-width: 520px;
+            width: 100%;
+            background: rgba(15, 14, 23, 0.95);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            padding: 30px;
+            text-align: left;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .terms-modal h2 {
+            color: var(--gold);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terms-modal p {
+            opacity: 0.85;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .terms-modal label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        .terms-modal input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            font-size: 1.05rem;
+        }
+
+        .terms-modal input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 94, 87, 0.3);
+        }
+
+        .terms-actions {
+            margin-top: 22px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .terms-actions .btn {
+            width: 100%;
+        }
+
+        .share-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin: 25px 0;
+        }
+
+        .share-card {
+            background: rgba(0, 0, 0, 0.45);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .share-card.completed {
+            border-color: var(--success);
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.35);
+        }
+
+        .share-card h3 {
+            margin-bottom: 10px;
+            color: var(--gold);
+        }
+
+        .share-card p {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            margin-bottom: 15px;
+        }
+
+        .referral-link-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .referral-link-box code {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .referral-summary {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .summary-card {
+            background: rgba(0, 0, 0, 0.45);
+            border-radius: 15px;
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .summary-card .label {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .summary-card .value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-top: 6px;
+        }
+
+        .referral-table, .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .referral-table th, .referral-table td,
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .leaderboard-table tr.highlight {
+            background: rgba(255, 215, 0, 0.12);
+        }
+
+        .leaderboard-table th {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .roulette-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 25px 0;
+        }
+
+        .roulette-wheel {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 60%, rgba(0,0,0,1) 100%),
+                repeating-conic-gradient(#d63031 0deg 10deg, #2d3436 10deg 20deg);
+            border: 6px solid var(--gold);
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        .roulette-wheel::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60%;
+            height: 60%;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1), rgba(0,0,0,0.6));
+            transform: translate(-50%, -50%);
+        }
+
+        .roulette-pointer {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-bottom: 24px solid var(--gold);
+        }
+
+        .roulette-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, var(--gold), #d4ac0d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            color: #2c3e50;
+        }
+
+        .roulette-last-results {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .roulette-chip {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .roulette-chip.red {
+            background: #d63031;
+            color: #fff;
+        }
+
+        .roulette-chip.black {
+            background: #2d3436;
+            color: #fff;
+        }
+
+        .roulette-chip.green {
+            background: #1abc9c;
+            color: #0b3d3d;
+        }
+
+        .roulette-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .roulette-stat {
+            background: rgba(0, 0, 0, 0.35);
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+        }
+
+        .roulette-stat .stat-label {
+            display: block;
+            font-size: 0.85rem;
+            opacity: 0.7;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .roulette-stat .stat-value {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--gold);
         }
 
         .stat-item {
@@ -1327,46 +1682,6 @@
             transition: width 0.3s ease;
         }
 
-        .beg-options {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-
-        .beg-option {
-            padding: 15px 25px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            min-width: 150px;
-        }
-
-        .beg-option:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
-        }
-
-        .beg-option i {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .beg-option h3 {
-            margin-bottom: 5px;
-            color: var(--gold);
-        }
-
-        .beg-option p {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
         .jackpot-meter {
             width: 100%;
             height: 30px;
@@ -1426,6 +1741,16 @@
             overflow: hidden;
             border: 5px solid var(--gold);
             box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.35), rgba(0,0,0,0));
+        }
+
+        .bonus-wheel::before {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.25), transparent 65%);
+            z-index: -1;
         }
 
         .wheel-center {
@@ -1444,6 +1769,18 @@
             font-weight: bold;
             color: #333;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .wheel-center:hover {
+            filter: brightness(1.1);
+        }
+
+        .wheel-center.disabled {
+            cursor: default;
+            filter: grayscale(0.2) brightness(0.9);
         }
 
         .wheel-spin {
@@ -1451,10 +1788,8 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: conic-gradient(
-                #ff5e57, #ff8906, #ffd700, #2ecc71, #3498db, #9b59b6, #ff5e57
-            );
             transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            overflow: hidden;
         }
 
         .wheel-pointer {
@@ -1468,27 +1803,46 @@
             border-right: 15px solid transparent;
             border-top: 30px solid var(--gold);
             z-index: 5;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
         }
 
-        .wheel-prizes {
+        .wheel-spin::before {
+            content: '';
+            position: absolute;
+            inset: 5px;
+            border-radius: 50%;
+            box-shadow: inset 0 0 25px rgba(0,0,0,0.35);
+            pointer-events: none;
+        }
+
+        .wheel-labels {
             position: absolute;
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            z-index: 2;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 3;
         }
 
-        .wheel-prize {
+        .wheel-label {
             position: absolute;
-            width: 50%;
-            height: 50%;
-            transform-origin: bottom right;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+        }
+
+        .wheel-label span {
+            display: block;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #fff;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+            transform-origin: center;
+            text-transform: uppercase;
+            text-align: center;
+            white-space: nowrap;
         }
 
         /* Responsive */
@@ -1606,6 +1960,24 @@
         <div class="achievement-reward" id="achievementReward">+$1000</div>
     </div>
 
+    <div class="terms-overlay" id="termsOverlay">
+        <div class="terms-modal">
+            <h2><i class="fas fa-scale-balanced"></i> Terms of Use</h2>
+            <p>CASINO EMPIRE is a fictional gambling simulation for entertainment only. All chips, balances, and rewards are virtual and hold no real-world value.</p>
+            <p>By continuing, you confirm you are not expecting real payouts, accept simulated casino risks, and acknowledge that we do not promote real-money gambling.</p>
+            <p>Your bankroll and stats are stored locally on this device with a protected session token. Clearing storage or switching devices resets progress.</p>
+
+            <label for="playerUsername"><i class="fas fa-user"></i> Choose a display name</label>
+            <input type="text" id="playerUsername" maxlength="24" placeholder="Enter a name for the leaderboard" autocomplete="off">
+
+            <div class="terms-actions">
+                <button class="btn btn-gold" onclick="acceptTerms()">
+                    <i class="fas fa-check"></i> Accept &amp; Continue
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="header">
             <h1>🎰 CASINO EMPIRE 🎰</h1>
@@ -1622,41 +1994,50 @@
         </div>
 
         <div class="balance">
-            <h2>💰 Balance: $<span id="balance">1000</span></h2>
+            <h2>💰 Balance: $<span id="balance">3,650</span></h2>
             <div class="balance-stats">
                 <div class="stat-item">
-                    <i class="fas fa-coins"></i> Wagered: $<span id="totalWagered">0</span>
+                    <i class="fas fa-coins"></i> Wagered: $<span id="totalWagered">1,050</span>
                 </div>
                 <div class="stat-item">
-                    <i class="fas fa-trophy"></i> Won: $<span id="totalWon">0</span>
+                    <i class="fas fa-trophy"></i> Won: $<span id="totalWon">700</span>
                 </div>
                 <div class="stat-item">
-                    <i class="fas fa-dice"></i> Games: <span id="gamesPlayed">0</span>
+                    <i class="fas fa-dice"></i> Games: <span id="gamesPlayed">5</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-user"></i> Player: <span id="playerName">ininin</span>
                 </div>
             </div>
         </div>
 
         <div class="progress-section">
-            <h3 style="color: var(--gold); margin-bottom: 10px;">🎯 Progress to Trillionaire</h3>
+            <h3 style="color: var(--gold); margin-bottom: 10px;">🎯 Progress to 100T Empire</h3>
             <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width: 0.0001%"></div>
+                <div class="progress-fill" id="progressFill" style="width: 3.65e-09%;"></div>
             </div>
             <div class="progress-labels">
-                <span>$<span id="progressAmount">1,000</span></span>
-                <span><span id="progressPercent">0.0001</span>%</span>
-                <span>$1,000,000,000,000,000</span>
+                <span>$<span id="progressAmount">3,650</span></span>
+                <span><span id="progressPercent">0.000000</span>%</span>
+                <span>$100,000,000,000,000</span>
             </div>
         </div>
 
         <div class="tabs-container">
-            <button class="tab-btn active" data-tab="beg">
-                <i class="fas fa-hand-holding-usd"></i> Beg
+            <button class="tab-btn" data-tab="loan">
+                <i class="fas fa-hand-holding-usd"></i> Stake Loan
             </button>
             <button class="tab-btn" data-tab="blackjack">
                 <i class="fas fa-cards"></i> Blackjack
             </button>
             <button class="tab-btn" data-tab="coinflip">
                 <i class="fas fa-coins"></i> Coinflip
+            </button>
+            <button class="tab-btn" data-tab="roulette">
+                <i class="fas fa-circle-notch"></i> Roulette
+            </button>
+            <button class="tab-btn" data-tab="crash">
+                <i class="fas fa-rocket"></i> Crash
             </button>
             <button class="tab-btn" data-tab="slots">
                 <i class="fas fa-slot-machine"></i> Slots
@@ -1671,40 +2052,62 @@
             <button class="tab-btn" data-tab="achievements">
                 <i class="fas fa-trophy"></i> Achievements
             </button>
+            <button class="tab-btn active" data-tab="referral">
+                <i class="fas fa-users"></i> Referral
+            </button>
+            <button class="tab-btn" data-tab="leaderboard">
+                <i class="fas fa-crown"></i> Leaderboard
+            </button>
         </div>
 
-        <!-- Beg Tab -->
-        <div class="game-tab active" id="beg-tab">
-            <h2 class="game-title"><i class="fas fa-hand-holding-usd"></i> Beg for Money</h2>
-            <p class="game-description">Start your journey by begging for money. Different begging methods have different rewards and cooldowns. The more you beg, the better your chances of getting larger amounts!</p>
-            
-            <div class="beg-options">
-                <div class="beg-option" onclick="beg('street')" id="streetBegBtn">
-                    <i class="fas fa-road"></i>
-                    <h3>Street Begging</h3>
-                    <p>Quick $10-$50<br>30s cooldown</p>
+        <!-- Loan Tab -->
+        <div class="game-tab" id="loan-tab">
+            <h2 class="game-title"><i class="fas fa-landmark"></i> Stake Loan Service</h2>
+            <p class="game-description">Front-load your bets with a short-term casino stake. Borrow up to $100,000 every 10 minutes and repay before the timer expires. Interest compounds every single minute, so settle early!</p>
+
+            <div class="game-content">
+                <div class="loan-overview">
+                    <div class="loan-metric">
+                        <span class="metric-label"><i class="fas fa-money-bill-wave"></i> Outstanding Stake</span>
+                        <span class="metric-value" id="loanOutstanding">$0</span>
+                    </div>
+                    <div class="loan-metric">
+                        <span class="metric-label"><i class="fas fa-percentage"></i> Current Interest</span>
+                        <span class="metric-value" id="loanInterest">0.0%</span>
+                    </div>
+                    <div class="loan-metric">
+                        <span class="metric-label"><i class="fas fa-hourglass-half"></i> Due In</span>
+                        <span class="metric-value" id="loanTimer">Ready</span>
+                    </div>
                 </div>
-                <div class="beg-option" onclick="beg('charity')" id="charityBegBtn">
-                    <i class="fas fa-hands-helping"></i>
-                    <h3>Charity</h3>
-                    <p>$50-$150<br>2m cooldown</p>
+
+                <div class="input-group">
+                    <label for="loanAmount"><i class="fas fa-coins"></i> Request Stake Amount (max $100,000)</label>
+                    <input type="number" id="loanAmount" min="1000" max="100000" step="1000" placeholder="Enter amount">
+                    <div class="bet-controls">
+                        <button class="bet-btn" onclick="setLoanAmount(10000)">$10K</button>
+                        <button class="bet-btn" onclick="setLoanAmount(25000)">$25K</button>
+                        <button class="bet-btn" onclick="setLoanAmount(50000)">$50K</button>
+                        <button class="bet-btn" onclick="setLoanAmount(100000)">$100K</button>
+                    </div>
                 </div>
-                <div class="beg-option" onclick="beg('rich')" id="richBegBtn">
-                    <i class="fas fa-user-tie"></i>
-                    <h3>Rich Donor</h3>
-                    <p>$100-$500<br>5m cooldown</p>
+
+                <div class="loan-actions">
+                    <button class="btn" id="loanRequestBtn" onclick="requestLoan()">
+                        <i class="fas fa-hand-holding-usd"></i> Request Stake
+                    </button>
+                    <button class="btn btn-warning" id="loanRepayBtn" onclick="repayLoan()" disabled="">
+                        <i class="fas fa-undo"></i> Repay Stake
+                    </button>
+                    <button class="btn btn-danger" id="loanForfeitBtn" onclick="forfeitLoan()" disabled="">
+                        <i class="fas fa-skull-crossbones"></i> Forfeit (Severe Penalty)
+                    </button>
                 </div>
-                <div class="beg-option" onclick="beg('celeb')" id="celebBegBtn">
-                    <i class="fas fa-star"></i>
-                    <h3>Celebrity</h3>
-                    <p>$500-$2000<br>15m cooldown</p>
-                </div>
-            </div>
-                
-                <div id="begResult" class="game-result"></div>
-                <div id="begCooldown" class="countdown"></div>
-                
-                <div class="history-log" id="begHistory"></div>
+
+                <div id="loanWarning" class="countdown"></div>
+                <div id="loanResult" class="game-result"></div>
+
+                <div class="history-log" id="loanHistory"></div>
             </div>
         </div>
 
@@ -1832,7 +2235,82 @@
                 
                 <div id="coinflipResult" class="game-result"></div>
                 
-                <div class="history-log" id="coinflipHistory"></div>
+                <div class="history-log" id="coinflipHistory"><div class="history-entry lose">💔 HEADS! You lost 1000!</div></div>
+            </div>
+        </div>
+
+        <!-- Roulette Tab -->
+        <div class="game-tab" id="roulette-tab">
+            <h2 class="game-title"><i class="fas fa-circle-notch"></i> Roulette (House Edge: 8%)</h2>
+            <p class="game-description">Bet on colors, dozens, or a single lucky number. The wheel is slightly biased toward the house—make every chip count.</p>
+
+            <div class="game-content">
+                <div class="input-group">
+                    <label><i class="fas fa-coins"></i> Bet Amount:</label>
+                    <input type="number" id="rouletteBet" placeholder="Enter bet" min="1" value="50">
+                    <div class="bet-controls">
+                        <button class="bet-btn" onclick="setBetAmount('rouletteBet', 50)">$50</button>
+                        <button class="bet-btn" onclick="setBetAmount('rouletteBet', 250)">$250</button>
+                        <button class="bet-btn" onclick="setBetAmount('rouletteBet', 500)">$500</button>
+                        <button class="bet-btn" onclick="setBetAmount('rouletteBet', 1000)">$1K</button>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="rouletteBetType"><i class="fas fa-sliders-h"></i> Bet Type:</label>
+                    <select id="rouletteBetType" onchange="handleRouletteBetTypeChange()">
+                        <option value="red">Red</option>
+                        <option value="black">Black</option>
+                        <option value="even">Even</option>
+                        <option value="odd">Odd</option>
+                        <option value="low">1-18</option>
+                        <option value="high">19-36</option>
+                        <option value="dozen1">1st Dozen (1-12)</option>
+                        <option value="dozen2">2nd Dozen (13-24)</option>
+                        <option value="dozen3">3rd Dozen (25-36)</option>
+                        <option value="single">Straight Up (Single Number)</option>
+                    </select>
+                </div>
+
+                <div class="input-group" id="rouletteNumberGroup" style="display:none;">
+                    <label for="rouletteNumber"><i class="fas fa-bullseye"></i> Target Number (0-36)</label>
+                    <input type="number" id="rouletteNumber" min="0" max="36" placeholder="Pick a number">
+                </div>
+
+                <div class="bet-controls">
+                    <button class="btn" onclick="spinRoulette()" id="rouletteSpinBtn">
+                        <i class="fas fa-sync"></i> Spin Wheel
+                    </button>
+                    <button class="btn btn-info" onclick="repeatRouletteBet()" id="rouletteRepeatBtn">
+                        <i class="fas fa-redo-alt"></i> Repeat Bet
+                    </button>
+                </div>
+
+                <div class="roulette-section">
+                    <div class="roulette-wheel" id="rouletteWheel">
+                        <div class="roulette-pointer"></div>
+                        <div class="roulette-center">🎲</div>
+                    </div>
+                    <div class="roulette-last-results" id="rouletteRecent"><div class="roulette-chip red">5</div></div>
+                </div>
+
+                <div class="roulette-stats">
+                    <div class="roulette-stat">
+                        <span class="stat-label">Last Result</span>
+                        <span class="stat-value" id="rouletteLastLabel">5 RED</span>
+                    </div>
+                    <div class="roulette-stat">
+                        <span class="stat-label">Win Rate</span>
+                        <span class="stat-value" id="rouletteWinRate">100%</span>
+                    </div>
+                    <div class="roulette-stat">
+                        <span class="stat-label">Best Hit</span>
+                        <span class="stat-value" id="rouletteMaxPayout">$100</span>
+                    </div>
+                </div>
+
+                <div id="rouletteResult" class="game-result"></div>
+                <div class="history-log" id="rouletteHistory"><div class="history-entry win">🎡 5 RED! Won $100!</div></div>
             </div>
         </div>
 
@@ -1854,12 +2332,12 @@
                 </div>
                 
                 <div class="jackpot-info">
-                    <span><i class="fas fa-trophy"></i> Jackpot: $<span id="jackpotAmount">10000</span></span>
+                    <span><i class="fas fa-trophy"></i> Jackpot: $<span id="jackpotAmount">10,000</span></span>
                     <span>Next Bonus: <span id="bonusSpins">5</span> spins</span>
                 </div>
                 <div class="jackpot-meter">
                     <div class="jackpot-fill" id="jackpotFill" style="width: 0%"></div>
-                    <div class="jackpot-value" id="jackpotValue">0%</div>
+                    <div class="jackpot-value" id="jackpotValue">0.0%</div>
                 </div>
                 
                 <button class="btn" onclick="spinSlots()" id="slotsBtn">
@@ -2045,110 +2523,1052 @@
             <div class="game-content">
                 <div class="bonus-wheel">
                     <div class="wheel-pointer"></div>
-                    <div class="wheel-spin" id="wheelSpin"></div>
-                    <div class="wheel-prizes" id="wheelPrizes"></div>
+                    <div class="wheel-spin" id="wheelSpin" data-rotation="0" style="background: conic-gradient(from -25.7143deg, rgb(255, 94, 87) 0deg, rgb(255, 94, 87) 51.4286deg, rgb(255, 137, 6) 51.4286deg, rgb(255, 137, 6) 102.857deg, rgb(255, 215, 0) 102.857deg, rgb(255, 215, 0) 154.286deg, rgb(46, 204, 113) 154.286deg, rgb(46, 204, 113) 205.714deg, rgb(52, 152, 219) 205.714deg, rgb(52, 152, 219) 257.143deg, rgb(155, 89, 182) 257.143deg, rgb(155, 89, 182) 308.571deg, rgb(231, 76, 60) 308.571deg, rgb(231, 76, 60) 360deg); transform: rotate(0deg);">
+                        <div class="wheel-labels" id="wheelLabels"><div class="wheel-label" style="transform: translate(-50%, -50%) rotate(25.7143deg);"><span style="transform: rotate(-25.7143deg) translate(-50%, -114px); font-size: 18px;">$100</span></div><div class="wheel-label" style="transform: translate(-50%, -50%) rotate(77.1429deg);"><span style="transform: rotate(-77.1429deg) translate(-50%, -114px); font-size: 18px;">$200</span></div><div class="wheel-label" style="transform: translate(-50%, -50%) rotate(128.571deg);"><span style="transform: rotate(-128.571deg) translate(-50%, -114px); font-size: 18px;">$500</span></div><div class="wheel-label" style="transform: translate(-50%, -50%) rotate(180deg);"><span style="transform: rotate(-180deg) translate(-50%, -114px); font-size: 18px;">$1000</span></div><div class="wheel-label" style="transform: translate(-50%, -50%) rotate(231.429deg);"><span style="transform: rotate(-231.429deg) translate(-50%, -114px); font-size: 18px;">$2000</span></div><div class="wheel-label" style="transform: translate(-50%, -50%) rotate(282.857deg);"><span style="transform: rotate(-282.857deg) translate(-50%, -114px); font-size: 18px;">$5000</span></div><div class="wheel-label" style="transform: translate(-50%, -50%) rotate(334.286deg);"><span style="transform: rotate(-334.286deg) translate(-50%, -114px); font-size: 18px;">JACKPOT</span></div></div>
+                    </div>
                     <div class="wheel-center" id="spinWheelBtn" onclick="spinWheel()">
                         SPIN
                     </div>
                 </div>
                 
                 <div class="bet-controls">
-                    <button class="btn btn-gold" onclick="spinWheel()" id="wheelSpinBtn">
-                        <i class="fas fa-redo"></i> Spin Wheel (1 free spin)
-                    </button>
-                    <div class="countdown" id="nextFreeSpin">
-                        Next free spin: 24h
-                    </div>
+                    <button class="btn btn-gold" onclick="spinWheel()" id="wheelSpinBtn"><i class="fas fa-gift"></i> Spin Wheel ($1000)</button>
+                    <div class="countdown" id="nextFreeSpin" style="display: block;">Next free spin: 23h 47m</div>
                 </div>
                 
                 <div id="wheelResult" class="game-result"></div>
                 
-                <div class="history-log" id="wheelHistory"></div>
+                <div class="history-log" id="wheelHistory"><div class="history-entry spin">🎉 You won $200!</div><div class="history-entry spin">🎉 You won $200!</div><div class="history-entry daily">🎉 You won $200! (Free Spin)</div></div>
             </div>
         </div>
 
         <!-- Achievements Tab -->
         <div class="game-tab" id="achievements-tab">
-            <h2 class="game-title"><i class="fas fa-trophy"></i> Achievements & Rewards</h2>
+            <h2 class="game-title"><i class="fas fa-trophy"></i> Achievements &amp; Rewards</h2>
             <p class="game-description">Complete challenges to earn bonus money and unlock special rewards! Some achievements unlock new games and features!</p>
             
             <div class="game-content">
-                <div class="achievements-grid" id="achievementsGrid">
-                    <!-- Achievements will be populated by JavaScript -->
-                </div>
+                <div class="achievements-grid" id="achievementsGrid"><div class="achievement-card ">
+                    <div class="achievement-icon">💼</div>
+                    <div class="achievement-name">Stake Starter</div>
+                    <div class="achievement-description">Secure your first stake loan</div>
+                    
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div>0% complete</div>
+                    
+                    <div class="achievement-reward">Reward: 100</div>
+                    <div style="color: var(--warning); margin-top: 15px;">🔒 Locked</div>
+                </div><div class="achievement-card ">
+                    <div class="achievement-icon">💰</div>
+                    <div class="achievement-name">Millionaire</div>
+                    <div class="achievement-description">Reach $1,000,000</div>
+                    
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div>0% complete</div>
+                    
+                    <div class="achievement-reward">Reward: 50,000</div>
+                    <div style="color: var(--warning); margin-top: 15px;">🔒 Locked</div>
+                </div><div class="achievement-card ">
+                    <div class="achievement-icon">💎</div>
+                    <div class="achievement-name">Billionaire</div>
+                    <div class="achievement-description">Reach $1,000,000,000</div>
+                    
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div>0% complete</div>
+                    
+                    <div class="achievement-reward">Reward: 500,000,000</div>
+                    <div style="color: var(--warning); margin-top: 15px;">🔒 Locked</div>
+                </div><div class="achievement-card ">
+                    <div class="achievement-icon">👑</div>
+                    <div class="achievement-name">100T Titan</div>
+                    <div class="achievement-description">Stack $100,000,000,000,000 and outlast the house</div>
+                    
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div>0% complete</div>
+                    
+                    <div class="achievement-reward">Reward: VICTORY!</div>
+                    <div style="color: var(--warning); margin-top: 15px;">🔒 Locked</div>
+                </div><div class="achievement-card ">
+                    <div class="achievement-icon">🎰</div>
+                    <div class="achievement-name">High Roller</div>
+                    <div class="achievement-description">Bet $100,000 in a single game</div>
+                    
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-fill" style="width: 1%"></div>
+                        </div>
+                        <div>1% complete</div>
+                    
+                    <div class="achievement-reward">Reward: 25,000</div>
+                    <div style="color: var(--warning); margin-top: 15px;">🔒 Locked</div>
+                </div><div class="achievement-card ">
+                    <div class="achievement-icon">🎲</div>
+                    <div class="achievement-name">Gambling Addict</div>
+                    <div class="achievement-description">Play 100 games</div>
+                    
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-fill" style="width: 5%"></div>
+                        </div>
+                        <div>5% complete</div>
+                    
+                    <div class="achievement-reward">Reward: 10,000</div>
+                    <div style="color: var(--warning); margin-top: 15px;">🔒 Locked</div>
+                </div><div class="achievement-card ">
+                    <div class="achievement-icon">💣</div>
+                    <div class="achievement-name">Mine Expert</div>
+                    <div class="achievement-description">Successfully cash out from mines 10 times</div>
+                    
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div>0% complete</div>
+                    
+                    <div class="achievement-reward">Reward: 5,000</div>
+                    <div style="color: var(--warning); margin-top: 15px;">🔒 Locked</div>
+                </div><div class="achievement-card ">
+                    <div class="achievement-icon">🚀</div>
+                    <div class="achievement-name">Crash Survivor</div>
+                    <div class="achievement-description">Cash out at 10x multiplier or higher</div>
+                    
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div>0% complete</div>
+                    
+                    <div class="achievement-reward">Reward: 15,000</div>
+                    <div style="color: var(--warning); margin-top: 15px;">🔒 Locked</div>
+                </div><div class="achievement-card ">
+                    <div class="achievement-icon">🍀</div>
+                    <div class="achievement-name">Lucky Streak</div>
+                    <div class="achievement-description">Win 5 games in a row</div>
+                    
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-fill" style="width: 20%"></div>
+                        </div>
+                        <div>20% complete</div>
+                    
+                    <div class="achievement-reward">Reward: 7,500</div>
+                    <div style="color: var(--warning); margin-top: 15px;">🔒 Locked</div>
+                </div><div class="achievement-card ">
+                    <div class="achievement-icon">🎊</div>
+                    <div class="achievement-name">Big Winner</div>
+                    <div class="achievement-description">Win $500,000 total across all games</div>
+                    
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div>0% complete</div>
+                    
+                    <div class="achievement-reward">Reward: 100,000</div>
+                    <div style="color: var(--warning); margin-top: 15px;">🔒 Locked</div>
+                </div><div class="achievement-card ">
+                    <div class="achievement-icon">🃏</div>
+                    <div class="achievement-name">Blackjack Master</div>
+                    <div class="achievement-description">Win 50 blackjack games</div>
+                    
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div>0% complete</div>
+                    
+                    <div class="achievement-reward">Reward: 20,000</div>
+                    <div style="color: var(--warning); margin-top: 15px;">🔒 Locked</div>
+                </div><div class="achievement-card ">
+                    <div class="achievement-icon">🎰</div>
+                    <div class="achievement-name">Slot King</div>
+                    <div class="achievement-description">Hit 3 jackpots on slots</div>
+                    
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div>0% complete</div>
+                    
+                    <div class="achievement-reward">Reward: 30,000</div>
+                    <div style="color: var(--warning); margin-top: 15px;">🔒 Locked</div>
+                </div><div class="achievement-card ">
+                    <div class="achievement-icon">⚡</div>
+                    <div class="achievement-name">Power Player</div>
+                    <div class="achievement-description">Unlock all power-ups in Mines</div>
+                    
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div>0% complete</div>
+                    
+                    <div class="achievement-reward">Reward: 15,000</div>
+                    <div style="color: var(--warning); margin-top: 15px;">🔒 Locked</div>
+                </div><div class="achievement-card ">
+                    <div class="achievement-icon">📅</div>
+                    <div class="achievement-name">Daily Player</div>
+                    <div class="achievement-description">Collect 7 daily bonuses</div>
+                    
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-fill" style="width: 14%"></div>
+                        </div>
+                        <div>14% complete</div>
+                    
+                    <div class="achievement-reward">Reward: 5,000</div>
+                    <div style="color: var(--warning); margin-top: 15px;">🔒 Locked</div>
+                </div></div>
             </div>
         </div>
+
+        <!-- Referral Tab -->
+        <div class="game-tab active" id="referral-tab">
+            <h2 class="game-title"><i class="fas fa-users"></i> Referral &amp; Social Rewards</h2>
+            <p class="game-description">Share CASINO EMPIRE, pick up instant bonuses, and pocket 10% of every friend’s winnings without touching their chips.</p>
+
+            <div class="game-content">
+                <div class="referral-link-box">
+                    <code id="referralLink">file:///Users/roqate/Downloads/HomeAlarm/aaa.html?ref=ref-8MQS6B</code>
+                    <button class="btn btn-info" onclick="copyReferralLink()"><i class="fas fa-copy"></i> Copy</button>
+                    <button class="btn btn-success" onclick="openReferralLink()"><i class="fas fa-link"></i> Open</button>
+                </div>
+
+                <div class="share-grid" id="shareGrid">
+                    <div class="share-card" data-action="instagram">
+                        <h3><i class="fab fa-instagram"></i> Instagram</h3>
+                        <p>Flex your latest jackpot or comeback story on Instagram.</p>
+                        <button class="btn" data-label="Share on Instagram" onclick="completeShareAction('instagram')">Share on Instagram (+$5,000)</button>
+                    </div>
+                    <div class="share-card completed" data-action="facebook">
+                        <h3><i class="fab fa-facebook"></i> Facebook</h3>
+                        <p>Let your Facebook crew know the house can’t stop you.</p>
+                        <button class="btn" data-label="Post to Facebook" onclick="completeShareAction('facebook')" disabled="">Completed</button>
+                    </div>
+                    <div class="share-card" data-action="x">
+                        <h3><i class="fab fa-x-twitter"></i> X</h3>
+                        <p>Drop a hot take on X about your wildest Casino Empire moment.</p>
+                        <button class="btn" data-label="Post on X" onclick="completeShareAction('x')">Post on X (+$5,000)</button>
+                    </div>
+                    <div class="share-card" data-action="friend">
+                        <h3><i class="fas fa-user-friends"></i> Share with a Friend</h3>
+                        <p>DM your invite link and pull them into the grind.</p>
+                        <button class="btn" data-label="Share Link" onclick="completeShareAction('friend')">Share Link (+$10,000)</button>
+                    </div>
+                </div>
+
+                <div class="referral-summary">
+                    <div class="summary-card">
+                        <div class="label">Total Referral Earnings</div>
+                        <div class="value" id="referralEarningsValue">$0</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="label">Active Referrals</div>
+                        <div class="value" id="referralCountValue">0</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="label">Share Bonuses</div>
+                        <div class="value" id="shareBonusValue">$5,000</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="label">Link Clicks</div>
+                        <div class="value" id="referralClicksValue">0</div>
+                    </div>
+                </div>
+
+                <table class="referral-table" id="referralTable" style="display:none;">
+                    <thead>
+                        <tr>
+                            <th>Friend</th>
+                            <th>Joined</th>
+                            <th>Your Cut</th>
+                        </tr>
+                    </thead>
+                    <tbody id="referralTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Leaderboard Tab -->
+        <div class="game-tab" id="leaderboard-tab">
+            <h2 class="game-title"><i class="fas fa-crown"></i> Global Leaderboard</h2>
+            <p class="game-description">Top rollers on this device. Resetting wipes your legacy, so cash out or go bust with style.</p>
+
+            <div class="game-content">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player</th>
+                            <th>Balance</th>
+                            <th>Total Won</th>
+                            <th>Referral Rewards</th>
+                            <th>Last Active</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody"><tr class="highlight">
+                    <td>1</td>
+                    <td>ininin</td>
+                    <td>$3,650</td>
+                    <td>$700</td>
+                    <td>$0</td>
+                    <td>9/22/2025, 9:58:28 PM</td>
+                </tr><tr>
+                    <td>2</td>
+                    <td>aaa</td>
+                    <td>$200</td>
+                    <td>$200</td>
+                    <td>$0</td>
+                    <td>9/22/2025, 9:39:19 PM</td>
+                </tr></tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        let gameData = {
-            balance: 1000,
-            totalWagered: 0,
-            totalWon: 0,
-            gamesPlayed: 0,
-            achievements: {},
-            stats: {
-                blackjack: { wins: 0, losses: 0, pushes: 0, profit: 0, streak: 0, maxStreak: 0 },
-                coinflip: { wins: 0, losses: 0, profit: 0, streak: 0, maxStreak: 0 },
-                slots: { wins: 0, losses: 0, profit: 0, jackpots: 0, spins: 0 },
-                mines: { wins: 0, losses: 0, profit: 0, minesHit: 0, highestCashout: 0 },
-                crash: { wins: 0, losses: 0, profit: 0, highestMultiplier: 0 }
-            },
-            gameStates: {
-                begCooldown: 0,
-                begType: '',
-                minesActive: false,
-                minesBet: 0,
-                minesRevealed: 0,
-                minesCount: 3,
-                minesGrid: [],
-                minesPowerups: { reveal: 0, shield: 0 },
-                crashActive: false,
-                crashBet: 0,
-                crashMultiplier: 1.0,
-                crashHistory: [],
-                crashAuto: { active: false, cashout: 2.0, amount: 10, count: 10, remaining: 0 },
-                blackjackActive: false,
-                blackjackBet: 0,
-                playerHand: [],
-                dealerHand: [],
-                gamePhase: 'betting',
-                coinFlipping: false,
-                coinStreak: { active: false, count: 0, bet: 0, choice: '', multiplier: 3 },
-                slotsSpinning: false,
-                slotsJackpot: 10000,
-                slotsBonusCounter: 0,
-                wheelSpinning: false,
-                lastFreeSpin: 0,
-                wheelPrizes: [
-                    { value: 100, color: '#ff5e57', text: '$100' },
-                    { value: 200, color: '#ff8906', text: '$200' },
-                    { value: 500, color: '#ffd700', text: '$500' },
-                    { value: 1000, color: '#2ecc71', text: '$1000' },
-                    { value: 2000, color: '#3498db', text: '$2000' },
-                    { value: 5000, color: '#9b59b6', text: '$5000' },
-                    { value: 'JACKPOT', color: '#e74c3c', text: 'JACKPOT' }
-                ]
-            },
-            gameHistory: {
-                beg: [],
-                blackjack: [],
-                coinflip: [],
-                slots: [],
-                mines: [],
-                crash: [],
-                wheel: []
+        const SESSION_SECRET = 'casino-empire-shhh';
+
+        function generateSessionToken() {
+            return Array.from({ length: 4 }, () => Math.random().toString(36).slice(2)).join('').slice(0, 32);
+        }
+
+        function createDefaultGameData() {
+            return {
+                balance: 1000,
+                totalWagered: 0,
+                totalWon: 0,
+                gamesPlayed: 0,
+                achievements: {},
+                session: {
+                    token: generateSessionToken(),
+                    signature: ''
+                },
+                profile: {
+                    username: '',
+                    profileId: '',
+                    termsAccepted: false,
+                    referralCode: '',
+                    referredBy: null
+                },
+                referral: {
+                    shareProgress: { instagram: false, facebook: false, x: false, friend: false },
+                    shareRewardsClaimed: 0,
+                    totalReferralEarnings: 0,
+                    creditedToReferrer: 0,
+                    referredUsers: [],
+                    clickCount: 0,
+                    relationshipRegistered: false
+                },
+                loan: {
+                    principal: 0,
+                    outstanding: 0,
+                    lastTakenAt: 0,
+                    dueAt: 0,
+                    nextInterestTick: 0,
+                    warningIssued: false,
+                    overdue: false,
+                    autoForfeitAt: 0
+                },
+                stats: {
+                    blackjack: { wins: 0, losses: 0, pushes: 0, profit: 0, streak: 0, maxStreak: 0 },
+                    coinflip: { wins: 0, losses: 0, profit: 0, streak: 0, maxStreak: 0 },
+                    slots: { wins: 0, losses: 0, profit: 0, jackpots: 0, spins: 0 },
+                    mines: { wins: 0, losses: 0, profit: 0, minesHit: 0, highestCashout: 0 },
+                    crash: { wins: 0, losses: 0, profit: 0, highestMultiplier: 0 },
+                    roulette: { wins: 0, losses: 0, profit: 0, maxPayout: 0, streak: 0, maxStreak: 0 },
+                    loan: { borrowed: 0, repaid: 0, penalties: 0 }
+                },
+                gameStates: {
+                    minesActive: false,
+                    minesBet: 0,
+                    minesRevealed: 0,
+                    minesCount: 3,
+                    minesGrid: [],
+                    minesPowerups: { reveal: 0, shield: 0 },
+                    crashActive: false,
+                    crashBet: 0,
+                    crashMultiplier: 1.0,
+                    crashHistory: [],
+                    crashPlayerOut: false,
+                    crashAuto: { active: false, cashout: 2.0, amount: 10, count: 10, remaining: 0, queueNext: false },
+                    blackjackActive: false,
+                    blackjackBet: 0,
+                    playerHand: [],
+                    dealerHand: [],
+                    gamePhase: 'betting',
+                    coinFlipping: false,
+                    coinStreak: { active: false, count: 0, bet: 0, choice: '', multiplier: 3 },
+                    slotsSpinning: false,
+                    slotsJackpot: 10000,
+                    slotsBonusCounter: 0,
+                    wheelSpinning: false,
+                    lastFreeSpin: 0,
+                    wheelPrizes: [
+                        { value: 100, color: '#ff5e57', text: '$100' },
+                        { value: 200, color: '#ff8906', text: '$200' },
+                        { value: 500, color: '#ffd700', text: '$500' },
+                        { value: 1000, color: '#2ecc71', text: '$1000' },
+                        { value: 2000, color: '#3498db', text: '$2000' },
+                        { value: 5000, color: '#9b59b6', text: '$5000' },
+                        { value: 'JACKPOT', color: '#e74c3c', text: 'JACKPOT' }
+                    ],
+                    rouletteSpinning: false,
+                    rouletteBet: 0,
+                    rouletteChoice: null,
+                    rouletteRecentNumbers: []
+                },
+                gameHistory: {
+                    loan: [],
+                    blackjack: [],
+                    coinflip: [],
+                    slots: [],
+                    mines: [],
+                    crash: [],
+                    roulette: [],
+                    wheel: []
+                }
+            };
+        }
+
+        let gameData = createDefaultGameData();
+
+        function base64Encode(str) {
+            return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_, p1) => String.fromCharCode(parseInt(p1, 16))));
+        }
+
+        function computeSignature(data) {
+            if (!data.session || !data.session.token) {
+                data.session = { token: generateSessionToken(), signature: '' };
             }
-        };
+
+            const payload = [
+                data.balance,
+                data.totalWagered,
+                data.totalWon,
+                data.gamesPlayed,
+                JSON.stringify(data.profile),
+                JSON.stringify(data.stats),
+                JSON.stringify(data.loan)
+            ].join('|');
+
+            return base64Encode(`${data.session.token}|${payload}|${SESSION_SECRET}`);
+        }
+
+        function mergeGameData(parsed) {
+            const defaults = createDefaultGameData();
+            const merged = { ...defaults, ...parsed };
+
+            merged.session = { ...defaults.session, ...(parsed.session || {}) };
+            merged.profile = { ...defaults.profile, ...(parsed.profile || {}) };
+            merged.referral = { ...defaults.referral, ...(parsed.referral || {}) };
+            merged.referral.shareProgress = { ...defaults.referral.shareProgress, ...(((parsed.referral || {}).shareProgress) || {}) };
+            merged.loan = { ...defaults.loan, ...(parsed.loan || {}) };
+
+            merged.stats = {};
+            Object.keys(defaults.stats).forEach(key => {
+                merged.stats[key] = { ...defaults.stats[key], ...((parsed.stats && parsed.stats[key]) || {}) };
+            });
+
+            merged.gameStates = { ...defaults.gameStates, ...(parsed.gameStates || {}) };
+            merged.gameStates.crashAuto = { ...defaults.gameStates.crashAuto, ...((parsed.gameStates && parsed.gameStates.crashAuto) || {}) };
+            merged.gameStates.coinStreak = { ...defaults.gameStates.coinStreak, ...((parsed.gameStates && parsed.gameStates.coinStreak) || {}) };
+            merged.gameStates.wheelPrizes = (parsed.gameStates && parsed.gameStates.wheelPrizes) ? parsed.gameStates.wheelPrizes : defaults.gameStates.wheelPrizes;
+            if (typeof merged.gameStates.crashPlayerOut !== 'boolean') {
+                merged.gameStates.crashPlayerOut = false;
+            }
+            if (!Array.isArray(merged.gameStates.rouletteRecentNumbers)) {
+                merged.gameStates.rouletteRecentNumbers = [];
+            }
+
+            merged.gameHistory = { ...defaults.gameHistory, ...(parsed.gameHistory || {}) };
+            if (parsed.gameHistory && parsed.gameHistory.beg) {
+                merged.gameHistory.loan = parsed.gameHistory.loan && parsed.gameHistory.loan.length ? parsed.gameHistory.loan : parsed.gameHistory.beg;
+            }
+            delete merged.gameHistory.beg;
+
+            Object.keys(defaults.gameHistory).forEach(key => {
+                if (!Array.isArray(merged.gameHistory[key])) {
+                    merged.gameHistory[key] = [];
+                }
+            });
+
+            merged.achievements = { ...(parsed.achievements || {}) };
+            if (parsed.achievements && parsed.achievements.firstBeg && !merged.achievements.stakeStarter) {
+                merged.achievements.stakeStarter = parsed.achievements.firstBeg;
+            }
+
+            return merged;
+        }
+
+        function ensureSessionIntegrity() {
+            if (!gameData.session || !gameData.session.token) {
+                gameData.session = { token: generateSessionToken(), signature: '' };
+                return true;
+            }
+
+            const expected = computeSignature(gameData);
+            if (!gameData.session.signature) {
+                gameData.session.signature = expected;
+                return true;
+            }
+
+            return gameData.session.signature === expected;
+        }
+
+        function ensureProfileIdentifiers() {
+            if (!gameData.profile) {
+                gameData.profile = { username: '', profileId: '', termsAccepted: false, referralCode: '', referredBy: null };
+            }
+
+            if (!gameData.profile.profileId) {
+                gameData.profile.profileId = 'pid_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+            }
+
+            if (!gameData.profile.referralCode) {
+                gameData.profile.referralCode = generateReferralCode();
+            }
+        }
+
+        function generateReferralCode() {
+            return 'ref-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+        }
+
+        function applyReferralContext() {
+            ensureProfileIdentifiers();
+            const params = new URLSearchParams(window.location.search);
+            const refCode = params.get('ref');
+            if (refCode) {
+                processReferralClick(refCode);
+            }
+            syncReferralIndex();
+            syncReferralDataFromLeaderboard();
+            collectPendingReferralRewards();
+            updateReferralUI();
+            renderLeaderboard();
+        }
+
+        function processReferralClick(refCode) {
+            const index = loadReferralIndex();
+            const refData = index[refCode];
+            if (!refData) {
+                return;
+            }
+            if (refData.profileId === gameData.profile.profileId) {
+                return;
+            }
+            if (!gameData.profile.referredBy) {
+                gameData.profile.referredBy = { profileId: refData.profileId, username: refData.username };
+            }
+
+            const leaderboard = loadLeaderboardData();
+            let refEntry = leaderboard.find(entry => entry.profileId === refData.profileId);
+            if (!refEntry) {
+                refEntry = {
+                    profileId: refData.profileId,
+                    username: refData.username || 'Player',
+                    referralCode: refCode,
+                    balance: 0,
+                    totalWon: 0,
+                    referralRewards: 0,
+                    shareRewards: 0,
+                    pendingRewards: 0,
+                    referredUsers: [],
+                    clicks: 0,
+                    updatedAt: Date.now()
+                };
+                leaderboard.push(refEntry);
+            }
+            refEntry.clicks = (refEntry.clicks || 0) + 1;
+            refEntry.updatedAt = Date.now();
+            saveLeaderboardData(leaderboard);
+        }
+
+        function syncReferralIndex() {
+            ensureProfileIdentifiers();
+            const index = loadReferralIndex();
+            index[gameData.profile.referralCode] = {
+                profileId: gameData.profile.profileId,
+                username: gameData.profile.username || 'Unknown'
+            };
+            saveReferralIndex(index);
+        }
+
+        function collectPendingReferralRewards() {
+            ensureProfileIdentifiers();
+            const pending = loadPendingRewards();
+            const entry = pending[gameData.profile.profileId];
+            if (entry && entry.amount > 0) {
+                const amount = entry.amount;
+                gameData.balance += amount;
+                gameData.referral.totalReferralEarnings += amount;
+                showNotification(`Referral bonus collected: +$${amount.toLocaleString()}`, 'success');
+                delete pending[gameData.profile.profileId];
+                savePendingRewards(pending);
+                const leaderboard = loadLeaderboardData();
+                const lbEntry = leaderboard.find(item => item.profileId === gameData.profile.profileId);
+                if (lbEntry) {
+                    lbEntry.pendingRewards = Math.max((lbEntry.pendingRewards || 0) - amount, 0);
+                    saveLeaderboardData(leaderboard);
+                }
+                updateBalance();
+                syncReferralDataFromLeaderboard();
+                renderLeaderboard();
+            }
+        }
+
+        function registerReferralRelationship() {
+            if (!gameData.profile || !gameData.profile.referredBy || gameData.referral.relationshipRegistered || !gameData.profile.username) {
+                return;
+            }
+
+            const refInfo = gameData.profile.referredBy;
+            const leaderboard = loadLeaderboardData();
+            let refEntry = leaderboard.find(entry => entry.profileId === refInfo.profileId);
+            if (!refEntry) {
+                refEntry = {
+                    profileId: refInfo.profileId,
+                    username: refInfo.username,
+                    referralCode: '',
+                    balance: 0,
+                    totalWon: 0,
+                    referralRewards: 0,
+                    shareRewards: 0,
+                    pendingRewards: 0,
+                    clicks: 0,
+                    referredUsers: [],
+                    updatedAt: Date.now()
+                };
+                leaderboard.push(refEntry);
+            }
+
+            if (!Array.isArray(refEntry.referredUsers)) {
+                refEntry.referredUsers = [];
+            }
+
+            refEntry.username = refInfo.username || refEntry.username;
+
+            const exists = refEntry.referredUsers.some(user => user.profileId === gameData.profile.profileId);
+            if (!exists) {
+                refEntry.referredUsers.push({
+                    profileId: gameData.profile.profileId,
+                    username: gameData.profile.username || 'Pending',
+                    joinedAt: Date.now(),
+                    contributed: 0
+                });
+            }
+
+            saveLeaderboardData(leaderboard);
+            renderLeaderboard();
+
+            gameData.referral.relationshipRegistered = true;
+        }
+
+        function syncReferralDataFromLeaderboard() {
+            const leaderboard = loadLeaderboardData();
+            const entry = leaderboard.find(item => item.profileId === (gameData.profile && gameData.profile.profileId));
+            if (!entry) return;
+
+            if (!gameData.referral) {
+                gameData.referral = { shareProgress: { instagram: false, facebook: false, x: false, friend: false }, shareRewardsClaimed: 0, totalReferralEarnings: 0, creditedToReferrer: 0, referredUsers: [], clickCount: 0, relationshipRegistered: false };
+            }
+
+            if (Array.isArray(entry.referredUsers)) {
+                gameData.referral.referredUsers = entry.referredUsers;
+            }
+            if (typeof entry.referralRewards === 'number') {
+                gameData.referral.totalReferralEarnings = Math.max(gameData.referral.totalReferralEarnings || 0, entry.referralRewards);
+            }
+            if (typeof entry.clicks === 'number') {
+                gameData.referral.clickCount = entry.clicks;
+            }
+        }
+
+        function processReferralRewards() {
+            ensureProfileIdentifiers();
+            registerReferralRelationship();
+            if (!gameData.referral) return;
+
+            if (gameData.profile.referredBy) {
+                const targetShare = Math.floor((gameData.totalWon || 0) * 0.1);
+                const credited = gameData.referral.creditedToReferrer || 0;
+                const delta = targetShare - credited;
+                if (delta > 0) {
+                    gameData.referral.creditedToReferrer = targetShare;
+                    queueReferralReward(gameData.profile.referredBy.profileId, delta, gameData.profile.username, gameData.profile.referredBy.username);
+                }
+            }
+        }
+
+        function queueReferralReward(profileId, amount, referredUsername, referrerName = 'Player') {
+            if (!profileId || amount <= 0) return;
+
+            const pending = loadPendingRewards();
+            pending[profileId] = {
+                amount: (pending[profileId]?.amount || 0) + amount
+            };
+            savePendingRewards(pending);
+
+            const leaderboard = loadLeaderboardData();
+            let refEntry = leaderboard.find(entry => entry.profileId === profileId);
+            if (!refEntry) {
+                refEntry = {
+                    profileId,
+                    username: referrerName || 'Player',
+                    referralCode: '',
+                    balance: 0,
+                    totalWon: 0,
+                    referralRewards: 0,
+                    shareRewards: 0,
+                    pendingRewards: 0,
+                    referredUsers: [],
+                    updatedAt: Date.now()
+                };
+                leaderboard.push(refEntry);
+            }
+
+            refEntry.username = referrerName || refEntry.username;
+            refEntry.referralRewards = (refEntry.referralRewards || 0) + amount;
+            refEntry.pendingRewards = (refEntry.pendingRewards || 0) + amount;
+            refEntry.updatedAt = Date.now();
+
+            if (!Array.isArray(refEntry.referredUsers)) {
+                refEntry.referredUsers = [];
+            }
+
+            const currentProfileId = gameData.profile && gameData.profile.profileId;
+            const existing = refEntry.referredUsers.find(user => user.profileId === currentProfileId);
+            if (existing) {
+                existing.contributed = (existing.contributed || 0) + amount;
+                existing.username = referredUsername || existing.username;
+            } else if (currentProfileId) {
+                refEntry.referredUsers.push({
+                    profileId: currentProfileId,
+                    username: referredUsername || 'Friend',
+                    joinedAt: Date.now(),
+                    contributed: amount
+                });
+            }
+
+            saveLeaderboardData(leaderboard);
+
+            if (profileId === gameData.profile.profileId) {
+                collectPendingReferralRewards();
+                syncReferralDataFromLeaderboard();
+            }
+
+            renderLeaderboard();
+        }
+
+        function removeProfileFromGlobalStores() {
+            ensureProfileIdentifiers();
+            const profileId = gameData.profile && gameData.profile.profileId;
+            if (!profileId) return;
+
+            const leaderboard = loadLeaderboardData()
+                .map(entry => {
+                    if (Array.isArray(entry.referredUsers)) {
+                        entry.referredUsers = entry.referredUsers.filter(user => user.profileId !== profileId);
+                    }
+                    return entry;
+                })
+                .filter(entry => entry.profileId !== profileId);
+            saveLeaderboardData(leaderboard);
+
+            const index = loadReferralIndex();
+            Object.keys(index).forEach(code => {
+                if (index[code].profileId === profileId) {
+                    delete index[code];
+                }
+            });
+            saveReferralIndex(index);
+
+            const pending = loadPendingRewards();
+            if (pending[profileId]) {
+                delete pending[profileId];
+                savePendingRewards(pending);
+            }
+        }
+
+        function updateLeaderboardEntry() {
+            ensureProfileIdentifiers();
+            const leaderboard = loadLeaderboardData();
+            let entry = leaderboard.find(item => item.profileId === gameData.profile.profileId);
+            if (!entry) {
+                entry = {
+                    profileId: gameData.profile.profileId,
+                    username: gameData.profile.username || 'Player',
+                    referralCode: gameData.profile.referralCode,
+                    balance: 0,
+                    totalWon: 0,
+                    referralRewards: gameData.referral.totalReferralEarnings || 0,
+                    shareRewards: gameData.referral.shareRewardsClaimed || 0,
+                    pendingRewards: 0,
+                    referredUsers: gameData.referral.referredUsers || [],
+                    clicks: gameData.referral.clickCount || 0,
+                    referredBy: gameData.profile.referredBy || null,
+                    updatedAt: Date.now()
+                };
+                leaderboard.push(entry);
+            }
+
+            entry.username = gameData.profile.username || entry.username;
+            entry.referralCode = gameData.profile.referralCode;
+            entry.balance = gameData.balance;
+            entry.totalWon = gameData.totalWon;
+            entry.referralRewards = gameData.referral.totalReferralEarnings || entry.referralRewards || 0;
+            entry.shareRewards = gameData.referral.shareRewardsClaimed || entry.shareRewards || 0;
+            entry.pendingRewards = entry.pendingRewards || 0;
+            entry.referredBy = gameData.profile.referredBy || entry.referredBy || null;
+             entry.clicks = gameData.referral.clickCount || entry.clicks || 0;
+            entry.updatedAt = Date.now();
+
+            if (Array.isArray(gameData.referral.referredUsers)) {
+                entry.referredUsers = gameData.referral.referredUsers;
+            }
+
+            saveLeaderboardData(leaderboard);
+            renderLeaderboard();
+        }
+
+        function renderLeaderboard() {
+            const tbody = document.getElementById('leaderboardBody');
+            if (!tbody) return;
+
+            const leaderboard = loadLeaderboardData()
+                .sort((a, b) => (b.balance || 0) - (a.balance || 0));
+
+            if (leaderboard.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px;">No legends yet. Share your link and dominate the charts.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            leaderboard.forEach((entry, idx) => {
+                const row = document.createElement('tr');
+                if (entry.profileId === (gameData.profile && gameData.profile.profileId)) {
+                    row.classList.add('highlight');
+                }
+                row.innerHTML = `
+                    <td>${idx + 1}</td>
+                    <td>${entry.username || 'Player'}</td>
+                    <td>$${(entry.balance || 0).toLocaleString()}</td>
+                    <td>$${(entry.totalWon || 0).toLocaleString()}</td>
+                    <td>$${(entry.referralRewards || 0).toLocaleString()}</td>
+                    <td>${entry.updatedAt ? new Date(entry.updatedAt).toLocaleString() : '-'}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function getReferralLink() {
+            ensureProfileIdentifiers();
+            const url = new URL(window.location.href.split('#')[0]);
+            url.searchParams.set('ref', gameData.profile.referralCode);
+            return url.origin + url.pathname + '?ref=' + gameData.profile.referralCode;
+        }
+
+        function updateReferralUI() {
+            ensureProfileIdentifiers();
+            if (!gameData.referral) return;
+            const linkEl = document.getElementById('referralLink');
+            if (linkEl) {
+                linkEl.textContent = getReferralLink();
+            }
+
+            const earningsEl = document.getElementById('referralEarningsValue');
+            const countEl = document.getElementById('referralCountValue');
+            const shareEl = document.getElementById('shareBonusValue');
+            const clicksEl = document.getElementById('referralClicksValue');
+
+            if (earningsEl) earningsEl.textContent = '$' + (gameData.referral.totalReferralEarnings || 0).toLocaleString();
+            if (countEl) countEl.textContent = (gameData.referral.referredUsers || []).length;
+            if (shareEl) shareEl.textContent = '$' + (gameData.referral.shareRewardsClaimed || 0).toLocaleString();
+            if (clicksEl) clicksEl.textContent = (gameData.referral.clickCount || 0);
+
+            document.querySelectorAll('.share-card').forEach(card => {
+                const action = card.getAttribute('data-action');
+                const done = gameData.referral.shareProgress && gameData.referral.shareProgress[action];
+                const button = card.querySelector('button');
+                if (done) {
+                    card.classList.add('completed');
+                    if (button) {
+                        button.textContent = 'Completed';
+                        button.disabled = true;
+                    }
+                } else {
+                    card.classList.remove('completed');
+                    if (button) {
+                        const reward = SHARE_REWARD_VALUES[action] || 0;
+                        const base = button.getAttribute('data-label') || button.textContent.split('(')[0].trim();
+                        button.textContent = `${base} (+$${reward.toLocaleString()})`;
+                        button.disabled = false;
+                    }
+                }
+            });
+
+            const table = document.getElementById('referralTable');
+            const tbody = document.getElementById('referralTableBody');
+            if (table && tbody) {
+                const list = gameData.referral.referredUsers || [];
+                if (list.length === 0) {
+                    table.style.display = 'none';
+                    tbody.innerHTML = '';
+                } else {
+                    table.style.display = 'table';
+                    tbody.innerHTML = '';
+                    list.forEach(user => {
+                        const row = document.createElement('tr');
+                        const earned = user.contributed || 0;
+                        row.innerHTML = `
+                            <td>${user.username || 'Friend'}</td>
+                            <td>${user.joinedAt ? new Date(user.joinedAt).toLocaleString() : '-'}</td>
+                            <td>$${earned.toLocaleString()}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+            }
+        }
+
+        function completeShareAction(action) {
+            ensureProfileIdentifiers();
+            if (!SHARE_REWARD_VALUES[action]) {
+                return;
+            }
+            if (!gameData.referral.shareProgress[action]) {
+                gameData.referral.shareProgress[action] = true;
+                const reward = SHARE_REWARD_VALUES[action];
+                gameData.balance += reward;
+                gameData.referral.shareRewardsClaimed += reward;
+                updateBalance();
+                showNotification(`Share bonus unlocked! +$${reward.toLocaleString()}`, 'success');
+                updateReferralUI();
+                saveGameData();
+            } else {
+                showNotification('You already claimed this share bonus.', 'info');
+            }
+
+            const shareUrls = {
+                instagram: 'https://www.instagram.com/',
+                facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(getReferralLink()),
+                x: 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(getReferralLink()) + '&text=Join%20me%20at%20CASINO%20EMPIRE!',
+                friend: getReferralLink()
+            };
+
+            const target = shareUrls[action];
+            if (target) {
+                window.open(target, '_blank');
+            }
+        }
+
+        function copyReferralLink() {
+            const link = getReferralLink();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(link).then(() => {
+                    showNotification('Referral link copied to clipboard!', 'success');
+                }).catch(() => fallbackCopyLink(link));
+            } else {
+                fallbackCopyLink(link);
+            }
+        }
+
+        function fallbackCopyLink(link) {
+            const temp = document.createElement('textarea');
+            temp.value = link;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            showNotification('Referral link copied to clipboard!', 'success');
+        }
+
+        function openReferralLink() {
+            window.open(getReferralLink(), '_blank');
+        }
+
+        function isUsernameAvailable(username, profileId) {
+            const leaderboard = loadLeaderboardData();
+            const lower = username.toLowerCase();
+            return !leaderboard.some(entry => entry.username && entry.username.toLowerCase() === lower && entry.profileId !== profileId);
+        }
+
+        function checkTermsAcceptance() {
+            const overlay = document.getElementById('termsOverlay');
+            const input = document.getElementById('playerUsername');
+
+            if (!overlay) return;
+
+            if (!gameData.profile) {
+                gameData.profile = { username: '', termsAccepted: false };
+            }
+
+            const accepted = !!gameData.profile.termsAccepted;
+
+            if (accepted) {
+                overlay.classList.remove('active');
+                document.body.classList.remove('terms-locked');
+                if (input) {
+                    input.value = gameData.profile.username || '';
+                }
+            } else {
+                overlay.classList.add('active');
+                document.body.classList.add('terms-locked');
+                if (input) {
+                    input.value = (gameData.profile && gameData.profile.username) || '';
+                    setTimeout(() => input.focus(), 150);
+                }
+            }
+        }
+
+        function acceptTerms() {
+            const input = document.getElementById('playerUsername');
+            if (!input) return;
+
+            const rawName = input.value.trim();
+            if (rawName.length < 3) {
+                showNotification('Username must be at least 3 characters.', 'error');
+                return;
+            }
+
+            if (!/^[a-zA-Z0-9 _-]+$/.test(rawName)) {
+                showNotification('Use letters, numbers, spaces, hyphen, or underscore only.', 'error');
+                return;
+            }
+
+            const username = rawName.replace(/\s+/g, ' ');
+
+            if (!gameData.profile) {
+                gameData.profile = { username: '', profileId: '', termsAccepted: false, referralCode: '', referredBy: null };
+            }
+
+            ensureProfileIdentifiers();
+
+            if (!isUsernameAvailable(username, gameData.profile.profileId)) {
+                showNotification('That username is already taken. Choose something unique.', 'error');
+                return;
+            }
+
+            gameData.profile.username = username;
+            gameData.profile.termsAccepted = true;
+
+            registerReferralRelationship();
+            updateLeaderboardEntry();
+            updateReferralUI();
+            saveGameData();
+            updateBalance();
+            checkTermsAcceptance();
+            showNotification(`Welcome, ${username}!`, 'success');
+            renderLeaderboard();
+        }
 
         const achievements = {
-            firstBeg: {
-                name: "First Steps",
-                description: "Beg for money for the first time",
-                icon: "🙏",
+            stakeStarter: {
+                name: "Stake Starter",
+                description: "Secure your first stake loan",
+                icon: "💼",
                 reward: 100,
-                condition: () => gameData.gameHistory.beg.length > 0,
-                progress: () => gameData.gameHistory.beg.length > 0 ? 1 : 0,
+                condition: () => gameData.gameHistory.loan.length > 0,
+                progress: () => gameData.gameHistory.loan.length > 0 ? 1 : 0,
                 target: 1
             },
             millionaire: {
@@ -2170,13 +3590,13 @@
                 target: 1000000000
             },
             trillionaire: {
-                name: "TRILLIONAIRE CHAMPION!",
-                description: "YOU BEAT THE HOUSE! $1,000,000,000,000",
+                name: "100T Titan",
+                description: "Stack $100,000,000,000,000 and outlast the house",
                 icon: "👑",
                 reward: 0,
-                condition: () => gameData.balance >= 1000000000000,
-                progress: () => Math.min(gameData.balance / 1000000000000, 1),
-                target: 1000000000000
+                condition: () => gameData.balance >= 100000000000000,
+                progress: () => Math.min(gameData.balance / 100000000000000, 1),
+                target: 100000000000000
             },
             highRoller: {
                 name: "High Roller",
@@ -2299,66 +3719,143 @@
             'any2': 1.5
         };
 
+        const rouletteRedNumbers = new Set([1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]);
+        const roulettePayouts = {
+            red: 2,
+            black: 2,
+            even: 2,
+            odd: 2,
+            low: 2,
+            high: 2,
+            dozen1: 3,
+            dozen2: 3,
+            dozen3: 3,
+            single: 36
+        };
+        const LEADERBOARD_KEY = 'casinoEmpireLeaderboard';
+        const REFERRAL_INDEX_KEY = 'casinoEmpireReferralIndex';
+        const REFERRAL_PENDING_KEY = 'casinoEmpireReferralPending';
+        const SHARE_REWARD_VALUES = {
+            instagram: 5000,
+            facebook: 5000,
+            x: 5000,
+            friend: 10000
+        };
+
+        function loadLeaderboardData() {
+            try {
+                const stored = localStorage.getItem(LEADERBOARD_KEY);
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (Array.isArray(parsed)) {
+                        return parsed;
+                    }
+                }
+            } catch (e) {
+                console.error('Failed to load leaderboard data', e);
+            }
+            return [];
+        }
+
+        function saveLeaderboardData(data) {
+            localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(data));
+        }
+
+        function loadReferralIndex() {
+            try {
+                const stored = localStorage.getItem(REFERRAL_INDEX_KEY);
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (parsed && typeof parsed === 'object') {
+                        return parsed;
+                    }
+                }
+            } catch (e) {
+                console.error('Failed to load referral index', e);
+            }
+            return {};
+        }
+
+        function saveReferralIndex(index) {
+            localStorage.setItem(REFERRAL_INDEX_KEY, JSON.stringify(index));
+        }
+
+        function loadPendingRewards() {
+            try {
+                const stored = localStorage.getItem(REFERRAL_PENDING_KEY);
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (parsed && typeof parsed === 'object') {
+                        return parsed;
+                    }
+                }
+            } catch (e) {
+                console.error('Failed to load pending referral rewards', e);
+            }
+            return {};
+        }
+
+        function savePendingRewards(data) {
+            localStorage.setItem(REFERRAL_PENDING_KEY, JSON.stringify(data));
+        }
+
         function initGame() {
             const savedData = localStorage.getItem('casinoEmpireData');
             if (savedData) {
                 try {
                     const parsedData = JSON.parse(savedData);
-                    gameData = { ...gameData, ...parsedData };
-                    
-                    if (!gameData.stats) {
-                        gameData.stats = {
-                            blackjack: { wins: 0, losses: 0, pushes: 0, profit: 0, streak: 0, maxStreak: 0 },
-                            coinflip: { wins: 0, losses: 0, profit: 0, streak: 0, maxStreak: 0 },
-                            slots: { wins: 0, losses: 0, profit: 0, jackpots: 0, spins: 0 },
-                            mines: { wins: 0, losses: 0, profit: 0, minesHit: 0, highestCashout: 0 },
-                            crash: { wins: 0, losses: 0, profit: 0, highestMultiplier: 0 }
-                        };
-                    }
-                    
-                    if (!gameData.gameStates.wheelPrizes) {
-                        gameData.gameStates.wheelPrizes = [
-                            { value: 100, color: '#ff5e57', text: '$100' },
-                            { value: 200, color: '#ff8906', text: '$200' },
-                            { value: 500, color: '#ffd700', text: '$500' },
-                            { value: 1000, color: '#2ecc71', text: '$1000' },
-                            { value: 2000, color: '#3498db', text: '$2000' },
-                            { value: 5000, color: '#9b59b6', text: '$5000' },
-                            { value: 'JACKPOT', color: '#e74c3c', text: 'JACKPOT' }
-                        ];
-                    }
+                    gameData = mergeGameData(parsedData);
                 } catch (e) {
-                    console.error("Failed to load saved data:", e);
+                    console.error('Failed to load saved data:', e);
+                    gameData = createDefaultGameData();
                 }
             }
-            
+
+            if (!ensureSessionIntegrity()) {
+                localStorage.removeItem('casinoEmpireData');
+                gameData = createDefaultGameData();
+                showNotification('Session data looked tampered. Progress reset to keep it fair.', 'warning');
+            }
+
             updateBalance();
             updateStats();
             updateProgress();
-            
-            if (gameData.gameStates.begCooldown > 0) {
-                document.getElementById('begBtn').disabled = true;
-                startCooldown();
-            }
-            
+            updateLoanUI();
             loadHistory();
             updateCrashHistory();
             renderAchievements();
             checkAchievements();
             initWheel();
-            
             checkFreeSpin();
-            
             updateJackpotDisplay();
+            handleRouletteBetTypeChange();
+            updateRouletteTicker();
+            updateRouletteStats();
+            ensureProfileIdentifiers();
+            applyReferralContext();
+            const savedTab = localStorage.getItem('casinoEmpireActiveTab') || 'loan';
+            setActiveTab(savedTab, true);
+            startLoanTicker();
+            checkTermsAcceptance();
+
+            saveGameData();
         }
 
         function saveGameData() {
+            ensureProfileIdentifiers();
+            processReferralRewards();
+            gameData.session.signature = computeSignature(gameData);
             localStorage.setItem('casinoEmpireData', JSON.stringify(gameData));
+            updateLeaderboardEntry();
+            syncReferralIndex();
+            updateReferralUI();
         }
 
         function resetGame() {
             if (confirm('Are you sure you want to reset ALL progress? This cannot be undone!')) {
+                removeProfileFromGlobalStores();
                 localStorage.removeItem('casinoEmpireData');
+                localStorage.removeItem('casinoEmpireActiveTab');
                 location.reload();
             }
         }
@@ -2366,24 +3863,22 @@
         function showHelp() {
             alert(`CASINO EMPIRE HELP:
             
-💰 Balance: Your current money
-🎯 Progress: How close you are to becoming a trillionaire
+💰 Balance: Your current bankroll
+🎯 Progress: March toward $100,000,000,000,000
 
-GAMES:
-💸 Beg: Get free money with cooldowns
+CORE SYSTEMS:
+💼 Stake Loan: Borrow up to $100K every 10 minutes. Interest compounds every minute.
 🃏 Blackjack: Beat the dealer to 21 (15% house edge)
-🪙 Coinflip: 50/50 chance but with 10% house edge
-🎰 Slots: Spin for jackpots (20% house edge)
-💎 Mines: Find gems, avoid bombs (25% house edge)
-🚀 Crash: Cash out before it crashes (30% house edge) - removed for maintenance
-🎁 Bonus: Daily free spins and special rewards
+🪙 Coinflip: 50/50 call with a sneaky house edge
+🎰 Slots: Chase jackpots with risky reels
+💎 Mines: Reveal gems and cash out before hitting bombs
+🚀 Crash: Cash out before the multiplier implodes
+🎁 Bonus: Daily free spins and rotating rewards
 
 ACHIEVEMENTS:
-Complete challenges to earn bonus money and unlock features!
+Complete challenges to earn bonus bankroll and unlock bragging rights.
 
-TIP: Higher bets = faster progress, but higher risk!
-
-NOTE: You do not earn any money by playing this, 🎰 CASINO EMPIRE 🎰 is made for fun purposes only.
+REMEMBER: This is a casino simulation. No real money is awarded or collected. Play for fun only!
 
             `);
         }
@@ -2393,6 +3888,11 @@ NOTE: You do not earn any money by playing this, 🎰 CASINO EMPIRE 🎰 is made
             document.getElementById('totalWagered').textContent = gameData.totalWagered.toLocaleString();
             document.getElementById('totalWon').textContent = gameData.totalWon.toLocaleString();
             document.getElementById('gamesPlayed').textContent = gameData.gamesPlayed.toLocaleString();
+            const playerNameEl = document.getElementById('playerName');
+            if (playerNameEl) {
+                const username = (gameData.profile && gameData.profile.username) ? gameData.profile.username : 'Guest';
+                playerNameEl.textContent = username || 'Guest';
+            }
         }
 
         function updateStats() {
@@ -2410,10 +3910,12 @@ NOTE: You do not earn any money by playing this, 🎰 CASINO EMPIRE 🎰 is made
             
             document.getElementById('jackpotAmount').textContent = gameData.gameStates.slotsJackpot.toLocaleString();
             document.getElementById('bonusSpins').textContent = 5 - (gameData.gameStates.slotsBonusCounter % 5);
+
+            updateRouletteStats();
         }
 
         function updateProgress() {
-            const target = 1000000000000; 
+            const target = 100000000000000; 
             const percent = Math.min((gameData.balance / target) * 100, 100);
             
             document.getElementById('progressFill').style.width = percent + '%';
@@ -2425,7 +3927,7 @@ NOTE: You do not earn any money by playing this, 🎰 CASINO EMPIRE 🎰 is made
                 gameData.achievements.trillionaire = true;
                 showNotification('🎉 CONGRATULATIONS! YOU BEAT THE CASINO! 🎉', 'success');
                 setTimeout(() => {
-                    alert('🏆 GAME COMPLETED! 🏆\n\nYou have successfully become a TRILLIONAIRE and beaten the casino system!\n\nFinal Balance: $' + gameData.balance.toLocaleString() + '\n\nYou are the ultimate gambling champion!');
+                    alert('🏆 GAME COMPLETED! 🏆\n\nYou have stacked $100,000,000,000,000 and outlived the pit bosses!\n\nFinal Balance: $' + gameData.balance.toLocaleString() + '\n\nYou are the ultimate gambling champion!');
                 }, 2000);
             }
         }
@@ -2459,11 +3961,12 @@ NOTE: You do not earn any money by playing this, 🎰 CASINO EMPIRE 🎰 is made
         }
 
         function addToHistory(game, message, isWin = null, extraData = {}) {
+            const { countGame = true, ...rest } = extraData;
             const entry = {
                 timestamp: new Date().toLocaleString(),
                 message: message,
                 type: isWin === true ? 'win' : isWin === false ? 'lose' : 'neutral',
-                ...extraData
+                ...rest
             };
             
             gameData.gameHistory[game].unshift(entry);
@@ -2472,9 +3975,11 @@ NOTE: You do not earn any money by playing this, 🎰 CASINO EMPIRE 🎰 is made
             }
             
             updateHistoryDisplay(game);
-            gameData.gamesPlayed++;
+            if (countGame) {
+                gameData.gamesPlayed++;
+            }
             
-            if (game in gameData.stats) {
+            if (countGame && game in gameData.stats && game !== 'loan') {
                 if (isWin === true) {
                     gameData.stats[game].wins++;
                     gameData.stats[game].streak++;
@@ -2519,31 +4024,249 @@ NOTE: You do not earn any money by playing this, 🎰 CASINO EMPIRE 🎰 is made
             document.getElementById(elementId).value = amount;
         }
 
-        function startCooldown() {
-            const updateCooldown = () => {
-                if (gameData.gameStates.begCooldown > 0) {
-                    const minutes = Math.floor(gameData.gameStates.begCooldown / 60);
-                    const seconds = gameData.gameStates.begCooldown % 60;
-                    document.getElementById('begCooldown').textContent = `Cooldown: ${minutes}m ${seconds}s`;
-                    gameData.gameStates.begCooldown--;
-                    setTimeout(updateCooldown, 1000);
-                } else {
-                    document.getElementById('begCooldown').textContent = '';
-                    document.getElementById('begBtn').disabled = false;
-                }
-                saveGameData();
-            };
-            updateCooldown();
+        function setLoanAmount(amount) {
+            document.getElementById('loanAmount').value = amount;
         }
 
-function animateButton(button) {
-    if (!button) {
-        console.error('No button provided to animate');
-        return;
-    }
-    button.classList.add('btn-click');
-    setTimeout(() => button.classList.remove('btn-click'), 300);
-}
+        let loanTickHandle = null;
+
+        function requestLoan() {
+            const now = Date.now();
+            if (gameData.loan.outstanding > 0) {
+                showNotification('You already have a stake outstanding. Repay or forfeit it first.', 'error');
+                return;
+            }
+
+            const cooldownRemaining = (gameData.loan.lastTakenAt + 10 * 60 * 1000) - now;
+            if (cooldownRemaining > 0) {
+                showNotification(`Stake desk cooling down for ${formatDuration(cooldownRemaining)}.`, 'warning');
+                return;
+            }
+
+            const amount = parseInt(document.getElementById('loanAmount').value);
+            if (isNaN(amount) || amount < 1000 || amount > 100000) {
+                showNotification('Stake amount must be between $1,000 and $100,000.', 'error');
+                return;
+            }
+
+            animateButton(document.getElementById('loanRequestBtn'));
+
+            gameData.loan.principal = amount;
+            gameData.loan.outstanding = amount;
+            gameData.loan.lastTakenAt = now;
+            gameData.loan.dueAt = now + 60 * 60 * 1000;
+            gameData.loan.nextInterestTick = now + 60 * 1000;
+            gameData.loan.warningIssued = false;
+            gameData.loan.overdue = false;
+            gameData.loan.autoForfeitAt = gameData.loan.dueAt + 15 * 60 * 1000;
+
+            gameData.stats.loan.borrowed += amount;
+            gameData.balance += amount;
+
+            updateBalance();
+            updateProgress();
+            updateLoanUI();
+
+            const message = `💼 Stake approved for $${amount.toLocaleString()}. Repay within 1 hour.`;
+            showResult('loanResult', message, true);
+            addToHistory('loan', message, true, { countGame: false });
+            showNotification(`Stake funded with $${amount.toLocaleString()}`, 'success');
+
+            startLoanTicker();
+            saveGameData();
+        }
+
+        function repayLoan() {
+            if (gameData.loan.outstanding <= 0) {
+                showNotification('No stake to repay.', 'info');
+                return;
+            }
+
+            const payment = Math.ceil(gameData.loan.outstanding);
+            if (gameData.balance < payment) {
+                showNotification('You need more balance to repay this stake.', 'error');
+                return;
+            }
+
+            animateButton(document.getElementById('loanRepayBtn'));
+
+            gameData.balance -= payment;
+            gameData.stats.loan.repaid += payment;
+
+            const interestPaid = payment - gameData.loan.principal;
+            const message = interestPaid > 0
+                ? `✅ Repaid stake plus $${interestPaid.toLocaleString()} interest.`
+                : '✅ Repaid stake with no interest.';
+
+            showResult('loanResult', message, true);
+            addToHistory('loan', message, true, { countGame: false });
+            showNotification('Stake fully repaid. Back in good standing.', 'success');
+
+            resetLoanState();
+            updateBalance();
+            updateProgress();
+            updateLoanUI();
+            saveGameData();
+        }
+
+        function forfeitLoan() {
+            if (gameData.loan.outstanding <= 0) {
+                showNotification('No active stake to forfeit.', 'info');
+                return;
+            }
+
+            if (!confirm('Forfeiting triggers a severe penalty. Are you sure?')) {
+                return;
+            }
+
+            applyLoanPenalty(2.0, '💀 Forfeited stake and paid $', 'Penalty collected for voluntary forfeit.');
+        }
+
+        function autoForfeitLoan() {
+            if (gameData.loan.outstanding <= 0) return;
+            applyLoanPenalty(2.5, '💀 Loan shark collected $', 'Stake default! The house seized your chips.');
+        }
+
+        function applyLoanPenalty(multiplier, historyPrefix, notificationMessage) {
+            const penalty = Math.ceil(gameData.loan.outstanding * multiplier);
+            const actualPenalty = Math.min(gameData.balance, penalty);
+            gameData.balance -= actualPenalty;
+            gameData.stats.loan.penalties += actualPenalty;
+
+            const message = `${historyPrefix}${actualPenalty.toLocaleString()}.`;
+            showResult('loanResult', message, false);
+            addToHistory('loan', message, false, { countGame: false });
+            showNotification(notificationMessage, 'error');
+
+            resetLoanState();
+            updateBalance();
+            updateProgress();
+            updateLoanUI();
+            saveGameData();
+        }
+
+        function resetLoanState() {
+            gameData.loan.lastTakenAt = Date.now();
+            gameData.loan.principal = 0;
+            gameData.loan.outstanding = 0;
+            gameData.loan.dueAt = 0;
+            gameData.loan.nextInterestTick = 0;
+            gameData.loan.warningIssued = false;
+            gameData.loan.overdue = false;
+            gameData.loan.autoForfeitAt = 0;
+            document.getElementById('loanWarning').textContent = '';
+            startLoanTicker();
+        }
+
+        function applyLoanInterest() {
+            if (gameData.loan.outstanding <= 0) return;
+
+            const now = Date.now();
+            const overdue = now > gameData.loan.dueAt;
+            const rate = overdue ? 0.25 : 0.12;
+            gameData.loan.outstanding = Math.ceil(gameData.loan.outstanding * (1 + rate));
+            gameData.loan.nextInterestTick = now + 60 * 1000;
+            gameData.loan.overdue = overdue;
+
+            const message = overdue
+                ? `🔥 Overdue interest! Stake jumped to $${gameData.loan.outstanding.toLocaleString()}.`
+                : `📈 Interest hit. Stake now $${gameData.loan.outstanding.toLocaleString()}.`;
+
+            addToHistory('loan', message, false, { countGame: false });
+            if (overdue) {
+                showNotification('Stake overdue! Interest skyrocketed.', 'error');
+            }
+
+            updateLoanUI();
+            saveGameData();
+        }
+
+        function updateLoanUI() {
+            const outstanding = Math.max(0, Math.ceil(gameData.loan.outstanding));
+            const principal = gameData.loan.principal || outstanding || 1;
+            const interestPercent = principal > 0 ? ((gameData.loan.outstanding / principal) - 1) * 100 : 0;
+
+            document.getElementById('loanOutstanding').textContent = `$${outstanding.toLocaleString()}`;
+            document.getElementById('loanInterest').textContent = `${Math.max(0, interestPercent).toFixed(1)}%`;
+
+            const now = Date.now();
+            const timerEl = document.getElementById('loanTimer');
+
+            if (outstanding > 0 && gameData.loan.dueAt) {
+                const remaining = gameData.loan.dueAt - now;
+                timerEl.textContent = remaining > 0
+                    ? `${formatDuration(remaining)} remaining`
+                    : `Overdue by ${formatDuration(now - gameData.loan.dueAt)}`;
+            } else {
+                const cooldownRemaining = Math.max(0, (gameData.loan.lastTakenAt + 10 * 60 * 1000) - now);
+                timerEl.textContent = cooldownRemaining > 0 ? `Cooldown ${formatDuration(cooldownRemaining)}` : 'Ready';
+            }
+
+            document.getElementById('loanRepayBtn').disabled = outstanding <= 0;
+            document.getElementById('loanForfeitBtn').disabled = outstanding <= 0;
+            document.getElementById('loanRequestBtn').disabled = outstanding > 0;
+        }
+
+        function startLoanTicker() {
+            if (loanTickHandle) {
+                clearTimeout(loanTickHandle);
+            }
+            loanTick();
+        }
+
+        function loanTick() {
+            updateLoanUI();
+
+            if (gameData.loan.outstanding > 0) {
+                const now = Date.now();
+
+                if (gameData.loan.nextInterestTick && now >= gameData.loan.nextInterestTick) {
+                    applyLoanInterest();
+                }
+
+                const remaining = gameData.loan.dueAt - now;
+
+                if (remaining <= 0) {
+                    document.getElementById('loanWarning').textContent = `⚠️ Overdue! Interest spikes every minute.`;
+                    if (gameData.loan.autoForfeitAt && now >= gameData.loan.autoForfeitAt) {
+                        autoForfeitLoan();
+                    }
+                } else if (remaining <= 15 * 60 * 1000) {
+                    document.getElementById('loanWarning').textContent = `⚠️ Due soon: ${formatDuration(remaining)} remaining.`;
+                    if (!gameData.loan.warningIssued && remaining <= 10 * 60 * 1000) {
+                        showNotification('Stake due in under 10 minutes!', 'warning');
+                        gameData.loan.warningIssued = true;
+                    }
+                } else {
+                    document.getElementById('loanWarning').textContent = '';
+                }
+            } else {
+                document.getElementById('loanWarning').textContent = '';
+            }
+
+            loanTickHandle = setTimeout(loanTick, 1000);
+        }
+
+        function formatDuration(ms) {
+            const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            const parts = [];
+            if (hours > 0) parts.push(`${hours}h`);
+            if (minutes > 0 || hours > 0) parts.push(`${minutes}m`);
+            parts.push(`${seconds}s`);
+            return parts.join(' ');
+        }
+
+        function animateButton(button) {
+            if (!button) {
+                console.error('No button provided to animate');
+                return;
+            }
+            button.classList.add('btn-click');
+            setTimeout(() => button.classList.remove('btn-click'), 300);
+        }
 
         function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
@@ -2630,77 +4353,6 @@ function animateButton(button) {
             }
         }
 
-
-     function beg(type) {
-    if (gameData.gameStates.begCooldown > 0) return;
-    
-    const buttonId = `${type}BegBtn`;
-    const button = document.getElementById(buttonId);
-    
-    if (!button) {
-        console.error(`Button with ID ${buttonId} not found!`);
-        return;
-    }
-    
-    animateButton(button);
-    button.style.pointerEvents = 'none';
-    showLoading();
-    
-    setTimeout(() => {
-        showLoading(false);
-        
-        let amount, cooldown;
-        switch(type) {
-            case 'street':
-                amount = Math.floor(Math.random() * 41) + 10; 
-                cooldown = 30; 
-                break;
-            case 'charity':
-                amount = Math.floor(Math.random() * 101) + 50; 
-                cooldown = 120;
-                break;
-            case 'rich':
-                amount = Math.floor(Math.random() * 401) + 100;
-                cooldown = 300;
-                break;
-            case 'celeb':
-                amount = Math.floor(Math.random() * 1501) + 500;
-                cooldown = 900; 
-                break;
-            default:
-                amount = Math.floor(Math.random() * 41) + 10;
-                cooldown = 30;
-        }
-        
-        gameData.balance += amount;
-        updateBalance();
-        updateProgress();
-        
-        let message;
-        switch(type) {
-            case 'street': message = `🙏 You begged on the street and received $${amount}!`; break;
-            case 'charity': message = `🤲 A charity donated $${amount} to you!`; break;
-            case 'rich': message = `💰 A rich donor gave you $${amount}!`; break;
-            case 'celeb': message = `🌟 A celebrity tipped you $${amount}!`; break;
-            default: message = `🙏 You received $${amount}!`;
-        }
-        
-        showResult('begResult', message, true);
-        addToHistory('beg', message, true, { type: type });
-        showNotification(`Received $${amount}!`, 'success');
-        checkAchievements();
-        
-        gameData.gameStates.begCooldown = cooldown;
-        gameData.gameStates.begType = type;
-        startCooldown();
-        
-        saveGameData();
-        
-        setTimeout(() => {
-            button.style.pointerEvents = 'auto';
-        }, 300);
-    }, 1000);
-}
         function flipCoin() {
             if (gameData.gameStates.coinFlipping) return;
             
@@ -2719,7 +4371,7 @@ function animateButton(button) {
             coin.classList.add('flipping');
             
             setTimeout(() => {
-                const playerWins = Math.random() < 0.45;
+                const playerWins = Math.random() < 0.43;
                 const result = playerWins ? choice : (choice === 'heads' ? 'tails' : 'heads');
                 
                 coin.classList.remove('flipping');
@@ -2869,7 +4521,6 @@ function animateButton(button) {
             endStreak();
             updateBalance();
             updateProgress();
-            updateStats();
             saveGameData();
         }
 
@@ -2879,6 +4530,244 @@ function animateButton(button) {
             document.getElementById('coinflipBtn').style.display = 'inline-block';
             document.getElementById('doubleBtn').style.display = 'none';
             document.getElementById('cashoutStreakBtn').style.display = 'none';
+        }
+
+        function handleRouletteBetTypeChange() {
+            const type = document.getElementById('rouletteBetType').value;
+            const numberGroup = document.getElementById('rouletteNumberGroup');
+            if (numberGroup) {
+                numberGroup.style.display = type === 'single' ? 'block' : 'none';
+            }
+        }
+
+        function spinRoulette() {
+            if (gameData.gameStates.rouletteSpinning) return;
+
+            const betAmount = parseInt(document.getElementById('rouletteBet').value);
+            if (!validateBet(betAmount)) return;
+
+            const betType = document.getElementById('rouletteBetType').value;
+            let betNumber = null;
+
+            if (betType === 'single') {
+                betNumber = parseInt(document.getElementById('rouletteNumber').value);
+                if (isNaN(betNumber) || betNumber < 0 || betNumber > 36) {
+                    showNotification('Choose a number between 0 and 36.', 'error');
+                    return;
+                }
+            }
+
+            const spinBtn = document.getElementById('rouletteSpinBtn');
+            animateButton(spinBtn);
+            spinBtn.disabled = true;
+
+            const wheel = document.getElementById('rouletteWheel');
+            if (!wheel) {
+                showNotification('Roulette wheel is unavailable.', 'error');
+                spinBtn.disabled = false;
+                return;
+            }
+
+            gameData.gameStates.rouletteSpinning = true;
+            gameData.balance -= betAmount;
+            gameData.totalWagered += betAmount;
+            gameData.gameStates.rouletteBet = betAmount;
+            gameData.gameStates.rouletteChoice = { type: betType, number: betNumber };
+            updateBalance();
+            updateProgress();
+
+            wheel.style.transition = 'none';
+            wheel.style.transform = 'rotate(0deg)';
+            void wheel.offsetWidth;
+            const spinDegrees = 720 + Math.floor(Math.random() * 360);
+            wheel.style.transition = 'transform 3s cubic-bezier(0.25, 0.1, 0.25, 1)';
+            wheel.style.transform = `rotate(${spinDegrees}deg)`;
+
+            const rawResult = rollRouletteNumber();
+            const finalResult = rigRouletteResult(rawResult, betType, betNumber);
+
+            setTimeout(() => {
+                finalizeRouletteSpin(finalResult, betType, betNumber, betAmount);
+                spinBtn.disabled = false;
+            }, 3100);
+        }
+
+        function finalizeRouletteSpin(result, betType, betNumber, betAmount) {
+            gameData.gameStates.rouletteSpinning = false;
+
+            const color = getRouletteColor(result);
+            const isWin = willRouletteBetWin(result, betType, betNumber);
+            let winnings = 0;
+
+            if (isWin) {
+                const multiplier = getRoulettePayoutMultiplier(betType);
+                winnings = betAmount * multiplier;
+                gameData.balance += winnings;
+                gameData.totalWon += winnings;
+                gameData.stats.roulette.profit += winnings - betAmount;
+                if (winnings > gameData.stats.roulette.maxPayout) {
+                    gameData.stats.roulette.maxPayout = winnings;
+                }
+            } else {
+                gameData.stats.roulette.profit -= betAmount;
+            }
+
+            updateBalance();
+            updateProgress();
+            updateStats();
+
+            const message = isWin
+                ? `🎡 ${formatRouletteResult(result, color)}! Won $${winnings.toLocaleString()}!`
+                : `🎡 ${formatRouletteResult(result, color)}. Lost $${betAmount.toLocaleString()}.`;
+
+            showResult('rouletteResult', message, isWin);
+            addToHistory('roulette', message, isWin, { number: result, color: color.toUpperCase() });
+
+            trackRouletteNumber(result, color);
+            updateRouletteTicker();
+            updateRouletteStats();
+            saveGameData();
+        }
+
+        function rollRouletteNumber() {
+            if (Math.random() < 0.04) {
+                return 0;
+            }
+            return Math.floor(Math.random() * 37);
+        }
+
+        function rigRouletteResult(candidate, betType, betNumber) {
+            let result = candidate;
+            if (Math.random() < 0.06) {
+                result = 0;
+            }
+
+            if (willRouletteBetWin(result, betType, betNumber) && Math.random() < 0.08) {
+                result = findLosingNumber(betType, betNumber, result);
+            }
+
+            return result;
+        }
+
+        function findLosingNumber(betType, betNumber, fallback) {
+            for (let i = 0; i < 25; i++) {
+                const candidate = Math.floor(Math.random() * 37);
+                if (!willRouletteBetWin(candidate, betType, betNumber)) {
+                    return candidate;
+                }
+            }
+            return fallback === 0 ? 1 : 0;
+        }
+
+        function willRouletteBetWin(result, betType, betNumber) {
+            if (betType === 'single') {
+                return result === betNumber;
+            }
+
+            if (result === 0) {
+                return false;
+            }
+
+            switch (betType) {
+                case 'red':
+                    return rouletteRedNumbers.has(result);
+                case 'black':
+                    return !rouletteRedNumbers.has(result);
+                case 'even':
+                    return result % 2 === 0;
+                case 'odd':
+                    return result % 2 === 1;
+                case 'low':
+                    return result >= 1 && result <= 18;
+                case 'high':
+                    return result >= 19 && result <= 36;
+                case 'dozen1':
+                    return result >= 1 && result <= 12;
+                case 'dozen2':
+                    return result >= 13 && result <= 24;
+                case 'dozen3':
+                    return result >= 25 && result <= 36;
+                default:
+                    return false;
+            }
+        }
+
+        function getRoulettePayoutMultiplier(betType) {
+            return roulettePayouts[betType] || 2;
+        }
+
+        function getRouletteColor(number) {
+            if (number === 0) return 'green';
+            return rouletteRedNumbers.has(number) ? 'red' : 'black';
+        }
+
+        function formatRouletteResult(number, color) {
+            const colorLabel = color.toUpperCase();
+            return `${number} ${colorLabel}`;
+        }
+
+        function trackRouletteNumber(number, color) {
+            if (!Array.isArray(gameData.gameStates.rouletteRecentNumbers)) {
+                gameData.gameStates.rouletteRecentNumbers = [];
+            }
+            gameData.gameStates.rouletteRecentNumbers.unshift({ number, color });
+            if (gameData.gameStates.rouletteRecentNumbers.length > 10) {
+                gameData.gameStates.rouletteRecentNumbers.pop();
+            }
+        }
+
+        function updateRouletteTicker() {
+            const container = document.getElementById('rouletteRecent');
+            if (!container) return;
+
+            container.innerHTML = '';
+            if (!Array.isArray(gameData.gameStates.rouletteRecentNumbers)) return;
+
+            gameData.gameStates.rouletteRecentNumbers.forEach(item => {
+                const chip = document.createElement('div');
+                chip.className = `roulette-chip ${item.color}`;
+                chip.textContent = item.number;
+                container.appendChild(chip);
+            });
+        }
+
+        function updateRouletteStats() {
+            const totalSpins = gameData.stats.roulette.wins + gameData.stats.roulette.losses;
+            const winRate = totalSpins > 0 ? Math.round((gameData.stats.roulette.wins / totalSpins) * 100) : 0;
+            const winRateEl = document.getElementById('rouletteWinRate');
+            const maxPayoutEl = document.getElementById('rouletteMaxPayout');
+            const lastLabelEl = document.getElementById('rouletteLastLabel');
+
+            if (winRateEl) {
+                winRateEl.textContent = `${winRate}%`;
+            }
+            if (maxPayoutEl) {
+                maxPayoutEl.textContent = `$${gameData.stats.roulette.maxPayout.toLocaleString()}`;
+            }
+            if (lastLabelEl) {
+                const recent = gameData.gameStates.rouletteRecentNumbers && gameData.gameStates.rouletteRecentNumbers[0];
+                lastLabelEl.textContent = recent ? `${recent.number} ${recent.color.toUpperCase()}` : '--';
+            }
+        }
+
+        function repeatRouletteBet() {
+            const lastBet = gameData.gameStates.rouletteBet;
+            const lastChoice = gameData.gameStates.rouletteChoice;
+
+            if (!lastBet || !lastChoice) {
+                showNotification('No previous roulette bet to repeat.', 'info');
+                return;
+            }
+
+            document.getElementById('rouletteBet').value = lastBet;
+            document.getElementById('rouletteBetType').value = lastChoice.type;
+            handleRouletteBetTypeChange();
+
+            if (lastChoice.type === 'single') {
+                document.getElementById('rouletteNumber').value = lastChoice.number ?? '';
+            }
+
+            spinRoulette();
         }
 
         function spinSlots() {
@@ -2904,7 +4793,7 @@ function animateButton(button) {
             const luck = Math.random();
             let forcedResults = null;
             
-            if (gameData.gameStates.slotsBonusCounter % 5 === 0) {
+            if (gameData.gameStates.slotsBonusCounter % 6 === 0) {
                 const possibleWins = [
                     ['💎', '💎', '💎'], 
                     ['⭐', '⭐', '⭐'], 
@@ -2914,12 +4803,12 @@ function animateButton(button) {
                 ];
                 
                 forcedResults = possibleWins[Math.floor(Math.random() * possibleWins.length)];
-            } else if (luck < 0.02) { 
+            } else if (luck < 0.01) { 
                 forcedResults = ['💎', '💎', '💎'];
-            } else if (luck < 0.08) { 
+            } else if (luck < 0.05) { 
                 const symbol = symbols[Math.floor(Math.random() * 6)];
                 forcedResults = [symbol, symbol, symbol];
-            } else if (luck < 0.20) { 
+            } else if (luck < 0.15) { 
                 const symbol = symbols[Math.floor(Math.random() * symbols.length)];
                 forcedResults = [symbol, symbol, symbols[Math.floor(Math.random() * symbols.length)]];
             }
@@ -3553,6 +5442,8 @@ function animateButton(button) {
                 gameData.gameStates.crashActive = true;
                 gameData.gameStates.crashBet = bet;
                 gameData.gameStates.crashMultiplier = 1.0;
+                gameData.gameStates.crashPlayerOut = false;
+                gameData.gameStates.crashAuto.queueNext = false;
                 gameData.totalWagered += bet;
                 gameData.balance -= bet;
                 updateBalance();
@@ -3563,14 +5454,14 @@ function animateButton(button) {
                 let crashPoint;
                 const rand = Math.random();
                 
-                if (rand < 0.50) { 
-                    crashPoint = 1.01 + Math.random() * 0.5; 
-                } else if (rand < 0.80) { 
-                    crashPoint = 1.5 + Math.random() * 1.5; 
-                } else if (rand < 0.95) { 
-                    crashPoint = 3 + Math.random() * 7; 
+                if (rand < 0.60) { 
+                    crashPoint = 1.01 + Math.random() * 0.35; 
+                } else if (rand < 0.85) { 
+                    crashPoint = 1.36 + Math.random() * 0.9; 
+                } else if (rand < 0.97) { 
+                    crashPoint = 2.26 + Math.random() * 2.5; 
                 } else { 
-                    crashPoint = 10 + Math.random() * 90; 
+                    crashPoint = 5 + Math.random() * 45; 
                 }
                 
                 let startTime = Date.now();
@@ -3594,9 +5485,10 @@ function animateButton(button) {
                     
                     if (gameData.gameStates.crashMultiplier >= crashPoint) {
                         gameData.gameStates.crashActive = false;
+                        const playerExited = gameData.gameStates.crashPlayerOut;
                         document.getElementById('crashStart').style.display = 'inline-block';
                         document.getElementById('crashCashout').style.display = 'none';
-                        
+
                         gameData.gameStates.crashHistory.unshift({
                             multiplier: gameData.gameStates.crashMultiplier,
                             crashed: true
@@ -3605,12 +5497,29 @@ function animateButton(button) {
                             gameData.gameStates.crashHistory.pop();
                         }
                         updateCrashHistory();
-                        
-                        const message = `🚀💥 CRASHED at ${gameData.gameStates.crashMultiplier.toFixed(2)}x! Lost ${bet}!`;
-                        showResult('crashResult', message, false);
-                        addToHistory('crash', message, false);
-                        showNotification(`Crash! Lost ${bet}!`, 'error');
-                        checkAchievements();
+
+                        if (playerExited) {
+                            const message = `🚀💥 Crash finished at ${gameData.gameStates.crashMultiplier.toFixed(2)}x. You were already out.`;
+                            showResult('crashResult', message, null);
+                            addToHistory('crash', message, null, { countGame: false });
+                        } else {
+                            const message = `🚀💥 CRASHED at ${gameData.gameStates.crashMultiplier.toFixed(2)}x! Lost ${bet}!`;
+                            showResult('crashResult', message, false);
+                            addToHistory('crash', message, false);
+                            showNotification(`Crash! Lost ${bet}!`, 'error');
+                            checkAchievements();
+                        }
+
+                        gameData.gameStates.crashPlayerOut = false;
+
+                        if (gameData.gameStates.crashAuto.active && gameData.gameStates.crashAuto.queueNext && gameData.gameStates.crashAuto.remaining > 0) {
+                            gameData.gameStates.crashAuto.queueNext = false;
+                            setTimeout(() => {
+                                if (gameData.gameStates.crashActive) return;
+                                document.getElementById('crashBet').value = gameData.gameStates.crashAuto.amount;
+                                startCrash();
+                            }, 2000);
+                        }
                     } else {
                         requestAnimationFrame(updateCrash);
                     }
@@ -3623,6 +5532,10 @@ function animateButton(button) {
 
         function cashoutCrash() {
             if (!gameData.gameStates.crashActive) return;
+            if (gameData.gameStates.crashPlayerOut) {
+                showNotification('Already cashed out this round.', 'info');
+                return;
+            }
             
             animateButton(document.getElementById('crashCashout'));
             showLoading();
@@ -3641,8 +5554,7 @@ function animateButton(button) {
                 updateProgress();
                 updateStats();
                 
-                gameData.gameStates.crashActive = false;
-                document.getElementById('crashStart').style.display = 'inline-block';
+                gameData.gameStates.crashPlayerOut = true;
                 document.getElementById('crashCashout').style.display = 'none';
                 
                 gameData.gameStates.crashHistory.unshift({
@@ -3663,10 +5575,7 @@ function animateButton(button) {
                 if (gameData.gameStates.crashAuto.active) {
                     gameData.gameStates.crashAuto.remaining--;
                     if (gameData.gameStates.crashAuto.remaining > 0) {
-                        setTimeout(() => {
-                            document.getElementById('crashBet').value = gameData.gameStates.crashAuto.amount;
-                            startCrash();
-                        }, 2000);
+                        gameData.gameStates.crashAuto.queueNext = true;
                     } else {
                         gameData.gameStates.crashAuto.active = false;
                         showNotification('Auto-betting completed!', 'info');
@@ -3699,7 +5608,8 @@ function animateButton(button) {
                 cashout: cashout,
                 amount: amount,
                 count: count,
-                remaining: count
+                remaining: count,
+                queueNext: false
             };
             
             showNotification(`Auto-betting started: ${count} bets of $${amount} with cashout at ${cashout}x`, 'info');
@@ -3723,19 +5633,41 @@ function animateButton(button) {
         }
 
         function initWheel() {
-            const wheelPrizes = document.getElementById('wheelPrizes');
-            wheelPrizes.innerHTML = '';
-            
-            const prizeCount = gameData.gameStates.wheelPrizes.length;
+            const wheel = document.getElementById('wheelSpin');
+            const labelsContainer = document.getElementById('wheelLabels');
+            if (!wheel || !labelsContainer) return;
+
+            const prizes = gameData.gameStates.wheelPrizes;
+            const prizeCount = prizes.length;
             const angle = 360 / prizeCount;
-            
-            gameData.gameStates.wheelPrizes.forEach((prize, index) => {
-                const prizeElement = document.createElement('div');
-                prizeElement.className = 'wheel-prize';
-                prizeElement.textContent = prize.text;
-                prizeElement.style.transform = `rotate(${angle * index}deg)`;
-                prizeElement.style.backgroundColor = prize.color;
-                wheelPrizes.appendChild(prizeElement);
+
+            const gradientStops = prizes.map((prize, index) => {
+                const start = index * angle;
+                const end = (index + 1) * angle;
+                return `${prize.color} ${start}deg ${end}deg`;
+            }).join(', ');
+
+            wheel.style.background = `conic-gradient(from -${angle / 2}deg, ${gradientStops})`;
+            wheel.style.transform = 'rotate(0deg)';
+            wheel.dataset.rotation = 0;
+
+            labelsContainer.innerHTML = '';
+            const radiusOffset = wheel.clientWidth ? wheel.clientWidth * 0.38 : 114;
+
+            prizes.forEach((prize, index) => {
+                const rotation = angle * index + angle / 2;
+                const label = document.createElement('div');
+                label.className = 'wheel-label';
+                label.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+
+                const span = document.createElement('span');
+                const valueText = typeof prize.text === 'string' ? prize.text : (prize.value === 'JACKPOT' ? 'JACKPOT' : `$${prize.value}`);
+                span.textContent = valueText;
+                span.style.transform = `rotate(${-rotation}deg) translate(-50%, -${radiusOffset}px)`;
+                span.style.fontSize = `${Math.max(14, Math.round((wheel.clientWidth || 300) * 0.06))}px`;
+
+                label.appendChild(span);
+                labelsContainer.appendChild(label);
             });
         }
 
@@ -3757,12 +5689,20 @@ function animateButton(button) {
             }
             
             const button = document.getElementById('wheelSpinBtn');
-            animateButton(button);
+            if (button) {
+                animateButton(button);
+                button.disabled = true;
+            }
             gameData.gameStates.wheelSpinning = true;
+            const centerButton = document.getElementById('spinWheelBtn');
+            if (centerButton) {
+                animateButton(centerButton);
+                centerButton.classList.add('disabled');
+            }
             
             const wheel = document.getElementById('wheelSpin');
             const spinDuration = 5000; 
-            const rotations = 5; 
+            const rotations = 6; 
             
             const prizeWeights = [30, 25, 20, 15, 8, 2, 0.1];
             let totalWeight = prizeWeights.reduce((a, b) => a + b, 0);
@@ -3778,12 +5718,21 @@ function animateButton(button) {
             }
             
             const angle = 360 / gameData.gameStates.wheelPrizes.length;
-            const finalAngle = 360 * rotations + (angle * selectedIndex) + (Math.random() * angle * 0.5);
-            
-            wheel.style.transform = `rotate(${-finalAngle}deg)`;
-            
+            const randomOffset = (Math.random() - 0.5) * angle * 0.5;
+            const finalRotation = (rotations * 360) + (selectedIndex * angle) + (angle / 2) + randomOffset;
+
+            wheel.style.transition = `transform ${spinDuration}ms cubic-bezier(0.17, 0.67, 0.12, 0.99)`;
+            wheel.style.transform = `rotate(${-finalRotation}deg)`;
+            wheel.dataset.rotation = finalRotation % 360;
+
             setTimeout(() => {
                 gameData.gameStates.wheelSpinning = false;
+                if (button) {
+                    button.disabled = false;
+                }
+                if (centerButton) {
+                    centerButton.classList.remove('disabled');
+                }
                 
                 const prize = gameData.gameStates.wheelPrizes[selectedIndex];
                 let winnings = 0;
@@ -3809,8 +5758,8 @@ function animateButton(button) {
                 if (isFreeSpin) {
                     message += ' (Free Spin)';
                     gameData.gameStates.lastFreeSpin = now;
-                    updateFreeSpinTimer();
                 }
+                updateFreeSpinTimer();
                 
                 showResult('wheelResult', message, true);
                 addToHistory('wheel', message, true, { type: isFreeSpin ? 'daily' : 'spin' });
@@ -3853,23 +5802,40 @@ function animateButton(button) {
             setTimeout(updateFreeSpinTimer, 60000);
         }
 
+        function setActiveTab(tabName, skipPersist = false) {
+            const tabElement = document.getElementById(`${tabName}-tab`);
+            const buttonElement = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+
+            if (!tabElement || !buttonElement) {
+                if (tabName !== 'loan') {
+                    setActiveTab('loan', skipPersist);
+                }
+                return;
+            }
+
+            document.querySelectorAll('.game-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            tabElement.classList.add('active');
+            buttonElement.classList.add('active');
+
+            if (tabElement.id === 'bonus-tab') {
+                checkFreeSpin();
+            }
+
+            if (!skipPersist) {
+                localStorage.setItem('casinoEmpireActiveTab', tabName);
+            }
+        }
+
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                document.querySelectorAll('.game-tab').forEach(tab => {
-                    tab.classList.remove('active');
-                });
-                
-                document.querySelectorAll('.tab-btn').forEach(tabBtn => {
-                    tabBtn.classList.remove('active');
-                });
-                
-                const tabId = `${btn.dataset.tab}-tab`;
-                document.getElementById(tabId).classList.add('active');
-                btn.classList.add('active');
-                
-                if (tabId === 'bonus-tab') {
-                    checkFreeSpin();
-                }
+                setActiveTab(btn.dataset.tab);
             });
         });
 
@@ -3889,5 +5855,7 @@ function animateButton(button) {
             });
         });
     </script>
-</body>
-</html>
+
+
+
+</body></html>
