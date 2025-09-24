@@ -3217,6 +3217,35 @@
         };
 
         const DEFAULT_PLAY_LIMIT_CONFIG = { maxPlaysPerGame: 15, cooldownGamesRequired: 25 };
+        const NUMBER_ABBREVIATIONS = [
+            { value: 1e15, symbol: 'q' },
+            { value: 1e12, symbol: 't' },
+            { value: 1e9, symbol: 'b' },
+            { value: 1e6, symbol: 'm' },
+            { value: 1e3, symbol: 'k' }
+        ];
+
+        function trimTrailingZeros(value) {
+            const cleaned = value.replace(/\.0+$|([^0])0+$/g, '$1');
+            return cleaned.endsWith('.') ? cleaned.slice(0, -1) : cleaned;
+        }
+
+        function formatNumberShort(value, digits = 1) {
+            if (value === null || value === undefined || isNaN(value)) return '0';
+            const abs = Math.abs(value);
+            for (const unit of NUMBER_ABBREVIATIONS) {
+                if (abs >= unit.value) {
+                    const formatted = (value / unit.value).toFixed(digits);
+                    return trimTrailingZeros(formatted) + unit.symbol;
+                }
+            }
+            return value.toLocaleString();
+        }
+
+        function formatCurrencyShort(value, digits = 1) {
+            const sign = value < 0 ? '-' : '';
+            return sign + '$' + formatNumberShort(Math.abs(value), digits);
+        }
 
         function generateSessionToken() {
             return Array.from({ length: 4 }, () => Math.random().toString(36).slice(2)).join('').slice(0, 32);
@@ -3514,7 +3543,7 @@
                 const amount = entry.amount;
                 gameData.balance += amount;
                 gameData.referral.totalReferralEarnings += amount;
-                showNotification(`Referral bonus collected: +$${amount.toLocaleString()}`, 'success');
+                showNotification(`Referral bonus collected: +${formatCurrencyShort(amount)}`, 'success');
                 delete pending[gameData.profile.profileId];
                 savePendingRewards(pending);
                 const leaderboard = loadLeaderboardData();
@@ -3764,9 +3793,9 @@
                 row.innerHTML = `
                     <td>${idx + 1}</td>
                     <td>${entry.username || 'Player'}</td>
-                    <td>$${(entry.balance || 0).toLocaleString()}</td>
-                    <td>$${(entry.totalWon || 0).toLocaleString()}</td>
-                    <td>$${(entry.referralRewards || 0).toLocaleString()}</td>
+                    <td>${formatCurrencyShort(entry.balance || 0)}</td>
+                    <td>${formatCurrencyShort(entry.totalWon || 0)}</td>
+                    <td>${formatCurrencyShort(entry.referralRewards || 0)}</td>
                     <td>${entry.updatedAt ? new Date(entry.updatedAt).toLocaleString() : '-'}</td>
                 `;
                 tbody.appendChild(row);
@@ -3793,10 +3822,10 @@
             const shareEl = document.getElementById('shareBonusValue');
             const clicksEl = document.getElementById('referralClicksValue');
 
-            if (earningsEl) earningsEl.textContent = '$' + (gameData.referral.totalReferralEarnings || 0).toLocaleString();
-            if (countEl) countEl.textContent = (gameData.referral.referredUsers || []).length;
-            if (shareEl) shareEl.textContent = '$' + (gameData.referral.shareRewardsClaimed || 0).toLocaleString();
-            if (clicksEl) clicksEl.textContent = (gameData.referral.clickCount || 0);
+            if (earningsEl) earningsEl.textContent = formatCurrencyShort(gameData.referral.totalReferralEarnings || 0);
+            if (countEl) countEl.textContent = formatNumberShort((gameData.referral.referredUsers || []).length, 1);
+            if (shareEl) shareEl.textContent = formatCurrencyShort(gameData.referral.shareRewardsClaimed || 0);
+            if (clicksEl) clicksEl.textContent = formatNumberShort(gameData.referral.clickCount || 0, 1);
 
             document.querySelectorAll('.share-card').forEach(card => {
                 const action = card.getAttribute('data-action');
@@ -3813,7 +3842,7 @@
                     if (button) {
                         const reward = SHARE_REWARD_VALUES[action] || 0;
                         const base = button.getAttribute('data-label') || button.textContent.split('(')[0].trim();
-                        button.textContent = `${base} (+$${reward.toLocaleString()})`;
+                        button.textContent = `${base} (+${formatCurrencyShort(reward)})`;
                         button.disabled = false;
                     }
                 }
@@ -3835,7 +3864,7 @@
                         row.innerHTML = `
                             <td>${user.username || 'Friend'}</td>
                             <td>${user.joinedAt ? new Date(user.joinedAt).toLocaleString() : '-'}</td>
-                            <td>$${earned.toLocaleString()}</td>
+                            <td>${formatCurrencyShort(earned)}</td>
                         `;
                         tbody.appendChild(row);
                     });
@@ -3854,7 +3883,7 @@
                 gameData.balance += reward;
                 gameData.referral.shareRewardsClaimed += reward;
                 updateBalance();
-                showNotification(`Share bonus unlocked! +$${reward.toLocaleString()}`, 'success');
+                showNotification(`Share bonus unlocked! +${formatCurrencyShort(reward)}`, 'success');
                 updateReferralUI();
                 saveGameData();
             } else {
@@ -4302,9 +4331,9 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
         }
 
         function updateBalance() {
-            document.getElementById('balance').textContent = gameData.balance.toLocaleString();
-            document.getElementById('totalWagered').textContent = gameData.totalWagered.toLocaleString();
-            document.getElementById('totalWon').textContent = gameData.totalWon.toLocaleString();
+            document.getElementById('balance').textContent = formatNumberShort(gameData.balance);
+            document.getElementById('totalWagered').textContent = formatNumberShort(gameData.totalWagered);
+            document.getElementById('totalWon').textContent = formatNumberShort(gameData.totalWon);
             document.getElementById('gamesPlayed').textContent = gameData.gamesPlayed.toLocaleString();
             const playerNameEl = document.getElementById('playerName');
             if (playerNameEl) {
@@ -4317,16 +4346,16 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
             const blackjackTotal = gameData.stats.blackjack.wins + gameData.stats.blackjack.losses + gameData.stats.blackjack.pushes;
             const blackjackWinRate = blackjackTotal > 0 ? Math.round((gameData.stats.blackjack.wins / blackjackTotal) * 100) : 0;
             document.getElementById('blackjackWinRate').textContent = blackjackWinRate + '%';
-            document.getElementById('blackjackProfit').textContent = '$' + gameData.stats.blackjack.profit.toLocaleString();
+            document.getElementById('blackjackProfit').textContent = formatCurrencyShort(gameData.stats.blackjack.profit);
             document.getElementById('blackjackStreak').textContent = gameData.stats.blackjack.streak;
             
             const minesTotal = gameData.stats.mines.wins + gameData.stats.mines.losses;
             const minesWinRate = minesTotal > 0 ? Math.round((gameData.stats.mines.wins / minesTotal) * 100) : 0;
             document.getElementById('minesWinRate').textContent = minesWinRate + '%';
-            document.getElementById('minesProfit').textContent = '$' + gameData.stats.mines.profit.toLocaleString();
+            document.getElementById('minesProfit').textContent = formatCurrencyShort(gameData.stats.mines.profit);
             document.getElementById('minesHit').textContent = gameData.stats.mines.minesHit;
             
-            document.getElementById('jackpotAmount').textContent = gameData.gameStates.slotsJackpot.toLocaleString();
+            document.getElementById('jackpotAmount').textContent = formatNumberShort(gameData.gameStates.slotsJackpot);
             document.getElementById('bonusSpins').textContent = 5 - (gameData.gameStates.slotsBonusCounter % 5);
 
             updateRouletteStats();
@@ -4338,14 +4367,14 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
             
             document.getElementById('progressFill').style.width = percent + '%';
             document.getElementById('progressPercent').textContent = percent.toFixed(6);
-            document.getElementById('progressAmount').textContent = gameData.balance.toLocaleString();
+            document.getElementById('progressAmount').textContent = formatNumberShort(gameData.balance);
             
             if (gameData.balance >= target && !gameData.achievements.trillionaire) {
                 showAchievementPopup(achievements.trillionaire);
                 gameData.achievements.trillionaire = true;
                 showNotification('🎉 CONGRATULATIONS! YOU BEAT THE CASINO! 🎉', 'success');
                 setTimeout(() => {
-                    alert('🏆 GAME COMPLETED! 🏆\n\nYou have stacked $100,000,000,000,000 and outlived the pit bosses!\n\nFinal Balance: $' + gameData.balance.toLocaleString() + '\n\nYou are the ultimate gambling champion!');
+                    alert('🏆 GAME COMPLETED! 🏆\n\nYou have stacked $100,000,000,000,000 and outlived the pit bosses!\n\nFinal Balance: ' + formatCurrencyShort(gameData.balance) + '\n\nYou are the ultimate gambling champion!');
                 }, 2000);
             }
         }
@@ -4689,10 +4718,10 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
             updateProgress();
             updateLoanUI();
 
-            const message = `💼 Stake approved for $${amount.toLocaleString()}. Repay within 1 hour.`;
+            const message = `💼 Stake approved for ${formatCurrencyShort(amount)}. Repay within 1 hour.`;
             showResult('loanResult', message, true);
             addToHistory('loan', message, true, { countGame: false });
-            showNotification(`Stake funded with $${amount.toLocaleString()}`, 'success');
+            showNotification(`Stake funded with ${formatCurrencyShort(amount)}`, 'success');
 
             startLoanTicker();
             saveGameData();
@@ -4717,7 +4746,7 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
 
             const interestPaid = payment - gameData.loan.principal;
             const message = interestPaid > 0
-                ? `✅ Repaid stake plus $${interestPaid.toLocaleString()} interest.`
+                ? `✅ Repaid stake plus ${formatCurrencyShort(interestPaid)} interest.`
                 : '✅ Repaid stake with no interest.';
 
             showResult('loanResult', message, true);
@@ -4755,7 +4784,7 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
             gameData.balance -= actualPenalty;
             gameData.stats.loan.penalties += actualPenalty;
 
-            const message = `${historyPrefix}${actualPenalty.toLocaleString()}.`;
+            const message = `${historyPrefix}${formatCurrencyShort(actualPenalty)}.`;
             showResult('loanResult', message, false);
             addToHistory('loan', message, false, { countGame: false });
             showNotification(notificationMessage, 'error');
@@ -4791,8 +4820,8 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
             gameData.loan.overdue = overdue;
 
             const message = overdue
-                ? `🔥 Overdue interest! Stake jumped to $${gameData.loan.outstanding.toLocaleString()}.`
-                : `📈 Interest hit. Stake now $${gameData.loan.outstanding.toLocaleString()}.`;
+                ? `🔥 Overdue interest! Stake jumped to ${formatCurrencyShort(gameData.loan.outstanding)}.`
+                : `📈 Interest hit. Stake now ${formatCurrencyShort(gameData.loan.outstanding)}.`;
 
             addToHistory('loan', message, false, { countGame: false });
             if (overdue) {
@@ -4808,7 +4837,7 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
             const principal = gameData.loan.principal || outstanding || 1;
             const interestPercent = principal > 0 ? ((gameData.loan.outstanding / principal) - 1) * 100 : 0;
 
-            document.getElementById('loanOutstanding').textContent = `$${outstanding.toLocaleString()}`;
+            document.getElementById('loanOutstanding').textContent = formatCurrencyShort(outstanding);
             document.getElementById('loanInterest').textContent = `${Math.max(0, interestPercent).toFixed(1)}%`;
 
             const now = Date.now();
@@ -4919,7 +4948,7 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
             document.getElementById('achievementIcon').textContent = achievement.icon;
             document.getElementById('achievementTitle').textContent = achievement.name;
             document.getElementById('achievementDesc').textContent = achievement.description;
-            document.getElementById('achievementReward').textContent = achievement.reward > 0 ? `+$${achievement.reward.toLocaleString()}` : 'GAME COMPLETE!';
+            document.getElementById('achievementReward').textContent = achievement.reward > 0 ? `+${formatCurrencyShort(achievement.reward)}` : 'GAME COMPLETE!';
             
             popup.classList.add('show');
             
@@ -4967,7 +4996,7 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
                         </div>
                         <div>${percent}% complete</div>
                     ` : ''}
-                    <div class="achievement-reward">Reward: ${achievement.reward > 0 ? achievement.reward.toLocaleString() : 'VICTORY!'}</div>
+                    <div class="achievement-reward">Reward: ${achievement.reward > 0 ? formatCurrencyShort(achievement.reward) : 'VICTORY!'}</div>
                     ${unlocked ? '<div style="color: var(--success); margin-top: 15px; font-weight: bold;">✅ UNLOCKED</div>' : '<div style="color: var(--warning); margin-top: 15px;">🔒 Locked</div>'}
                 `;
                 
@@ -5006,15 +5035,15 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
                     gameData.balance += winnings;
                     gameData.totalWon += winnings;
                     gameData.stats.coinflip.profit += winnings - bet;
-                    message = `🎉 ${result.toUpperCase()}! You won ${winnings}! (1.9x)`;
+                    message = `🎉 ${result.toUpperCase()}! You won ${formatCurrencyShort(winnings)}! (1.9x)`;
                     isWin = true;
-                    showNotification(`Won ${winnings}!`, 'success');
+                    showNotification(`Won ${formatCurrencyShort(winnings)}!`, 'success');
                 } else {
                     gameData.balance -= bet;
                     gameData.stats.coinflip.profit -= bet;
-                    message = `💔 ${result.toUpperCase()}! You lost ${bet}!`;
+                    message = `💔 ${result.toUpperCase()}! You lost ${formatCurrencyShort(bet)}!`;
                     isWin = false;
-                    showNotification(`Lost ${bet}!`, 'error');
+                    showNotification(`Lost ${formatCurrencyShort(bet)}!`, 'error');
                 }
                 
                 updateBalance();
@@ -5092,10 +5121,10 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
                         gameData.totalWon += winnings;
                         gameData.stats.coinflip.profit += winnings - streak.bet;
                         
-                        const message = `🔥 STREAK COMPLETE! You won ${winnings}! (${streak.multiplier}x)`;
+                        const message = `🔥 STREAK COMPLETE! You won ${formatCurrencyShort(winnings)}! (${streak.multiplier}x)`;
                         showResult('coinflipResult', message, true);
                         addToHistory('coinflip', message, true);
-                        showNotification(`Streak complete! Won ${winnings}!`, 'success');
+                        showNotification(`Streak complete! Won ${formatCurrencyShort(winnings)}!`, 'success');
                         
                         endStreak();
                     } else {
@@ -5107,10 +5136,10 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
                     gameData.balance -= bet;
                     gameData.stats.coinflip.profit -= bet;
                     
-                    const message = `💔 ${result.toUpperCase()}! Streak ended! Lost ${bet}!`;
+                    const message = `💔 ${result.toUpperCase()}! Streak ended! Lost ${formatCurrencyShort(bet)}!`;
                     showResult('coinflipResult', message, false);
                     addToHistory('coinflip', message, false);
-                    showNotification(`Streak ended! Lost ${bet}!`, 'error');
+                    showNotification(`Streak ended! Lost ${formatCurrencyShort(bet)}!`, 'error');
                     
                     endStreak();
                 }
@@ -5137,10 +5166,10 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
                 gameData.totalWon += winnings;
                 gameData.stats.coinflip.profit += winnings - streak.bet;
                 
-                const message = `💰 Cashed out! You won ${winnings}! (Streak: ${streak.count})`;
+                const message = `💰 Cashed out! You won ${formatCurrencyShort(winnings)}! (Streak: ${streak.count})`;
                 showResult('coinflipResult', message, true);
                 addToHistory('coinflip', message, true);
-                showNotification(`Cashed out! Won ${winnings}!`, 'success');
+                showNotification(`Cashed out! Won ${formatCurrencyShort(winnings)}!`, 'success');
             } else {
                 showNotification('Streak cashed out with no wins', 'info');
             }
@@ -5245,8 +5274,8 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
             updateStats();
 
             const message = isWin
-                ? `🎡 ${formatRouletteResult(result, color)}! Won $${winnings.toLocaleString()}!`
-                : `🎡 ${formatRouletteResult(result, color)}. Lost $${betAmount.toLocaleString()}.`;
+                ? `🎡 ${formatRouletteResult(result, color)}! Won ${formatCurrencyShort(winnings)}!`
+                : `🎡 ${formatRouletteResult(result, color)}. Lost ${formatCurrencyShort(betAmount)}.`;
 
             showResult('rouletteResult', message, isWin);
             addToHistory('roulette', message, isWin, { number: result, color: color.toUpperCase() });
@@ -5370,7 +5399,7 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
                 winRateEl.textContent = `${winRate}%`;
             }
             if (maxPayoutEl) {
-                maxPayoutEl.textContent = `$${gameData.stats.roulette.maxPayout.toLocaleString()}`;
+                maxPayoutEl.textContent = formatCurrencyShort(gameData.stats.roulette.maxPayout);
             }
             if (lastLabelEl) {
                 const recent = gameData.gameStates.rouletteRecentNumbers && gameData.gameStates.rouletteRecentNumbers[0];
@@ -5470,7 +5499,7 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
         }
 
         function updateJackpotDisplay() {
-            document.getElementById('jackpotAmount').textContent = gameData.gameStates.slotsJackpot.toLocaleString();
+            document.getElementById('jackpotAmount').textContent = formatNumberShort(gameData.gameStates.slotsJackpot);
             const jackpotPercent = Math.min((gameData.gameStates.slotsJackpot - 10000) / 90000 * 100, 100);
             document.getElementById('jackpotFill').style.width = jackpotPercent + '%';
             document.getElementById('jackpotValue').textContent = jackpotPercent.toFixed(1) + '%';
@@ -5496,11 +5525,11 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
                     winnings += gameData.gameStates.slotsJackpot;
                     gameData.gameStates.slotsJackpot = 10000; 
                     gameData.stats.slots.jackpots++;
-                    message = `🎰 JACKPOT!!! You won ${winnings} (${multiplier}x + JACKPOT)`;
+                    message = `🎰 JACKPOT!!! You won ${formatCurrencyShort(winnings)} (${multiplier}x + JACKPOT)`;
                     showNotification('JACKPOT!!!', 'success');
                 } else {
-                    message = `🎰 WINNER! You won ${winnings}! (${multiplier}x)`;
-                    showNotification(`Slots win! ${winnings}!`, 'success');
+                    message = `🎰 WINNER! You won ${formatCurrencyShort(winnings)}! (${multiplier}x)`;
+                    showNotification(`Slots win! ${formatCurrencyShort(winnings)}!`, 'success');
                 }
                 
                 gameData.balance += winnings;
@@ -5512,9 +5541,9 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
                 gameData.balance -= bet;
                 gameData.stats.slots.profit -= bet;
                 gameData.stats.slots.losses++;
-                message = `💸 No match! You lost ${bet}!`;
+                message = `💸 No match! You lost ${formatCurrencyShort(bet)}!`;
                 isWin = false;
-                showNotification(`Lost ${bet}!`, 'error');
+                showNotification(`Lost ${formatCurrencyShort(bet)}!`, 'error');
             }
             
             updateBalance();
@@ -5821,13 +5850,13 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
                 gameData.balance += winnings + bet;
                 gameData.totalWon += winnings;
                 gameData.stats.blackjack.profit += winnings;
-                message = `🎉 ${reason} Won ${winnings}!`;
-                showNotification(`Blackjack! Won ${winnings}!`, 'success');
+                message = `🎉 ${reason} Won ${formatCurrencyShort(winnings)}!`;
+                showNotification(`Blackjack! Won ${formatCurrencyShort(winnings)}!`, 'success');
                 addToHistory('blackjack', message, true);
             } else if (playerWins === false) {
                 gameData.stats.blackjack.profit -= bet;
-                message = `💔 ${reason} Lost ${bet}!`;
-                showNotification(`Lost ${bet}!`, 'error');
+                message = `💔 ${reason} Lost ${formatCurrencyShort(bet)}!`;
+                showNotification(`Lost ${formatCurrencyShort(bet)}!`, 'error');
                 addToHistory('blackjack', message, false);
             } else {
                 gameData.balance += bet;
@@ -5964,10 +5993,10 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
                         }
                     });
                     
-                    const message = `💣 BOOM! You hit a mine! Lost ${gameData.gameStates.minesBet}!`;
+                    const message = `💣 BOOM! You hit a mine! Lost ${formatCurrencyShort(gameData.gameStates.minesBet)}!`;
                     showResult('minesResult', message, false);
                     addToHistory('mines', message, false);
-                    showNotification(`Mine explosion! Lost ${gameData.gameStates.minesBet}!`, 'error');
+                    showNotification(`Mine explosion! Lost ${formatCurrencyShort(gameData.gameStates.minesBet)}!`, 'error');
                     checkAchievements();
                 } else {
                     cell.classList.add('revealed');
@@ -6013,10 +6042,10 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
                 document.getElementById('revealPowerup').style.display = 'none';
                 document.getElementById('shieldPowerup').style.display = 'none';
                 
-                const message = `💰 Cashed out! You won ${winnings}! (${multiplier.toFixed(2)}x)`;
+                const message = `💰 Cashed out! You won ${formatCurrencyShort(winnings)}! (${multiplier.toFixed(2)}x)`;
                 showResult('minesResult', message, true);
                 addToHistory('mines', message, true);
-                showNotification(`Mines cashout! Won ${winnings}!`, 'success');
+                showNotification(`Mines cashout! Won ${formatCurrencyShort(winnings)}!`, 'success');
                 checkAchievements();
                 saveGameData();
             }, 1000);
@@ -6135,10 +6164,10 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
                             showResult('crashResult', message, null);
                             addToHistory('crash', message, null, { countGame: false });
                         } else {
-                            const message = `🚀💥 CRASHED at ${gameData.gameStates.crashMultiplier.toFixed(2)}x! Lost ${bet}!`;
+                            const message = `🚀💥 CRASHED at ${gameData.gameStates.crashMultiplier.toFixed(2)}x! Lost ${formatCurrencyShort(bet)}!`;
                             showResult('crashResult', message, false);
                             addToHistory('crash', message, false);
-                            showNotification(`Crash! Lost ${bet}!`, 'error');
+                            showNotification(`Crash! Lost ${formatCurrencyShort(bet)}!`, 'error');
                             checkAchievements();
                         }
 
@@ -6198,10 +6227,10 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
                 }
                 updateCrashHistory();
                 
-                const message = `🚀💰 Cashed out at ${gameData.gameStates.crashMultiplier.toFixed(2)}x! Won ${winnings}!`;
+                const message = `🚀💰 Cashed out at ${gameData.gameStates.crashMultiplier.toFixed(2)}x! Won ${formatCurrencyShort(winnings)}!`;
                 showResult('crashResult', message, true);
                 addToHistory('crash', message, true);
-                showNotification(`Crash cashout! Won ${winnings}!`, 'success');
+                showNotification(`Crash cashout! Won ${formatCurrencyShort(winnings)}!`, 'success');
                 checkAchievements();
                 
                 if (gameData.gameStates.crashAuto.active) {
@@ -6375,12 +6404,12 @@ REMEMBER: This is a casino simulation. No real money is awarded or collected. Pl
                 if (prize.value === 'JACKPOT') {
                     winnings = gameData.gameStates.slotsJackpot;
                     gameData.gameStates.slotsJackpot = 10000;
-                    message = `🎉 JACKPOT! You won $${winnings.toLocaleString()}!`;
+                    message = `🎉 JACKPOT! You won ${formatCurrencyShort(winnings)}!`;
                     showNotification('WHEEL JACKPOT!!!', 'success');
                 } else {
                     winnings = prize.value;
-                    message = `🎉 You won $${winnings}!`;
-                    showNotification(`Won $${winnings} on the wheel!`, 'success');
+                    message = `🎉 You won ${formatCurrencyShort(winnings)}!`;
+                    showNotification(`Won ${formatCurrencyShort(winnings)} on the wheel!`, 'success');
                 }
                 
                 gameData.balance += winnings;
