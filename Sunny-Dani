@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emperor Justinian I | Byzantine Emperor | LinkedIn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f3f2ef;
+            color: #000000e6;
+            font-size: 12px;
+            line-height: 1;
+        }
+        
+        .container {
+            max-width: 816px;
+            margin: 0 auto;
+            padding: 6px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar {
+            background-color: white;
+            padding: 0 6px;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+            margin-bottom: 6px;
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 32px;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            color: #0a66c2;
+            font-size: 1.5rem;
+            margin-right: 6px;
+        }
+        
+        .search-box {
+            background-color: #eef3f8;
+            border-radius: 4px;
+            padding: 0 4px;
+            display: flex;
+            align-items: center;
+            height: 24px;
+            width: 160px;
+        }
+        
+        .search-box input {
+            background: none;
+            border: none;
+            outline: none;
+            padding: 0 4px;
+            width: 100%;
+            font-size: 10px;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 4px;
+            font-size: 9px;
+            color: #666666;
+            cursor: pointer;
+        }
+        
+        .nav-item i {
+            font-size: 14px;
+            margin-bottom: 1px;
+        }
+        
+        .nav-item.active {
+            color: #000000e6;
+        }
+        
+        .nav-item.active::after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background-color: #000000e6;
+            position: relative;
+            top: 4px;
+        }
+        
+        .profile-card {
+            background-color: white;
+            border-radius: 3px;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+        
+        .profile-banner {
+            height: 60px;
+            background: linear-gradient(to right, #0a66c2, #5a9bd4);
+        }
+        
+        .profile-info {
+            padding: 20px 12px 8px;
+            position: relative;
+        }
+        
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            overflow: hidden;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -60px;
+            margin-bottom: 8px;
+        }
+        
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-actions {
+            display: flex;
+            justify-content: flex-end;
+            padding: 6px 0;
+            gap: 4px;
+        }
+        
+        .btn {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 10px;
+        }
+        
+        .btn-primary {
+            background-color: #0a66c2;
+            color: white;
+            border: none;
+        }
+        
+        .btn-outline {
+            background-color: white;
+            color: #0a66c2;
+            border: 1px solid #0a66c2;
+        }
+        
+        .profile-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .profile-headline {
+            font-size: 11px;
+            color: #00000099;
+            margin-bottom: 2px;
+        }
+        
+        .profile-location, .profile-connections {
+            font-size: 10px;
+            color: #00000099;
+            margin-bottom: 1px;
+        }
+        
+        .profile-location i, .profile-connections i {
+            margin-right: 3px;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+            padding: 8px;
+            margin-bottom: 6px;
+        }
+        
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #000000e6;
+        }
+        
+        .section-content {
+            font-size: 10px;
+            line-height: 1.3;
+            color: #000000e6;
+        }
+        
+        .section-content p {
+            margin-bottom: 6px;
+        }
+        
+        .section-content ul {
+            padding-left: 14px;
+            margin-bottom: 6px;
+        }
+        
+        .section-content li {
+            margin-bottom: 3px;
+        }
+        
+        .experience-item {
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .experience-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .company-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #f0e6d2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #8b7355;
+            float: left;
+            margin-right: 8px;
+        }
+        
+        .experience-details {
+            overflow: hidden;
+        }
+        
+        .job-title {
+            font-weight: 600;
+            font-size: 11px;
+            margin-bottom: 1px;
+        }
+        
+        .company-name {
+            font-weight: 600;
+            color: #000000e6;
+            margin-bottom: 1px;
+        }
+        
+        .employment-dates {
+            color: #00000099;
+            font-size: 10px;
+            margin-bottom: 3px;
+        }
+        
+        .job-description {
+            color: #000000e6;
+            line-height: 1.3;
+        }
+        
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        
+        .skill-tag {
+            background-color: #eef3f8;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            color: #000000e6;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 6px;
+            color: #00000099;
+            font-size: 9px;
+            margin-top: 6px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3px;
+        }
+        
+        .footer-link {
+            margin: 0 3px;
+            cursor: pointer;
+        }
+        
+        .two-column {
+            display: flex;
+            gap: 6px;
+        }
+        
+        .column {
+            flex: 1;
+        }
+        
+        .three-column {
+            display: flex;
+            gap: 6px;
+        }
+        
+        .col {
+            flex: 1;
+        }
+        
+        .quote {
+            background-color: #f8f9fa;
+            border-left: 3px solid #0a66c2;
+            padding: 6px 8px;
+            margin: 6px 0;
+            font-style: italic;
+            font-size: 10px;
+        }
+        
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .navbar {
+                display: block !important;
+                background-color: white !important;
+                box-shadow: 0 0 0 1px rgba(0,0,0,0.1) !important;
+            }
+            .profile-banner {
+                display: block !important;
+                height: 60px !important;
+                background: linear-gradient(to right, #0a66c2, #5a9bd4) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-left">
+                    <i class="fab fa-linkedin logo"></i>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search">
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <div class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-users"></i>
+                        <span>Network</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Jobs</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>Messages</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="profile-card">
+            <div class="profile-banner"></div>
+            <div class="profile-info">
+                <div class="profile-pic">
+                    <img src="justin.webp" alt="Justinian I">
+                </div>
+                <h1 class="profile-name">Emperor Justinian I</h1>
+                <p class="profile-headline">Byzantine Emperor at Roman Empire</p>
+                <p class="profile-location"><i class="fas fa-map-marker-alt"></i> Constantinople, Eastern Roman Empire</p>
+                <p class="profile-connections"><i class="fas fa-users"></i> 500+ connections</p>
+                <div class="profile-actions">
+                    <button class="btn btn-primary">Connect</button>
+                    <button class="btn btn-outline">Message</button>
+                    <button class="btn btn-outline">More</button>
+                </div>
+            </div>
+        </div>
+        <div class="two-column">
+            <div class="column">
+                <div class="section">
+                    <h2 class="section-title">About</h2>
+                    <div class="section-content">
+                        <p>Flavius Petrus Sabbatius, later Justinian I, rose from humble origins to become one of the most influential rulers of the Byzantine Empire. Adopted by his uncle Justin I, he assumed the throne in 527 CE.</p>
+                        <p>His reign was marked by sweeping legal reform, ambitious military campaigns, and monumental construction projects including the Hagia Sophia.</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <h2 class="section-title">Timeline / Experience</h2>
+                    <div class="experience-item">
+                        <div class="company-logo">R</div>
+                        <div class="experience-details">
+                            <div class="job-title">Byzantine Emperor</div>
+                            <div class="company-name">Roman Empire</div>
+                            <div class="employment-dates">527 – 565 CE · 38 years</div>
+                            <div class="job-description">
+                                Ruled the Eastern Roman Empire during its golden age. Supervised military campaigns, legal reforms, and construction projects.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="experience-item">
+                        <div class="company-logo">R</div>
+                        <div class="experience-details">
+                            <div class="job-title">Co-Emperor</div>
+                            <div class="company-name">Roman Empire</div>
+                            <div class="employment-dates">527 CE · 4 months</div>
+                            <div class="job-description">
+                                Served as co-emperor with Justin I before assuming full imperial power.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <h2 class="section-title">Education</h2>
+                    <div class="experience-item">
+                        <div class="company-logo">C</div>
+                        <div class="experience-details">
+                            <div class="job-title">Imperial Studies</div>
+                            <div class="company-name">Constantinople Academy</div>
+                            <div class="employment-dates">500 – 518 CE</div>
+                            <div class="job-description">
+                                Studied law, theology, military strategy, and administration in preparation for imperial leadership.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <h2 class="section-title">Legacy</h2>
+                    <div class="section-content">
+                        <p>Justinian I is remembered as one of the most important Byzantine emperors, with a legacy that includes:</p>
+                        <ul>
+                            <li><b>Legal Legacy:</b> Basis of civil law in Europe</li>
+                            <li><b>Architecture:</b> The Hagia Sophia</li>
+                            <li><b>Military:</b> Reconquered Western territories</li>
+                            <li><b>Religion:</b> Strengthened Christianity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="section">
+                    <h2 class="section-title">Justinian's Code</h2>
+                    <div class="section-content">
+                        <p>The <i>Corpus Juris Civilis</i> organized Roman law into four parts:</p>
+                        <ul>
+                            <li><b>Codex:</b> Imperial statutes</li>
+                            <li><b>Digest:</b> Juristic writings</li>
+                            <li><b>Institutes:</b> Law textbook</li>
+                            <li><b>Novellae:</b> New laws</li>
+                        </ul>
+                        <p>This framework standardized laws on crimes, property, contracts, and marriage. Its influence shaped European law for centuries.</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <h2 class="section-title">Legal Theories</h2>
+                    <div class="section-content">
+                        <p>Justinian aligned with natural law theory, viewing law as reflecting divine and natural justice, not just imperial command. His legal philosophy emphasized:</p>
+                        <ul>
+                            <li>The emperor as the ultimate source of law</li>
+                            <li>Strict obedience to imperial authority</li>
+                            <li>Legal uniformity across the empire</li>
+                            <li>Integration of Christian principles into Roman law</li>
+                        </ul>
+                        <p>With no separation between church and state, laws were justified by divine order, reinforcing imperial authority with moral legitimacy.</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <h2 class="section-title">Civil Disobedience</h2>
+                    <div class="section-content">
+                        <p>In Justinian's empire, disobedience was treated as rebellion against both state and divine authority. The Nika Riots demonstrated that even peaceful protest was met with violent suppression.</p>
+                        <p>With law seen as flowing from God through the emperor, there was no room for civil disobedience as a moral act. Society valued order and divine authority over individual conscience.</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <h2 class="section-title">Excerpt</h2>
+                    <div class="section-content">
+                        <div class="quote">
+                            "For as marriage is so advantageous that it seems to provide an artificial immortality for the human race, in that, by the procreation of children, families are constantly renewed, and if God, in his mercy, by this means, confers an eternal existence upon our species, as far as is possible, it is only proper for Us to devote the greatest care to matters relating to marriage."
+                        </div>
+                        <p>This excerpt shows Justinian's alignment with natural law theory, grounding marriage law in divine purpose rather than mere imperial decree. It highlights how Christianity shaped Byzantine law and expected conformity.</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer-links">
+                <div class="footer-link">About</div>
+                <div class="footer-link">Accessibility</div>
+                <div class="footer-link">Help Center</div>
+                <div class="footer-link">Privacy & Terms</div>
+                <div class="footer-link">Advertising</div>
+            </div>
+                        <div>LinkedIn Corporation © 565 CE</div>
+
+        </div>
+    </div>
+</body>
+</html>
