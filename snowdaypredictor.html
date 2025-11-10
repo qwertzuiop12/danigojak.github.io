@@ -159,7 +159,7 @@ allow.onclick=()=>{
 function shareResults(lat,lon){
   const text=`Snow Day Predictor: ${city.textContent} ${percent.textContent} chance of a snow day tomorrow! Check yours: https://www.danigojak.xyz/snowdaypredictor`;
   if(navigator.share){
-    navigator.share({title:'Snow Day Predictor',text:text,url:window.location.origin});
+    navigator.share({title:'Snow Day Predictor https://www.danigojak.xyz/snowdaypredictor'});
   }else{
     navigator.clipboard.writeText(text).then(()=>alert('Copied to clipboard!')); 
   }
