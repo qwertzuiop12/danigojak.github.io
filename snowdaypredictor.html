@@ -11,27 +11,28 @@
   :root{--bg1:#ffffff;--bg2:#eef2f7;--card:#f9fbff;--ink:#1e293b;--muted:#64748b;--pri:#0061ff;--pri2:#60a5fa}
   body{font-family:Poppins,sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-bottom:40px}
   header{padding:30px 0;text-align:center;background:#f1f5ff;width:100%;border-bottom:1px solid #d1d5db;box-shadow:0 2px 20px rgba(0,0,0,.05)}
-  header h1{font-size:44px;font-weight:800;color:var(--pri);margin:0}
-  header p{color:var(--muted);font-size:1.05rem;margin-top:4px}
+  header h1{font-size:40px;font-weight:800;color:var(--pri);margin:0}
+  header p{color:var(--muted);font-size:1rem;margin-top:4px}
   .ad-banner{background:#f3f4f6;margin:20px auto;width:min(1100px,92%);height:90px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#94a3b8;border:1px dashed #cbd5e1}
-  main{width:min(1200px,92%);margin:40px auto;background:var(--card);border:1px solid #e2e8f0;border-radius:18px;box-shadow:0 6px 30px rgba(0,0,0,.07);padding:50px;text-align:center}
-  #gate{padding:60px 40px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,.05);width:100%;max-width:600px;margin:0 auto}
-  #gate p{font-size:22px;color:#334155;margin:0 auto 30px;max-width:600px}
-  .btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(90deg,var(--pri),var(--pri2));padding:14px 30px;border-radius:8px;font-weight:700;color:#fff;font-size:18px;box-shadow:0 8px 20px rgba(59,130,246,.25);transition:.25s}
+  main{width:min(1000px,94%);margin:20px auto;background:var(--card);border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.07);padding:30px;text-align:center}
+  #gate{padding:40px 20px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,.05);width:100%;max-width:500px;margin:0 auto}
+  #gate p{font-size:20px;color:#334155;margin:0 auto 20px;max-width:600px}
+  .btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(90deg,var(--pri),var(--pri2));padding:14px 28px;border-radius:8px;font-weight:700;color:#fff;font-size:17px;box-shadow:0 8px 20px rgba(59,130,246,.25);transition:.25s}
   .btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
-  .btn:active{transform:translateY(0)}
-  #content h2{font-size:36px;margin:6px 0 2px;color:#111827}
-  #dateLine{color:#475569;font-size:18px;margin:0 0 18px}
-  .result{margin:22px auto;max-width:1000px;padding:40px;border-radius:14px;background:linear-gradient(135deg,#e0f2fe,#dbeafe);border:1px solid #bfdbfe}
-  .result .percent{font-size:76px;font-weight:800;color:#1d4ed8}
-  .result .desc{margin-top:6px;color:#334155;font-size:19px}
-  .stats{margin-top:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .card{background:#f1f5ff;border:1px solid #cbd5e1;border-radius:12px;padding:26px;text-align:center;transition:.2s}
+  #content h2{font-size:30px;margin:6px 0 2px;color:#111827}
+  #dateLine{color:#475569;font-size:17px;margin:0 0 14px}
+  .result{margin:22px auto;max-width:800px;padding:30px;border-radius:14px;background:linear-gradient(135deg,#e0f2fe,#dbeafe);border:1px solid #bfdbfe}
+  .result .percent{font-size:60px;font-weight:800;color:#1d4ed8}
+  .result .desc{margin-top:6px;color:#334155;font-size:18px}
+  .share{margin-top:25px}
+  .share button{background:#2563eb;color:#fff;padding:12px 24px;border:none;border-radius:8px;font-weight:600;transition:.3s}
+  .share button:hover{background:#1e40af}
+  .stats{margin-top:25px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+  .card{background:#f1f5ff;border:1px solid #cbd5e1;border-radius:12px;padding:20px;text-align:center;transition:.2s}
   .card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
-  .card h3{font-size:34px;font-weight:800;color:#2563eb;margin:0 0 6px}
-  .map{margin-top:30px;border-radius:14px;overflow:hidden;border:1px solid #cbd5e1}
-  footer{text-align:center;color:#64748b;margin:30px 0 20px;font-size:15px}
-  @media(max-width:900px){.stats{grid-template-columns:1fr}.ad-banner{height:70px}}
+  .card h3{font-size:28px;font-weight:800;color:#2563eb;margin:0 0 6px}
+  .map{margin-top:25px;border-radius:12px;overflow:hidden;border:1px solid #cbd5e1}
+  footer{text-align:center;color:#64748b;margin:25px 0 15px;font-size:14px}
 </style>
 </head>
 <body>
@@ -46,10 +47,7 @@
 <main>
   <div id="gate">
     <p>Allow location to get your snow prediction.</p>
-    <button id="allow" class="btn" aria-label="Enable location">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.5-7-12a7 7 0 1114 0c0 5.5-7 12-7 12z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
-      Enable Location
-    </button>
+    <button id="allow" class="btn" aria-label="Enable location">Enable Location</button>
     <p id="gateMsg" class="mt-4 text-slate-500 text-base"></p>
   </div>
 
@@ -60,6 +58,7 @@
     <div class="result">
       <div class="percent" id="percent">0%</div>
       <div class="desc" id="desc">Loading weather data...</div>
+      <div class="share"><button id="shareBtn">Share Results</button></div>
     </div>
 
     <div class="stats">
@@ -68,13 +67,9 @@
       <div class="card"><h3 id="temp">--</h3><p>Min Temperature (°C)</p></div>
     </div>
 
-    <div class="map"><iframe id="iframeMap" class="w-full h-[500px]" loading="lazy" allowfullscreen></iframe></div>
+    <div class="map"><iframe id="iframeMap" class="w-full h-[400px]" loading="lazy" allowfullscreen></iframe></div>
   </div>
 </main>
-<div class="ad-banner">
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2907999927695698" data-ad-slot="0987654321" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
-</div>
 <footer>© 2025 Snow Day Predictor | Powered by OpenWeatherMap</footer>
 <script>
 const gate=document.getElementById('gate');
@@ -89,6 +84,7 @@ const snow=document.getElementById('snow');
 const precip=document.getElementById('precip');
 const temp=document.getElementById('temp');
 const iframeMap=document.getElementById('iframeMap');
+const shareBtn=document.getElementById('shareBtn');
 
 const API_KEY='29ec60d5f44ff9df71295fb6c7b40b56';
 const ONE_DAY_MS=24*60*60*1000;
@@ -96,8 +92,8 @@ const ONE_DAY_MS=24*60*60*1000;
 if(localStorage.getItem('coords')){
   try{
     const saved=JSON.parse(localStorage.getItem('coords'));
-    const fresh=saved.ts && (Date.now()-saved.ts)<ONE_DAY_MS && isSameLocalDay(saved.ts,Date.now());
-    if(fresh){handleSaved(saved.lat,saved.lon);} else {localStorage.removeItem('coords');}
+    const fresh=saved.ts&&(Date.now()-saved.ts)<ONE_DAY_MS&&isSameLocalDay(saved.ts,Date.now());
+    if(fresh){handleSaved(saved.lat,saved.lon);}else{localStorage.removeItem('coords');}
   }catch{localStorage.removeItem('coords');}
 }
 
@@ -110,6 +106,7 @@ function handleSaved(lat,lon){
   tomorrow.setDate(tomorrow.getDate()+1);
   const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   dateLine.textContent=`Snow day chance for ${days[tomorrow.getDay()]}`;
+  shareBtn.onclick=()=>shareResults(lat,lon);
 }
 
 async function fetchWeather(lat,lon){
@@ -126,9 +123,9 @@ async function fetchWeather(lat,lon){
    snowTotal=snowTotal/10;
    const chance=Math.min(100,Math.round((snowTotal*10)+(precipTotal*2)+(minTemp<0?20:0)));
    percent.textContent=`${chance}%`;
-   if(chance>70)desc.textContent='High chance! school might close.🙏';
-   else if(chance>40)desc.textContent='Moderate chance! keep an eye out.';
-   else desc.textContent='Low chance... probably open.';
+   if(chance>70)desc.textContent='High chance — school might close.';
+   else if(chance>40)desc.textContent='Moderate chance — keep an eye out.';
+   else desc.textContent='Low chance — probably open.';
    snow.textContent=snowTotal.toFixed(1);
    precip.textContent=precipTotal.toFixed(1);
    temp.textContent=minTemp.toFixed(1);
@@ -159,9 +156,18 @@ allow.onclick=()=>{
   navigator.geolocation.getCurrentPosition(handlePosition,handleError);
 };
 
+function shareResults(lat,lon){
+  const text=`Snow Day Predictor: ${city.textContent} — ${percent.textContent} chance of a snow day tomorrow! Check yours: ${window.location.origin}`;
+  if(navigator.share){
+    navigator.share({title:'Snow Day Predictor',text:text,url:window.location.origin});
+  }else{
+    navigator.clipboard.writeText(text).then(()=>alert('Copied to clipboard!')); 
+  }
+}
+
 function isSameLocalDay(a,b){
-  const da=new Date(a), db=new Date(b);
-  return da.getFullYear()===db.getFullYear() && da.getMonth()===db.getMonth() && da.getDate()===db.getDate();
+  const da=new Date(a),db=new Date(b);
+  return da.getFullYear()===db.getFullYear()&&da.getMonth()===db.getMonth()&&da.getDate()===db.getDate();
 }
 </script>
 </body>
