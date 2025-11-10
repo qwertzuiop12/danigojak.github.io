@@ -149,7 +149,7 @@ function handlePosition(p){
   handleSaved(lat,lon);
 }
 
-function handleError(){gateMsg.textContent='Please enable location to continue.';}
+function handleError(){gateMsg.textContent='Please enable location in your browser settings (Safari: Settings > Privacy > Location Services > Safari Websites, Chrome: Site settings > Location).';}
 
 allow.onclick=()=>{
   if(!navigator.geolocation){gateMsg.textContent='Geolocation not supported.';return}
