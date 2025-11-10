@@ -6,37 +6,38 @@
 <title>Snow Day Predictor</title>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2907999927695698" crossorigin="anonymous"></script>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet"/>
 <style>
-  :root{--bg1:#0b1424;--bg2:#0f192b;--card:#121c2e;--ink:#e5f0ff;--muted:#9fb0c9;--pri:#23c6ff;--pri2:#4f7dff}
-  body{font-family:Outfit,sans-serif;background:radial-gradient(circle at top,#0b1424,#0f192b);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-bottom:40px}
-  header{padding:28px 0;text-align:center;background:#0e1a2e;width:100%;border-bottom:1px solid #14223a;box-shadow:0 2px 18px rgba(0,0,0,.5)}
-  header h1{font-size:46px;font-weight:800;background:linear-gradient(90deg,var(--pri),var(--pri2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0}
-  header p{color:var(--muted);font-size:1.1rem;margin-top:6px}
-  .ad-banner{background:#0f1a30;margin:18px auto;width:min(1100px,92%);height:90px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#94a3b8;border:1px dashed #28405f}
-  main{width:min(1200px,92%);margin:30px auto;background:var(--card);border:1px solid #1b2a44;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.5);padding:48px;text-align:center}
-  #gate{padding:60px 40px;background:#0f1a2e;border:1px solid #1c2b47;border-radius:8px;box-shadow:0 12px 30px rgba(0,0,0,.45);width:100%;max-width:600px;margin:0 auto}
-  #gate p{font-size:22px;color:#d6e2ff;margin:0 auto 30px;max-width:600px}
-  .btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(90deg,var(--pri),var(--pri2));padding:14px 26px;border-radius:6px;font-weight:700;color:#fff;font-size:18px;box-shadow:0 10px 22px rgba(35,198,255,.15);transition:.25s}
-  .btn:hover{transform:translateY(-1px);filter:saturate(1.05)}
+  :root{--bg1:#ffffff;--bg2:#eef2f7;--card:#f9fbff;--ink:#1e293b;--muted:#64748b;--pri:#0061ff;--pri2:#60a5fa}
+  body{font-family:Poppins,sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-bottom:40px}
+  header{padding:30px 0;text-align:center;background:#f1f5ff;width:100%;border-bottom:1px solid #d1d5db;box-shadow:0 2px 20px rgba(0,0,0,.05)}
+  header h1{font-size:44px;font-weight:800;color:var(--pri);margin:0}
+  header p{color:var(--muted);font-size:1.05rem;margin-top:4px}
+  .ad-banner{background:#f3f4f6;margin:20px auto;width:min(1100px,92%);height:90px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#94a3b8;border:1px dashed #cbd5e1}
+  main{width:min(1200px,92%);margin:40px auto;background:var(--card);border:1px solid #e2e8f0;border-radius:18px;box-shadow:0 6px 30px rgba(0,0,0,.07);padding:50px;text-align:center}
+  #gate{padding:60px 40px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,.05);width:100%;max-width:600px;margin:0 auto}
+  #gate p{font-size:22px;color:#334155;margin:0 auto 30px;max-width:600px}
+  .btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(90deg,var(--pri),var(--pri2));padding:14px 30px;border-radius:8px;font-weight:700;color:#fff;font-size:18px;box-shadow:0 8px 20px rgba(59,130,246,.25);transition:.25s}
+  .btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
   .btn:active{transform:translateY(0)}
-  #content h2{font-size:36px;margin:6px 0 2px}
-  #dateLine{color:var(--muted);font-size:18px;margin:0 0 18px}
-  .result{margin:22px auto;max-width:1000px;padding:32px;border-radius:10px;background:linear-gradient(135deg,#17233b,#101a2d);border:1px solid #1a2943}
-  .result .percent{font-size:76px;font-weight:800;background:linear-gradient(90deg,var(--pri),var(--pri2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .result .desc{margin-top:6px;color:#cfe2ff;font-size:19px}
-  .stats{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-  .card{background:#0d1526;border:1px solid #223454;border-radius:10px;padding:24px;text-align:center}
-  .card h3{font-size:32px;font-weight:800;background:linear-gradient(90deg,#5fd0ff,#78a3ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 6px}
-  .map{margin-top:26px;border-radius:10px;overflow:hidden;border:1px solid #1a2c49}
-  footer{text-align:center;color:#6b86a8;margin:16px 0 26px;font-size:14px}
+  #content h2{font-size:36px;margin:6px 0 2px;color:#111827}
+  #dateLine{color:#475569;font-size:18px;margin:0 0 18px}
+  .result{margin:22px auto;max-width:1000px;padding:40px;border-radius:14px;background:linear-gradient(135deg,#e0f2fe,#dbeafe);border:1px solid #bfdbfe}
+  .result .percent{font-size:76px;font-weight:800;color:#1d4ed8}
+  .result .desc{margin-top:6px;color:#334155;font-size:19px}
+  .stats{margin-top:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{background:#f1f5ff;border:1px solid #cbd5e1;border-radius:12px;padding:26px;text-align:center;transition:.2s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .card h3{font-size:34px;font-weight:800;color:#2563eb;margin:0 0 6px}
+  .map{margin-top:30px;border-radius:14px;overflow:hidden;border:1px solid #cbd5e1}
+  footer{text-align:center;color:#64748b;margin:30px 0 20px;font-size:15px}
   @media(max-width:900px){.stats{grid-template-columns:1fr}.ad-banner{height:70px}}
 </style>
 </head>
 <body>
 <header>
   <h1>Snow Day Predictor</h1>
-  <p>Tomorrow’s snow day chance based on your location</p>
+  <p>Check if tomorrow might be a snow day</p>
 </header>
 <div class="ad-banner">
   <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2907999927695698" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
@@ -44,12 +45,12 @@
 </div>
 <main>
   <div id="gate">
-    <p>Allow location to see your local forecast.</p>
+    <p>Allow location to get your snow prediction.</p>
     <button id="allow" class="btn" aria-label="Enable location">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.5-7-12a7 7 0 1114 0c0 5.5-7 12-7 12z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
       Enable Location
     </button>
-    <p id="gateMsg" class="mt-4 text-slate-400 text-base"></p>
+    <p id="gateMsg" class="mt-4 text-slate-500 text-base"></p>
   </div>
 
   <div id="content" class="hidden">
@@ -74,7 +75,7 @@
   <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2907999927695698" data-ad-slot="0987654321" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
-<footer>© 2025 Snow Day Predictor | Data by Open‑Meteo</footer>
+<footer>© 2025 Snow Day Predictor | Powered by OpenWeatherMap</footer>
 <script>
 const gate=document.getElementById('gate');
 const allow=document.getElementById('allow');
@@ -89,30 +90,36 @@ const precip=document.getElementById('precip');
 const temp=document.getElementById('temp');
 const iframeMap=document.getElementById('iframeMap');
 
+const API_KEY='29ec60d5f44ff9df71295fb6c7b40b56';
+
 if(localStorage.getItem('coords')){
   try{const {lat,lon}=JSON.parse(localStorage.getItem('coords'));handleSaved(lat,lon);}catch{localStorage.removeItem('coords');}
 }
 
-function handleSaved(lat,lon){showContent();fetchWeather(lat,lon);getCity(lat,lon);iframeMap.src=`https://www.google.com/maps?q=${lat},${lon}&z=9&output=embed`;const tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+1);const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];dateLine.textContent=`Chance of a snow day on ${days[tomorrow.getDay()]}`;}
+function handleSaved(lat,lon){showContent();fetchWeather(lat,lon);getCity(lat,lon);iframeMap.src=`https://www.google.com/maps?q=${lat},${lon}&z=9&output=embed`;const tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+1);const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];dateLine.textContent=`Snow day chance for ${days[tomorrow.getDay()]}`;}
 
-async function fetchWeather(lat,lon){try{const tz='auto';const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,precipitation_probability,snowfall,freezing_rain,wind_gusts_10m&daily=snowfall_sum,precipitation_sum,temperature_2m_min&timezone=${tz}`;const res=await fetch(url);if(!res.ok)throw new Error('Bad Request');const data=await res.json();const now=new Date();const tomorrow=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1);const tStr=tomorrow.toISOString().slice(0,10);const dIdx=data.daily.time.indexOf(tStr);if(dIdx===-1){desc.textContent='No forecast data found.';return;}const snowDay=data.daily.snowfall_sum[dIdx]||0;const precipDay=data.daily.precipitation_sum[dIdx]||0;const tmin=data.daily.temperature_2m_min[dIdx]||0;let maxProb=0,maxGust=0,iceRisk=0;if(data.hourly?.time){for(let i=0;i<data.hourly.time.length;i++){if(data.hourly.time[i].startsWith(tStr)){maxProb=Math.max(maxProb,data.hourly.precipitation_probability?.[i]||0);maxGust=Math.max(maxGust,data.hourly.wind_gusts_10m?.[i]||0);iceRisk=Math.max(iceRisk,data.hourly.freezing_rain?.[i]||0);}}}
-const snowScore=Math.min(100,snowDay*12);
-const probScore=maxProb*0.6;
-const tempScore=Math.max(0,(0-tmin))*6;
-const windScore=Math.min(15,maxGust/2);
-const iceScore=Math.min(20,iceRisk*5);
-const raw=snowScore+probScore+tempScore+windScore+iceScore+(precipDay*2);
-const chance=Math.max(0,Math.min(100,Math.round(raw)));
-percent.textContent=`${chance}%`;
-let message='Low chance — likely open.';
-if(chance>=75)message='High chance — watch for closures.';
-else if(chance>=50)message='Moderate chance — check early morning.';
-else if(chance>=30)message='Some chance — conditions could change.';
-desc.textContent=message;
-snow.textContent=(snowDay||0).toFixed(1);
-precip.textContent=(precipDay||0).toFixed(1);
-temp.textContent=(tmin||0).toFixed(1);
-}catch(e){desc.textContent='Error fetching weather data.';console.error(e);}}
+async function fetchWeather(lat,lon){
+ try{
+   const res=await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`);
+   if(!res.ok) throw new Error('Weather data unavailable');
+   const data=await res.json();
+   let snowTotal=0,precipTotal=0,minTemp=Infinity;
+   for(const entry of data.list){
+     if(entry.snow&&entry.snow['3h']) snowTotal+=entry.snow['3h'];
+     if(entry.rain&&entry.rain['3h']) precipTotal+=entry.rain['3h'];
+     if(entry.main&&entry.main.temp_min<minTemp) minTemp=entry.main.temp_min;
+   }
+   snowTotal=snowTotal/10;
+   const chance=Math.min(100,Math.round((snowTotal*10)+(precipTotal*2)+(minTemp<0?20:0)));
+   percent.textContent=`${chance}%`;
+   if(chance>70)desc.textContent='High chance — school might close.';
+   else if(chance>40)desc.textContent='Moderate chance — keep an eye out.';
+   else desc.textContent='Low chance — probably open.';
+   snow.textContent=snowTotal.toFixed(1);
+   precip.textContent=precipTotal.toFixed(1);
+   temp.textContent=minTemp.toFixed(1);
+ }catch(e){desc.textContent='Error fetching weather data.';console.error(e);}
+}
 
 function showContent(){gate.classList.add('hidden');content.classList.remove('hidden');}
 
