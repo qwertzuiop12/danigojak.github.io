@@ -126,9 +126,9 @@ async function fetchWeather(lat,lon){
    snowTotal=snowTotal/10;
    const chance=Math.min(100,Math.round((snowTotal*10)+(precipTotal*2)+(minTemp<0?20:0)));
    percent.textContent=`${chance}%`;
-   if(chance>70)desc.textContent='High chance — school might close.';
-   else if(chance>40)desc.textContent='Moderate chance — keep an eye out.';
-   else desc.textContent='Low chance — probably open.';
+   if(chance>70)desc.textContent='High chance! school might close.🙏';
+   else if(chance>40)desc.textContent='Moderate chance! keep an eye out.';
+   else desc.textContent='Low chance... probably open.';
    snow.textContent=snowTotal.toFixed(1);
    precip.textContent=precipTotal.toFixed(1);
    temp.textContent=minTemp.toFixed(1);
