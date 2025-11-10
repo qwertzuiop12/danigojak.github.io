@@ -96,10 +96,9 @@ const ONE_DAY_MS=24*60*60*1000;
 if(localStorage.getItem('coords')){
   try{
     const saved=JSON.parse(localStorage.getItem('coords'));
-    const fresh = saved.ts && (Date.now()-saved.ts)<ONE_DAY_MS && isSameLocalDay(saved.ts,Date.now());
+    const fresh=saved.ts && (Date.now()-saved.ts)<ONE_DAY_MS && isSameLocalDay(saved.ts,Date.now());
     if(fresh){handleSaved(saved.lat,saved.lon);} else {localStorage.removeItem('coords');}
   }catch{localStorage.removeItem('coords');}
-}=JSON.parse(localStorage.getItem('coords'));handleSaved(lat,lon);}catch{localStorage.removeItem('coords');}
 }
 
 function handleSaved(lat,lon){
@@ -111,7 +110,7 @@ function handleSaved(lat,lon){
   tomorrow.setDate(tomorrow.getDate()+1);
   const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   dateLine.textContent=`Snow day chance for ${days[tomorrow.getDay()]}`;
-},${lon}&z=9&output=embed`;const tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+1);const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];dateLine.textContent=`Snow day chance for ${days[tomorrow.getDay()]}`;}
+}
 
 async function fetchWeather(lat,lon){
  try{
@@ -138,17 +137,26 @@ async function fetchWeather(lat,lon){
 
 function showContent(){gate.classList.add('hidden');content.classList.remove('hidden');}
 
-async function getCity(lat,lon){try{const r=await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);const d=await r.json();city.textContent=`${d.city||d.locality||'Your Area'}, ${d.principalSubdivision||''}`;}catch{}}
+async function getCity(lat,lon){
+  try{
+    const r=await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
+    const d=await r.json();
+    city.textContent=`${d.city||d.locality||'Your Area'}, ${d.principalSubdivision||''}`;
+  }catch{}
+}
 
 function handlePosition(p){
-  const lat=p.coords.latitude,lon=p.coords.longitude;
+  const lat=p.coords.latitude;
+  const lon=p.coords.longitude;
   localStorage.setItem('coords',JSON.stringify({lat,lon,ts:Date.now()}));
   handleSaved(lat,lon);
-}));handleSaved(lat,lon);}
+}
+
 function handleError(){gateMsg.textContent='Please enable location to continue.';}
+
 allow.onclick=()=>{
   if(!navigator.geolocation){gateMsg.textContent='Geolocation not supported.';return}
-  navigator.geolocation.getCurrentPosition(handlePosition,handleError)
+  navigator.geolocation.getCurrentPosition(handlePosition,handleError);
 };
 
 function isSameLocalDay(a,b){
