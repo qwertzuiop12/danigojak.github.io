@@ -123,9 +123,9 @@ async function fetchWeather(lat,lon){
    snowTotal=snowTotal/10;
    const chance=Math.min(100,Math.round((snowTotal*10)+(precipTotal*2)+(minTemp<0?20:0)));
    percent.textContent=`${chance}%`;
-   if(chance>70)desc.textContent='High chance — school might close.';
-   else if(chance>40)desc.textContent='Moderate chance — keep an eye out.';
-   else desc.textContent='Low chance — probably open.';
+   if(chance>70)desc.textContent='High chance! school might close. 🙏';
+   else if(chance>40)desc.textContent='Moderate chance! keep an eye out.';
+   else desc.textContent='Low chance... probably open.';
    snow.textContent=snowTotal.toFixed(1);
    precip.textContent=precipTotal.toFixed(1);
    temp.textContent=minTemp.toFixed(1);
@@ -157,7 +157,7 @@ allow.onclick=()=>{
 };
 
 function shareResults(lat,lon){
-  const text=`Snow Day Predictor: ${city.textContent} — ${percent.textContent} chance of a snow day tomorrow! Check yours: ${window.location.origin}`;
+  const text=`Snow Day Predictor: ${city.textContent} ${percent.textContent} chance of a snow day tomorrow! Check yours: ${window.location.origin}`;
   if(navigator.share){
     navigator.share({title:'Snow Day Predictor',text:text,url:window.location.origin});
   }else{
