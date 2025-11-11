@@ -114,23 +114,53 @@ async function fetchWeather(lat,lon){
    const res=await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`);
    if(!res.ok) throw new Error('Weather data unavailable');
    const data=await res.json();
+
    let snowTotal=0,precipTotal=0,minTemp=Infinity;
+   const now=new Date();
+   const tomorrow=new Date(now.getTime()+24*60*60*1000);
+   const tomorrowDate=tomorrow.getDate();
+
    for(const entry of data.list){
-     if(entry.snow&&entry.snow['3h']) snowTotal+=entry.snow['3h'];
-     if(entry.rain&&entry.rain['3h']) precipTotal+=entry.rain['3h'];
-     if(entry.main&&entry.main.temp_min<minTemp) minTemp=entry.main.temp_min;
+     const t=new Date(entry.dt*1000);
+     const h=t.getHours();
+     if(t.getDate()===tomorrowDate && ((h>=0 && h<=9) || (h>=22 && h<=23))){
+       if(entry.snow&&entry.snow['3h']) snowTotal+=entry.snow['3h'];
+       if(entry.rain&&entry.rain['3h']) precipTotal+=entry.rain['3h'];
+       if(entry.main&&entry.main.temp_min<minTemp) minTemp=entry.main.temp_min;
+     }
    }
-   snowTotal=snowTotal/10;
-   const chance=Math.min(100,Math.round((snowTotal*10)+(precipTotal*2)+(minTemp<0?20:0)));
+
+   const snowScore=snowTotal*15;
+   const coldScore=minTemp<-5?25:minTemp<0?15:0;
+   const precipScore=precipTotal*3;
+   const totalScore=snowScore+precipScore+coldScore;
+   const chance=Math.min(100,Math.round(totalScore));
+
    percent.textContent=`${chance}%`;
-   if(chance>70)desc.textContent='High chance! school might close. 🙏';
-   else if(chance>40)desc.textContent='Moderate chance! keep an eye out.';
-   else desc.textContent='Low chance... probably open.';
+   if(chance>80)desc.textContent='Very high chance — expect a snow day ❄️';
+   else if(chance>60)desc.textContent='Likely — schools might close or delay.';
+   else if(chance>40)desc.textContent='Moderate — could go either way.';
+   else desc.textContent='Low — probably open.';
+
    snow.textContent=snowTotal.toFixed(1);
    precip.textContent=precipTotal.toFixed(1);
-   temp.textContent=minTemp.toFixed(1);
- }catch(e){desc.textContent='Error fetching weather data.';console.error(e);}
+   temp.textContent=minTemp===Infinity?'--':minTemp.toFixed(1);
+ }catch(e){
+   desc.textContent='Error fetching weather data.';
+   console.error(e);
+ }
 }
+
+// Auto refresh every 2 hours (7200000 ms)
+setInterval(() => {
+  if(localStorage.getItem('coords')){
+    const saved=JSON.parse(localStorage.getItem('coords'));
+    if(saved && saved.lat && saved.lon){
+      fetchWeather(saved.lat, saved.lon);
+    }
+  }
+}, 7200000);
+
 
 function showContent(){gate.classList.add('hidden');content.classList.remove('hidden');}
 
