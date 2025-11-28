@@ -137,10 +137,10 @@ async function fetchWeather(lat,lon){
    const chance=Math.min(100,Math.round(totalScore));
 
    percent.textContent=`${chance}%`;
-   if(chance>80)desc.textContent='Very high chance — expect a snow day ❄️';
-   else if(chance>60)desc.textContent='Likely — schools might close or delay.';
-   else if(chance>40)desc.textContent='Moderate — could go either way.';
-   else desc.textContent='Low — probably open.';
+   if(chance>80)desc.textContent='Very high chance! Expect a snow day ❄️';
+   else if(chance>60)desc.textContent='Likely... schools might close or delay.';
+   else if(chance>40)desc.textContent='Moderate 😢 could go either way.';
+   else desc.textContent='Schools will be open 😞';
 
    snow.textContent=snowTotal.toFixed(1);
    precip.textContent=precipTotal.toFixed(1);
