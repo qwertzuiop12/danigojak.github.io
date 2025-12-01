@@ -22,6 +22,7 @@ body{background:linear-gradient(180deg,#020617,#020617,#0f172a);color:#e5e7eb}
 .tab span{display:block;font-size:10px;color:#6b7280}
 .tab.active{background:linear-gradient(135deg,#2563eb,#f97316);color:#f9fafb}
 .tab.active span{color:#e5e7eb}
+.tab.locked{opacity:.4}
 .screen{flex:1;display:flex;flex-direction:column}
 .section-switch{display:flex;border-bottom:1px solid rgba(31,41,55,.9);background:#020617}
 .section-btn{flex:1;text-align:center;padding:8px 4px;font-size:11px;border:none;background:transparent;color:#9ca3af}
@@ -42,13 +43,16 @@ body{background:linear-gradient(180deg,#020617,#020617,#0f172a);color:#e5e7eb}
 .btn-primary{background:linear-gradient(135deg,#2563eb,#f97316);color:#f9fafb}
 .btn-ghost{background:transparent;color:#e5e7eb;border:1px solid rgba(148,163,184,.7)}
 .exercise{border-radius:12px;background:radial-gradient(circle at top left,rgba(37,99,235,.22),rgba(15,23,42,.98));border:1px solid rgba(31,41,55,.98);padding:9px;margin-bottom:9px}
+.exercise.locked{opacity:.4}
 .exercise-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .exercise-name{font-size:13px;font-weight:600}
 .exercise-meta{font-size:10px;color:#9ca3af}
 .sets{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .set-card{border-radius:10px;background:rgba(15,23,42,.98);border:1px solid rgba(31,41,55,.98);padding:5px}
 .set-label{font-size:10px;color:#9ca3af;margin-bottom:3px}
-.set-input{width:100%;padding:6px;border-radius:999px;border:none;background:rgba(2,6,23,.96);color:#e5e7eb;font-size:12px;text-align:center}
+.set-inputs{display:flex;gap:4px}
+.set-input{width:100%;padding:6px;border-radius:999px;border:none;background:rgba(2,6,23,.96);color:#e5e7eb;font-size:11px;text-align:center}
+.set-input::placeholder{color:#4b5563;font-size:10px}
 .exercise-footer{display:flex;flex-direction:column;gap:4px;margin-top:6px}
 .exercise-stats{display:flex;justify-content:space-between;align-items:center;font-size:10px}
 .tag{font-size:10px;border-radius:999px;padding:2px 6px;border:1px solid rgba(148,163,184,.7);background:rgba(15,23,42,.98)}
@@ -57,12 +61,43 @@ body{background:linear-gradient(180deg,#020617,#020617,#0f172a);color:#e5e7eb}
 .tag-flat{border-color:#facc15;color:#fef9c3}
 .exercise-suggestion{font-size:11px;color:#a5f3fc;min-height:13px}
 .exercise-btn{margin-top:4px;width:100%;border-radius:999px;border:none;background:linear-gradient(135deg,#22c55e,#4ade80);color:#052e16;font-size:12px;font-weight:600;padding:7px}
+.exercise-btn.disabled{opacity:.5;pointer-events:none}
 .progress-item{font-size:11px;margin-top:3px}
 .progress-item span{color:#9ca3af}
 .status-up{color:#4ade80}
 .status-down{color:#fb7185}
 .status-flat{color:#facc15}
 .footer{padding:8px 10px 10px;font-size:10px;text-align:center;color:#6b7280;border-top:1px solid rgba(31,41,55,.9)}
+.week-flag{font-size:11px;margin-top:3px}
+.week-flag.missed{color:#fb7185}
+.week-flag.clean{color:#4ade80}
+.input-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.input-col{flex:1;min-width:150px;display:flex;flex-direction:column;gap:4px}
+.input-label{font-size:10px;color:#9ca3af}
+.input-field{padding:8px;border-radius:10px;border:1px solid rgba(55,65,81,.9);background:rgba(15,23,42,.96);color:#e5e7eb;font-size:12px}
+.helper-text{font-size:10px;color:#94a3b8;margin-top:6px;line-height:1.4}
+.rating-pill{display:inline-block;border-radius:999px;padding:3px 8px;font-size:10px;border:1px solid rgba(148,163,184,.7);margin-left:6px;background:rgba(15,23,42,.96)}
+.rating-pill.up{border-color:#4ade80;color:#bbf7d0}
+.rating-pill.mid{border-color:#facc15;color:#fef9c3}
+.rating-pill.down{border-color:#fb7185;color:#fecaca}
+.chart-wrap{margin-top:8px;border-radius:12px;background:rgba(2,6,23,.8);border:1px solid rgba(31,41,55,.95);padding:8px}
+.chart-svg{width:100%;height:180px}
+.chart-line{fill:none;stroke:url(#gradLine);stroke-width:2}
+.chart-area-fill{fill:url(#gradArea);opacity:.35}
+.chart-dot{fill:#f97316;stroke:#0b1224;stroke-width:1.5}
+.chart-grid{stroke:rgba(148,163,184,.2);stroke-width:1}
+.chart-label{font-size:10px;color:#9ca3af;margin-top:4px}
+.select-field{padding:8px;border-radius:10px;border:1px solid rgba(55,65,81,.9);background:rgba(15,23,42,.96);color:#e5e7eb;font-size:12px;width:100%}
+.rest-card{background:rgba(12,19,36,.96);border:1px solid rgba(37,46,64,.95);border-radius:12px;padding:10px;margin-bottom:10px}
+.rest-title{font-size:13px;font-weight:600;margin-bottom:4px}
+.rest-sub{font-size:11px;color:#9ca3af;margin-bottom:6px}
+.rest-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rest-timer{font-size:18px;font-weight:700;color:#f97316}
+.rest-eta{font-size:11px;color:#9ca3af}
+.pill{border-radius:999px;padding:4px 8px;font-size:11px;border:1px solid rgba(148,163,184,.6);background:rgba(15,23,42,.95);color:#e5e7eb}
+.rest-btn{border:none;border-radius:999px;padding:8px 10px;font-weight:600;font-size:12px;background:linear-gradient(135deg,#22c55e,#4ade80);color:#052e16}
+.rest-btn.secondary{background:transparent;border:1px solid rgba(148,163,184,.7);color:#e5e7eb}
+.rest-warn{font-size:11px;color:#fbbf24;margin-top:4px}
 </style>
 </head>
 <body>
@@ -70,7 +105,7 @@ body{background:linear-gradient(180deg,#020617,#020617,#0f172a);color:#e5e7eb}
   <div class="header">
     <div class="h-left">
       <div class="h-title">864 Workout Log</div>
-      <div class="h-sub">Mon–Fri · Local progression tracking</div>
+      <div class="h-sub" id="hSub">Mon–Fri · Local progression tracking</div>
     </div>
     <div class="h-right">
       <div class="h-date" id="hDate"></div>
@@ -97,7 +132,7 @@ body{background:linear-gradient(180deg,#020617,#020617,#0f172a);color:#e5e7eb}
     </div>
   </div>
 
-  <div class="footer">Data stays on this device · Hit save per exercise and per notes</div>
+  <div class="footer">Strict Mon–Fri · Only log on today · Automatic progression suggestions</div>
 </div>
 
 <script>
@@ -158,25 +193,61 @@ const plan={
     ]
   }
 }
-const storeKey="m864_tracker_v1"
+const storeKey="m864_tracker_v2"
+const KG_PER_LB=0.45359237
+let graphExId="bench"
+let restTicker=null
+let restNotified=false
 
 function loadStore(){
   try{
     const raw=localStorage.getItem(storeKey)
-    if(!raw)return{w:[],unit:"lb"}
+    if(!raw)return{w:[],unit:"lb",profile:{heightCm:null,weightKg:null,started:null},session:defaultSession()}
     const p=JSON.parse(raw)
     if(!p.w)p.w=[]
     if(!p.unit)p.unit="lb"
+    if(!p.profile)p.profile={heightCm:null,weightKg:null,started:null}
+    if(!p.session)p.session=defaultSession()
     return p
   }catch(e){
-    return{w:[],unit:"lb"}
+    return{w:[],unit:"lb",profile:{heightCm:null,weightKg:null,started:null},session:defaultSession()}
   }
 }
 function saveStore(s){
   localStorage.setItem(storeKey,JSON.stringify(s))
 }
-function todayKey(){
+function toKg(v,unit){
+  if(v===null||v===undefined||isNaN(v))return null
+  return unit==="lb"?v*KG_PER_LB:v
+}
+function fromKg(v,unit){
+  if(v===null||v===undefined||isNaN(v))return null
+  return unit==="lb"?v/KG_PER_LB:v
+}
+function todayISO(){
   return new Date().toISOString().slice(0,10)
+}
+function defaultSession(){
+  return{date:todayISO(),status:"idle",start:null,partner:"solo",restUntil:null,lastRestStart:null,activeEx:null,gym:"normal",warmup:{done:false,until:null,start:null}}
+}
+function getTodayDayName(){
+  const d=new Date().getDay()
+  if(d>=1&&d<=5)return days[d-1]
+  return null
+}
+function getWeekInfo(){
+  const now=new Date()
+  const dow=now.getDay()
+  const offset=dow===0?-6:1-dow
+  const monday=new Date(now)
+  monday.setDate(now.getDate()+offset)
+  const out=[]
+  for(let i=0;i<5;i++){
+    const d=new Date(monday)
+    d.setDate(monday.getDate()+i)
+    out.push({date:d.toISOString().slice(0,10),day:days[i]})
+  }
+  return out
 }
 function calc1RM(w,r){
   if(!w||!r)return null
@@ -208,7 +279,84 @@ function exHistory(store,exId){
   h.sort((a,b)=>a.date.localeCompare(b.date))
   return h
 }
-function bumpText(store,exId,todayBest,dateKey){
+function best1RMFor(store,exId){
+  let best=null
+  store.w.forEach(d=>{
+    d.e.forEach(en=>{
+      if(en.id===exId&&en.s&&en.s.best1){
+        if(best===null||en.s.best1>best)best=en.s.best1
+      }
+    })
+  })
+  return best
+}
+function calcBMI(profile){
+  if(!profile||!profile.heightCm||!profile.weightKg)return null
+  const h=profile.heightCm/100
+  if(!h)return null
+  return profile.weightKg/(h*h)
+}
+function bmiLabel(bmi){
+  if(bmi===null)return""
+  if(bmi<18.5)return"Underweight range"
+  if(bmi<25)return"Healthy range"
+  if(bmi<30)return"Overweight range"
+  return"Obesity range"
+}
+function weightFeedback(profile){
+  const bmi=calcBMI(profile)
+  if(!profile||(!profile.heightCm&&!profile.weightKg))return"Add height and weight to get bodyweight guidance."
+  if(!bmi)return"Add the missing height or weight to calculate BMI guidance."
+  if(bmi<18.5)return"Bodyweight is light for your height. Eat a calorie surplus with 0.7–1g protein per lb to support strength."
+  if(bmi<25)return"Bodyweight is in a healthy range. Small surplus on training days can speed strength gains."
+  if(bmi<30)return"Bodyweight is higher; prioritize clean food, sleep, and steady lifting to improve strength without pushing weight up."
+  return"Consider a modest deficit while keeping protein high and lifting to improve strength-to-weight."
+}
+function statusTag(diffPct){
+  if(diffPct>2.5)return"up"
+  if(diffPct<-2.5)return"down"
+  return"flat"
+}
+function strengthRating(ratio,bands){
+  if(ratio>=bands.advanced)return{label:"Advanced",pill:"up",next:null}
+  if(ratio>=bands.intermediate)return{label:"Intermediate",pill:"mid",next:"advanced"}
+  if(ratio>=bands.novice)return{label:"Novice",pill:"mid",next:"intermediate"}
+  return{label:"Beginner",pill:"down",next:"novice"}
+}
+function ensureSessionFresh(st){
+  if(!st.session||st.session.date!==todayISO()){
+    st.session=defaultSession()
+    saveStore(st)
+  }
+  if(!st.session.warmup)st.session.warmup={done:false,until:null,start:null}
+}
+function monthKey(dateStr){
+  return dateStr?dateStr.slice(0,7):""
+}
+function monthlyBest(store,exId){
+  const hist=exHistory(store,exId)
+  const byMonth={}
+  hist.forEach(h=>{
+    const mk=monthKey(h.date)
+    if(!mk)return
+    if(!byMonth[mk]||h.v>byMonth[mk].v)byMonth[mk]={v:h.v,date:h.date}
+  })
+  const entries=Object.keys(byMonth).sort().map(m=>({month:m,best:byMonth[m].v,date:byMonth[m].date}))
+  return entries
+}
+function allExerciseOptions(){
+  const opts=[]
+  const seen={}
+  Object.keys(plan).forEach(day=>{
+    plan[day].ex.forEach(e=>{
+      if(seen[e.id])return
+      seen[e.id]=true
+      opts.push({id:e.id,label:e.name})
+    })
+  })
+  return opts
+}
+function bumpText(store,exId,todayBest,dateKey,avgDiff){
   if(!todayBest)return""
   const h=exHistory(store,exId).filter(x=>x.date<=dateKey)
   if(h.length<3)return""
@@ -219,14 +367,10 @@ function bumpText(store,exId,todayBest,dateKey){
   if(max-min<todayBest*0.02)return""
   const lastVal=last[last.length-1].v
   if(Math.abs(lastVal-todayBest)/todayBest<0.015){
-    return"Solid across last sessions. If sets feel clean, try a small weight bump next time."
+    if(avgDiff>=1.5)return"Beating targets for several sessions. Time to add 2.5–5 "+loadStore().unit+" next time."
+    return"Solid across last sessions. If sets were clean, consider a small bump next time."
   }
   return""
-}
-function statusTag(diffPct){
-  if(diffPct>2.5)return"up"
-  if(diffPct<-2.5)return"down"
-  return"flat"
 }
 function updateClock(){
   const t=new Date()
@@ -241,22 +385,38 @@ const secEx=document.getElementById("section-ex")
 const secPr=document.getElementById("section-pr")
 const secNt=document.getElementById("section-nt")
 const unitSel=document.getElementById("unitSelect")
+const hSub=document.getElementById("hSub")
+
+const todayDayName=getTodayDayName()
+const todayKey=todayISO()
 let activeDay=(()=>{
   const idx=new Date().getDay()-1
   if(idx>=0&&idx<=4)return days[idx]
   return"Monday"
 })()
+
 function initTabs(){
   tabsEl.innerHTML=""
-  days.forEach(d=>{
+  const weekInfo=getWeekInfo()
+  const st=loadStore()
+  const todayIdx=new Date().getDay()
+  days.forEach((d,i)=>{
     const el=document.createElement("div")
     el.className="tab"+(d===activeDay?" active":"")
     const l1=document.createElement("div")
     l1.textContent=d.slice(0,3)
     const l2=document.createElement("span")
-    l2.textContent=plan[d].label.split(" ")[0]
+    const wi=weekInfo[i]
+    let mark=""
+    if(wi){
+      const entry=st.w.find(x=>x.date===wi.date&&x.day===d)
+      if(!entry&&wi.date<todayKey)mark="Missed"
+      else if(entry)mark="Done"
+    }
+    l2.textContent=mark||plan[d].label.split(" ")[0]
     el.appendChild(l1)
     el.appendChild(l2)
+    if(!todayDayName||days.indexOf(d)>days.indexOf(todayDayName))el.classList.add("locked")
     el.onclick=()=>{
       activeDay=d
       document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"))
@@ -289,12 +449,37 @@ function initUnits(){
     renderAll()
   }
 }
+function updateWeekHeader(){
+  const st=loadStore()
+  const weekInfo=getWeekInfo()
+  let completed=0,total=0
+  const todayIso=todayISO()
+  const missed=[]
+  weekInfo.forEach(w=>{
+    if(w.date>todayIso)return
+    total++
+    const entry=st.w.find(d=>d.date===w.date&&d.day===w.day)
+    if(entry)completed++
+    else missed.push(w.day)
+  })
+  if(!total){
+    hSub.textContent="Mon–Fri · Local progression tracking"
+    return
+  }
+  if(missed.length===0){
+    hSub.textContent="Week so far: "+completed+"/"+total+" · No days missed"
+  }else{
+    hSub.textContent="Week so far: "+completed+"/"+total+" · Missed: "+missed.join(", ")
+  }
+}
 function renderExercises(){
   const st=loadStore()
-  const tKey=todayKey()
+  ensureSessionFresh(st)
+  const tKey=todayKey
   let dayEntry=st.w.find(x=>x.date===tKey&&x.day===activeDay)
   secEx.innerHTML=""
   const wrap=document.createElement("div")
+  wrap.appendChild(renderRestCard(st))
   const head=document.createElement("div")
   head.className="card"
   const hh=document.createElement("div")
@@ -306,7 +491,9 @@ function renderExercises(){
   hs.className="card-sub"
   const exCount=dayEntry?dayEntry.e.filter(e=>e.s&&e.s.best1).length:0
   const setCount=dayEntry?dayEntry.e.reduce((a,e)=>a+(e.sets?e.sets.filter(s=>s.w&&s.r).length:0),0):0
-  hs.textContent=exCount?"Logged "+exCount+" exercises · "+setCount+" sets today":"No sets logged today yet."
+  const isToday=todayDayName&&activeDay===todayDayName
+  hs.textContent=isToday?(exCount?"Logged "+exCount+" exercises · "+setCount+" sets today":"No sets logged today yet."):
+    "Viewing "+activeDay+" (read-only). You can only log for "+(todayDayName||"today")+"."
   hh.appendChild(ht)
   hh.appendChild(hs)
   head.appendChild(hh)
@@ -341,15 +528,28 @@ function renderExercises(){
       const sl=document.createElement("div")
       sl.className="set-label"
       sl.textContent="Set "+(i+1)+" · target "+targets[i]
-      const inp=document.createElement("input")
-      inp.type="number"
-      inp.min="0"
-      inp.className="set-input"
-      inp.placeholder="Weight"
-      inp.value=savedSets[i]&&savedSets[i].w?savedSets[i].w:""
-      inp.dataset.idx=i
+      const inputsWrap=document.createElement("div")
+      inputsWrap.className="set-inputs"
+      const inpW=document.createElement("input")
+      inpW.type="number"
+      inpW.min="0"
+      inpW.className="set-input"
+      inpW.placeholder="Weight"
+      inpW.value=savedSets[i]&&savedSets[i].w?savedSets[i].w:""
+      inpW.dataset.idx=i
+      inpW.dataset.role="w"
+      const inpR=document.createElement("input")
+      inpR.type="number"
+      inpR.min="0"
+      inpR.className="set-input"
+      inpR.placeholder="Reps"
+      inpR.value=savedSets[i]&&savedSets[i].r?savedSets[i].r:""
+      inpR.dataset.idx=i
+      inpR.dataset.role="r"
+      inputsWrap.appendChild(inpW)
+      inputsWrap.appendChild(inpR)
       sc.appendChild(sl)
-      sc.appendChild(inp)
+      sc.appendChild(inputsWrap)
       setsDiv.appendChild(sc)
     }
     exCard.appendChild(setsDiv)
@@ -369,17 +569,30 @@ function renderExercises(){
     const sug=document.createElement("div")
     sug.id="sug_"+cfg.id
     sug.className="exercise-suggestion"
-    sug.textContent="Log at least one set to get feedback."
+    const isEditable=todayDayName&&activeDay===todayDayName
+    sug.textContent=isEditable?"Log at least one set with weight and reps to get feedback.":"Locked · not today's day."
+    const restBtn=document.createElement("button")
+    restBtn.className="rest-btn secondary"
+    restBtn.style.width="100%"
+    restBtn.textContent="Mark set done → start rest"
+    restBtn.onclick=()=>{if(isEditable)startRest(cfg.id,cfg.main)}
+    if(!isEditable)restBtn.disabled=true
     const btn=document.createElement("button")
     btn.className="exercise-btn"
-    btn.textContent="Save "+cfg.name
-    btn.onclick=()=>saveExercise(cfg.id)
+    btn.textContent=isEditable?"Save "+cfg.name:"Locked"
+    btn.onclick=()=>{if(isEditable)saveExercise(cfg.id)}
+    if(!isEditable){
+      exCard.classList.add("locked")
+      btn.classList.add("disabled")
+    }
     f.appendChild(statRow)
     f.appendChild(sug)
+    f.appendChild(restBtn)
     f.appendChild(btn)
     exCard.appendChild(f)
     if(savedEntry&&savedEntry.s&&savedEntry.s.best1){
-      oneRm.textContent="1RM: "+savedEntry.s.best1.toFixed(0)+" "+st.unit
+      const unit=st.unit
+      oneRm.textContent="1RM: "+savedEntry.s.best1.toFixed(0)+" "+unit
       const prev=prevBest(st,cfg.id,tKey)
       if(prev){
         const diff=savedEntry.s.best1-prev
@@ -401,7 +614,7 @@ function renderExercises(){
 }
 function saveExercise(exId){
   const st=loadStore()
-  const tKey=todayKey()
+  const tKey=todayKey
   let d=st.w.find(x=>x.date===tKey&&x.day===activeDay)
   if(!d){
     d={date:tKey,day:activeDay,e:[],note:""}
@@ -416,15 +629,19 @@ function saveExercise(exId){
   if(!card)return
   const inputs=card.querySelectorAll(".set-input")
   const targets=[8,6,4]
-  const sets=[]
-  inputs.forEach((inp,i)=>{
+  const sets=[{},{},{}]
+  inputs.forEach(inp=>{
+    const idx=parseInt(inp.dataset.idx,10)
+    const role=inp.dataset.role
     const v=inp.value?parseFloat(inp.value):null
-    if(v&&v>0)sets.push({w:v,r:targets[i]})
-    else sets.push({w:null,r:targets[i]})
+    if(!sets[idx])sets[idx]={}
+    if(role==="w")sets[idx].w=v
+    else if(role==="r")sets[idx].r=v
+    sets[idx].t=targets[idx]
   })
   const valid=sets.filter(s=>s.w&&s.r)
   if(!valid.length){
-    alert("Enter at least one set with weight.")
+    alert("Enter at least one set with weight and reps.")
     return
   }
   let best1=null
@@ -437,6 +654,8 @@ function saveExercise(exId){
     }
   })
   const prev=prevBest(st,exId,tKey)
+  const repDiffs=valid.map(s=>(s.r-(s.t||8)))
+  const avgDiff=repDiffs.length?repDiffs.reduce((a,b)=>a+b,0)/repDiffs.length:0
   let msg=""
   let stat="flat"
   if(best1&&prev){
@@ -444,13 +663,21 @@ function saveExercise(exId){
     const pct=prev?diff/prev*100:0
     const stTag=statusTag(pct)
     stat=stTag
-    if(stTag==="up")msg="Nice jump, about "+pct.toFixed(1)+"% over your last best. If it felt clean, you can try a small bump next time."
-    else if(stTag==="down")msg="Below your recent best. Check sleep, food, and form before pushing the weight."
-    else msg="Very similar to your last best. Hold or micro-increase next time depending on how it felt."
+    if(stTag==="up"){
+      if(avgDiff>=1.5)msg="Improved "+pct.toFixed(1)+"% and beating rep targets. Add about 2.5–5 "+st.unit+" next time if it felt controlled."
+      else if(avgDiff<=-1)msg="Strength is up but reps dipped under target. Hold this weight and chase all reps before increasing."
+      else msg="Nice jump, about "+pct.toFixed(1)+"% over last best. If last set was near failure, go up slightly next time."
+    }else if(stTag==="down"){
+      msg="Below your recent best. Check sleep, food, and form. Stay here or drop 5–10% if every set felt like a grind."
+    }else{
+      if(avgDiff>=2)msg="Same strength but reps are over target. Time to bump the load a bit."
+      else if(avgDiff<=-1)msg="Flat strength and reps under target. Keep this weight until you own the 8/6/4."
+      else msg="Very similar to last best. One more session at this weight, then micro-bump if it still feels good."
+    }
   }else if(best1&&!prev){
-    msg="Baseline set saved. Next sessions will compare to this."
+    msg="Baseline saved. Next sessions will compare to this and tell you when to add weight."
   }
-  const bump=bumpText(st,exId,best1,tKey)
+  const bump=bumpText(st,exId,best1,tKey,avgDiff)
   if(bump)msg=bump
   e.sets=sets
   e.s={best1:best1||null,bestSet:bestSet||null,stat,msg}
@@ -458,19 +685,469 @@ function saveExercise(exId){
   renderExercises()
   renderProgress()
 }
+function saveProfile(){
+  const st=loadStore()
+  if(!st.profile)st.profile={heightCm:null,weightKg:null,started:null}
+  const hRaw=document.getElementById("heightInput")?parseFloat(document.getElementById("heightInput").value):null
+  const wRaw=document.getElementById("weightInput")?parseFloat(document.getElementById("weightInput").value):null
+  st.profile.heightCm=!isNaN(hRaw)&&hRaw>0?hRaw:null
+  st.profile.weightKg=!isNaN(wRaw)&&wRaw>0?toKg(wRaw,st.unit):null
+  if(!st.profile.started)st.profile.started=todayISO()
+  saveStore(st)
+  renderAll()
+}
+function strengthFeedbackData(st){
+  const bw=st.profile&&st.profile.weightKg?st.profile.weightKg:null
+  const lifts=[
+    {id:"bench",label:"Bench Press",bands:{novice:0.7,intermediate:1.0,advanced:1.3}},
+    {id:"dead",label:"Deadlift",bands:{novice:1.5,intermediate:1.8,advanced:2.2}},
+    {id:"oh",label:"Overhead Press",bands:{novice:0.5,intermediate:0.7,advanced:0.9}},
+    {id:"lat",label:"Pull-Up / Pulldown",bands:{novice:0.8,intermediate:1.0,advanced:1.2}}
+  ]
+  const lines=[]
+  let agg=0,count=0
+  lifts.forEach(l=>{
+    const best=best1RMFor(st,l.id)
+    if(!best){
+      lines.push({id:l.id,label:l.label,best:null,ratio:null,rating:null,nextRatio:null,nextWeight:null})
+      return
+    }
+    const bestKg=toKg(best,st.unit)
+    const ratio=bw&&bestKg?bestKg/bw:null
+    const rating=ratio?strengthRating(ratio,l.bands):null
+    let nextRatio=null
+    if(ratio!==null){
+      if(ratio<l.bands.novice)nextRatio=l.bands.novice
+      else if(ratio<l.bands.intermediate)nextRatio=l.bands.intermediate
+      else if(ratio<l.bands.advanced)nextRatio=l.bands.advanced
+    }
+    const nextWeight=nextRatio&&bw?fromKg(nextRatio*bw,st.unit):null
+    if(ratio!==null){
+      const norm=Math.min(ratio/l.bands.advanced,1.2)
+      agg+=norm
+      count++
+    }
+    lines.push({id:l.id,label:l.label,best,bestKg,ratio,rating,nextRatio,nextWeight})
+  })
+  let overall=null
+  if(count){
+    const avg=agg/count
+    let note="Early stage. Prioritize clean reps and steady weight jumps."
+    if(avg>=1){
+      note="Advanced-ready base. Add weight slowly and guard form to keep progressing."
+    }else if(avg>=0.85){
+      note="Solid intermediate. Micro-load main lifts when you beat rep targets."
+    }else if(avg>=0.7){
+      note="Novice climbing. Consistency + food + sleep will move these numbers fast."
+    }
+    overall={avg,note}
+  }
+  return{bw,lines,overall}
+}
+function renderProfileCard(wrap,st,unit){
+  const card=document.createElement("div")
+  card.className="card"
+  const h=document.createElement("div")
+  h.className="card-header"
+  const t=document.createElement("div")
+  t.className="card-title"
+  t.textContent="Profile · body stats"
+  const s=document.createElement("div")
+  s.className="card-sub"
+  s.textContent="Add height and bodyweight once to unlock tailored strength feedback (stored locally)."
+  h.appendChild(t);h.appendChild(s);card.appendChild(h)
+  const row=document.createElement("div")
+  row.className="input-row"
+  const colH=document.createElement("div")
+  colH.className="input-col"
+  const lH=document.createElement("div")
+  lH.className="input-label"
+  lH.textContent="Height (cm)"
+  const inpH=document.createElement("input")
+  inpH.className="input-field"
+  inpH.type="number"
+  inpH.min="0"
+  inpH.id="heightInput"
+  inpH.placeholder="e.g. 175"
+  inpH.value=st.profile&&st.profile.heightCm?st.profile.heightCm:""
+  colH.appendChild(lH);colH.appendChild(inpH)
+  const colW=document.createElement("div")
+  colW.className="input-col"
+  const lW=document.createElement("div")
+  lW.className="input-label"
+  lW.textContent="Bodyweight ("+unit+")"
+  const inpW=document.createElement("input")
+  inpW.className="input-field"
+  inpW.type="number"
+  inpW.min="0"
+  inpW.id="weightInput"
+  inpW.placeholder=unit==="lb"?"e.g. 165":"e.g. 75"
+  const savedW=st.profile&&st.profile.weightKg?fromKg(st.profile.weightKg,unit):null
+  inpW.value=savedW?savedW.toFixed(1):""
+  colW.appendChild(lW);colW.appendChild(inpW)
+  row.appendChild(colH)
+  row.appendChild(colW)
+  const btnRow=document.createElement("div")
+  btnRow.className="btn-row"
+  const save=document.createElement("button")
+  save.className="btn btn-primary"
+  save.textContent="Save stats"
+  save.onclick=saveProfile
+  const clear=document.createElement("button")
+  clear.className="btn btn-ghost"
+  clear.textContent="Clear"
+  clear.onclick=()=>{
+    const st2=loadStore()
+    st2.profile={heightCm:null,weightKg:null,started:null}
+    saveStore(st2)
+    renderAll()
+  }
+  btnRow.appendChild(save)
+  btnRow.appendChild(clear)
+  const helper=document.createElement("div")
+  helper.className="helper-text"
+  if(st.profile&&(st.profile.heightCm||st.profile.weightKg)){
+    const bmiVal=calcBMI(st.profile)
+    const parts=[]
+    if(st.profile.heightCm)parts.push(st.profile.heightCm.toFixed(0)+" cm")
+    if(st.profile.weightKg){
+      const wDisp=fromKg(st.profile.weightKg,unit)
+      parts.push(wDisp?wDisp.toFixed(1)+" "+unit:"")
+    }
+    let txt="Saved: "+(parts.length?parts.join(" · "):"Missing data.")
+    if(bmiVal){
+      txt+=" · BMI "+bmiVal.toFixed(1)+" ("+bmiLabel(bmiVal)+")"
+    }
+    helper.textContent=txt
+  }else{
+    helper.textContent="First time here? Add your height and bodyweight so the coach can judge strength relative to you."
+  }
+  card.appendChild(row)
+  card.appendChild(btnRow)
+  card.appendChild(helper)
+  wrap.appendChild(card)
+}
+function renderStrengthFeedback(wrap,st,unit){
+  const card=document.createElement("div")
+  card.className="card"
+  const h=document.createElement("div")
+  h.className="card-header"
+  const t=document.createElement("div")
+  t.className="card-title"
+  t.textContent="Strength feedback"
+  const s=document.createElement("div")
+  s.className="card-sub"
+  s.textContent="Based on best logged 1RMs vs your bodyweight."
+  h.appendChild(t);h.appendChild(s);card.appendChild(h)
+  const data=strengthFeedbackData(st)
+  if(!data.lines.length){
+    const row=document.createElement("div")
+    row.className="stat-line"
+    row.textContent="Log at least one main lift to get feedback."
+    card.appendChild(row)
+    wrap.appendChild(card)
+    return
+  }
+  if(!data.bw){
+    const row=document.createElement("div")
+    row.className="stat-line"
+    row.textContent="Add your bodyweight above to unlock personalized ratings."
+    card.appendChild(row)
+  }
+  data.lines.forEach(line=>{
+    const row=document.createElement("div")
+    row.className="stat-line"
+    const lbl=document.createElement("span")
+    lbl.textContent=line.label+": "
+    row.appendChild(lbl)
+    if(!line.best){
+      row.appendChild(document.createTextNode("No data yet. Log this lift to see your level."))
+      card.appendChild(row)
+      return
+    }
+    const bestText=line.best.toFixed(0)+" "+unit
+    row.appendChild(document.createTextNode(bestText))
+    if(line.ratio!==null&&line.ratio!==undefined){
+      row.appendChild(document.createTextNode(" · "+line.ratio.toFixed(2)+"x BW"))
+      if(line.rating){
+        const pill=document.createElement("span")
+        pill.className="rating-pill "+line.rating.pill
+        pill.textContent=line.rating.label
+        row.appendChild(pill)
+      }
+      if(line.nextRatio){
+        let goalText=line.nextRatio.toFixed(2)+"x BW"
+        if(line.nextWeight)goalText+=" (~"+line.nextWeight.toFixed(0)+" "+unit+")"
+        row.appendChild(document.createTextNode(" · Next goal: "+goalText))
+      }
+    }else{
+      row.appendChild(document.createTextNode(" · Add bodyweight to see ratio-based feedback."))
+    }
+    card.appendChild(row)
+  })
+  if(data.overall&&data.bw){
+    const row=document.createElement("div")
+    row.className="stat-line"
+    const rating=data.overall.avg>=1?"Advanced-ready":data.overall.avg>=0.85?"Solid intermediate":data.overall.avg>=0.7?"Novice climbing":"Building base"
+    row.innerHTML="<span>Overall:</span> "+rating+" · "+data.overall.note
+    card.appendChild(row)
+  }
+  wrap.appendChild(card)
+}
+function renderWeightFeedback(wrap,st,unit){
+  const card=document.createElement("div")
+  card.className="card"
+  const h=document.createElement("div")
+  h.className="card-header"
+  const t=document.createElement("div")
+  t.className="card-title"
+  t.textContent="Bodyweight feedback"
+  const s=document.createElement("div")
+  s.className="card-sub"
+  s.textContent="Quick guidance based on your height/weight."
+  h.appendChild(t);h.appendChild(s);card.appendChild(h)
+  const line=document.createElement("div")
+  line.className="stat-line"
+  line.textContent=weightFeedback(st.profile)
+  card.appendChild(line)
+  wrap.appendChild(card)
+}
+function renderHistoryGraph(wrap,st,unit){
+  const card=document.createElement("div")
+  card.className="card"
+  const h=document.createElement("div")
+  h.className="card-header"
+  const t=document.createElement("div")
+  t.className="card-title"
+  t.textContent="History graph"
+  const s=document.createElement("div")
+  s.className="card-sub"
+  s.textContent="See how your estimated 1RM moved over time."
+  h.appendChild(t);h.appendChild(s);card.appendChild(h)
+  const opts=allExerciseOptions()
+  if(!graphExId||!opts.find(o=>o.id===graphExId)){
+    graphExId=opts.length?opts[0].id:""
+  }
+  if(!opts.length){
+    const row=document.createElement("div")
+    row.className="stat-line"
+    row.textContent="No exercises configured."
+    card.appendChild(row)
+    wrap.appendChild(card)
+    return
+  }
+  const select=document.createElement("select")
+  select.className="select-field"
+  opts.forEach(o=>{
+    const op=document.createElement("option")
+    op.value=o.id
+    op.textContent=o.label
+    select.appendChild(op)
+  })
+  select.value=graphExId
+  select.onchange=()=>{
+    graphExId=select.value
+    renderProgress()
+  }
+  card.appendChild(select)
+  const history=exHistory(st,graphExId)
+  if(history.length<1){
+    const row=document.createElement("div")
+    row.className="stat-line"
+    row.textContent="Log this lift to plot it."
+    card.appendChild(row)
+    wrap.appendChild(card)
+    return
+  }
+  const points=history.slice(-24) // last 24 entries
+  const w=320,hgt=180
+  const pad=12
+  const xs=points.map((_,i)=>points.length===1?pad:w-2*pad>0?pad+(w-2*pad)*(i/(points.length-1)):pad)
+  const vals=points.map(p=>p.v)
+  const minV=Math.min(...vals)
+  const maxV=Math.max(...vals)
+  const span=Math.max(maxV-minV,1)
+  const ys=vals.map(v=>pad+(hgt-2*pad)*(1-(v-minV)/span))
+  let path=""
+  points.forEach((p,i)=>{
+    const x=xs[i],y=ys[i]
+    path+= (i===0?"M ":" L ")+x.toFixed(1)+" "+y.toFixed(1)
+  })
+  const areaPath=points.length>1?`M ${xs[0].toFixed(1)} ${hgt-pad} L ${xs[0].toFixed(1)} ${ys[0].toFixed(1)} `+
+    points.slice(1).map((_,i)=>`L ${xs[i+1].toFixed(1)} ${ys[i+1].toFixed(1)}`).join(" ")+
+    ` L ${xs[xs.length-1].toFixed(1)} ${hgt-pad} Z`:""
+  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg")
+  svg.setAttribute("class","chart-svg")
+  svg.setAttribute("viewBox",`0 0 ${w} ${hgt}`)
+  const defs=document.createElementNS("http://www.w3.org/2000/svg","defs")
+  const grad=document.createElementNS("http://www.w3.org/2000/svg","linearGradient")
+  grad.setAttribute("id","gradLine")
+  grad.setAttribute("x1","0");grad.setAttribute("x2","0");grad.setAttribute("y1","0");grad.setAttribute("y2","1")
+  const s1=document.createElementNS("http://www.w3.org/2000/svg","stop")
+  s1.setAttribute("offset","0%");s1.setAttribute("stop-color","#2563eb")
+  const s2=document.createElementNS("http://www.w3.org/2000/svg","stop")
+  s2.setAttribute("offset","100%");s2.setAttribute("stop-color","#f97316")
+  grad.appendChild(s1);grad.appendChild(s2)
+  const gradArea=document.createElementNS("http://www.w3.org/2000/svg","linearGradient")
+  gradArea.setAttribute("id","gradArea")
+  gradArea.setAttribute("x1","0");gradArea.setAttribute("x2","0");gradArea.setAttribute("y1","0");gradArea.setAttribute("y2","1")
+  const a1=document.createElementNS("http://www.w3.org/2000/svg","stop")
+  a1.setAttribute("offset","0%");a1.setAttribute("stop-color","#2563eb")
+  a1.setAttribute("stop-opacity","0.5")
+  const a2=document.createElementNS("http://www.w3.org/2000/svg","stop")
+  a2.setAttribute("offset","100%");a2.setAttribute("stop-color","#f97316")
+  a2.setAttribute("stop-opacity","0.05")
+  gradArea.appendChild(a1);gradArea.appendChild(a2)
+  defs.appendChild(grad);defs.appendChild(gradArea);svg.appendChild(defs)
+  for(let i=0;i<4;i++){
+    const y=pad+(hgt-2*pad)*(i/3)
+    const line=document.createElementNS("http://www.w3.org/2000/svg","line")
+    line.setAttribute("x1",pad);line.setAttribute("x2",w-pad)
+    line.setAttribute("y1",y);line.setAttribute("y2",y)
+    line.setAttribute("class","chart-grid")
+    svg.appendChild(line)
+  }
+  if(areaPath){
+    const ap=document.createElementNS("http://www.w3.org/2000/svg","path")
+    ap.setAttribute("d",areaPath)
+    ap.setAttribute("class","chart-area-fill")
+    svg.appendChild(ap)
+  }
+  const pEl=document.createElementNS("http://www.w3.org/2000/svg","path")
+  pEl.setAttribute("d",path)
+  pEl.setAttribute("class","chart-line")
+  svg.appendChild(pEl)
+  points.forEach((p,i)=>{
+    const c=document.createElementNS("http://www.w3.org/2000/svg","circle")
+    c.setAttribute("cx",xs[i]);c.setAttribute("cy",ys[i]);c.setAttribute("r",3.5)
+    c.setAttribute("class","chart-dot")
+    svg.appendChild(c)
+  })
+  const chartWrap=document.createElement("div")
+  chartWrap.className="chart-wrap"
+  chartWrap.appendChild(svg)
+  const label=document.createElement("div")
+  label.className="chart-label"
+  const first=points[0],last=points[points.length-1]
+  const diff=last.v-first.v
+  const pct=first.v?diff/first.v*100:0
+  label.textContent="First: "+first.v.toFixed(0)+" "+unit+" · Last: "+last.v.toFixed(0)+" "+unit+(points.length>1?(" · Change: "+diff.toFixed(0)+" "+unit+" ("+pct.toFixed(1)+"%)"):"")
+  chartWrap.appendChild(label)
+  card.appendChild(chartWrap)
+  wrap.appendChild(card)
+}
+function renderMonthlySummary(wrap,st,unit){
+  const card=document.createElement("div")
+  card.className="card"
+  const h=document.createElement("div")
+  h.className="card-header"
+  const t=document.createElement("div")
+  t.className="card-title"
+  t.textContent="Monthly progress"
+  const s=document.createElement("div")
+  s.className="card-sub"
+  s.textContent="Best 1RM per month for the selected lift."
+  h.appendChild(t);h.appendChild(s);card.appendChild(h)
+  if(!graphExId){
+    const row=document.createElement("div")
+    row.className="stat-line"
+    row.textContent="Choose an exercise above to see month-to-month improvements."
+    card.appendChild(row)
+    wrap.appendChild(card)
+    return
+  }
+  const months=monthlyBest(st,graphExId)
+  if(!months.length){
+    const row=document.createElement("div")
+    row.className="stat-line"
+    row.textContent="No monthly data yet."
+    card.appendChild(row)
+    wrap.appendChild(card)
+    return
+  }
+  const first=months[0].best
+  const last=months[months.length-1].best
+  const diff=last-first
+  const pct=first?diff/first*100:0
+  const top=document.createElement("div")
+  top.className="stat-line"
+  top.textContent="First month vs latest: "+first.toFixed(0)+" → "+last.toFixed(0)+" "+unit+" ("+pct.toFixed(1)+"%)"
+  card.appendChild(top)
+  months.slice(-6).forEach(m=>{
+    const row=document.createElement("div")
+    row.className="progress-item"
+    row.textContent=m.month+": "+m.best.toFixed(0)+" "+unit
+    card.appendChild(row)
+  })
+  wrap.appendChild(card)
+}
+function renderImprovementTips(wrap,st){
+  const card=document.createElement("div")
+  card.className="card"
+  const h=document.createElement("div")
+  h.className="card-header"
+  const t=document.createElement("div")
+  t.className="card-title"
+  t.textContent="Coach tips"
+  const s=document.createElement("div")
+  s.className="card-sub"
+  s.textContent="Simple levers to improve faster."
+  h.appendChild(t);h.appendChild(s);card.appendChild(h)
+  const tips=[]
+  const weekInfo=getWeekInfo()
+  const todayIso=todayISO()
+  let completed=0,total=0
+  weekInfo.forEach(w=>{
+    if(w.date>todayIso)return
+    total++
+    const entry=st.w.find(d=>d.date===w.date&&d.day===w.day)
+    if(entry)completed++
+  })
+  if(total&&completed<Math.max(3,Math.floor(total*0.6))){
+    tips.push("Hit at least 3 sessions per week to keep strength moving.")
+  }else{
+    tips.push("Keep showing up 3–5x/week; bump weights only after winning the target reps.")
+  }
+  const keyLifts=["bench","dead","leg_press","oh","lat"]
+  const loggedKey=keyLifts.filter(id=>exHistory(st,id).length)
+  if(loggedKey.length<3){
+    tips.push("Log your main compounds (bench, deadlift, leg press, OHP, pulldown) to track real strength.")
+  }else{
+    tips.push("Rotate focus: add small (2.5–5 "+st.unit+") bumps on the compounds that hit targets easily.")
+  }
+  if(st.profile&&(st.profile.heightCm||st.profile.weightKg)){
+    tips.push(weightFeedback(st.profile))
+  }else{
+    tips.push("Add height and weight to tailor strength and nutrition feedback.")
+  }
+  tips.slice(0,4).forEach(tip=>{
+    const row=document.createElement("div")
+    row.className="stat-line"
+    row.textContent=tip
+    card.appendChild(row)
+  })
+  wrap.appendChild(card)
+}
 function renderProgress(){
   const st=loadStore()
+  ensureSessionFresh(st)
   const unit=st.unit
   secPr.innerHTML=""
   const wrap=document.createElement("div")
-  const today=todayKey()
+  renderProfileCard(wrap,st,unit)
+  renderWeightFeedback(wrap,st,unit)
+  renderStrengthFeedback(wrap,st,unit)
+  renderHistoryGraph(wrap,st,unit)
+  renderMonthlySummary(wrap,st,unit)
+  renderImprovementTips(wrap,st)
+  const today=todayKey
   const cardToday=document.createElement("div")
   cardToday.className="card"
   const h=document.createElement("div")
   h.className="card-header"
   const t=document.createElement("div")
   t.className="card-title"
-  t.textContent="Today summary"
+  t.textContent="Today summary ("+activeDay+")"
   const s=document.createElement("div")
   s.className="card-sub"
   const dayEntry=st.w.find(x=>x.date===today&&x.day===activeDay)
@@ -505,7 +1182,7 @@ function renderProgress(){
   kt.textContent="Key lift trends"
   const ks=document.createElement("div")
   ks.className="card-sub"
-  ks.textContent="Compares first log vs latest for major lifts."
+  ks.textContent="First vs latest 1RM for main lifts."
   kh.appendChild(kt);kh.appendChild(ks);keyCard.appendChild(kh)
   const keyEx=["bench","dead","leg_press","oh","lat"]
   const names={bench:"Bench Press",dead:"Deadlift",leg_press:"Leg Press",oh:"Overhead Press",lat:"Pulldown / Pull-Ups"}
@@ -530,8 +1207,8 @@ function renderProgress(){
     let txt=last.toFixed(0)+" "+unit
     if(pct>2.5)txt+=" ("+pct.toFixed(1)+"% up)"
     else if(pct<-2.5)txt+=" ("+pct.toFixed(1)+"% change)"
-    row.appendChild(sp)
     v.textContent=txt
+    row.appendChild(sp)
     row.appendChild(v)
     keyCard.appendChild(row)
   })
@@ -542,6 +1219,50 @@ function renderProgress(){
     keyCard.appendChild(row)
   }
   wrap.appendChild(keyCard)
+  const weekCard=document.createElement("div")
+  weekCard.className="card"
+  const wh=document.createElement("div")
+  wh.className="card-header"
+  const wt=document.createElement("div")
+  wt.className="card-title"
+  wt.textContent="Weekly coach report"
+  const ws=document.createElement("div")
+  ws.className="card-sub"
+  const weekInfo=getWeekInfo()
+  let completed=0,total=0
+  const todayIso=todayISO()
+  const missed=[]
+  weekInfo.forEach(w=>{
+    if(w.date>todayIso)return
+    total++
+    const entry=st.w.find(d=>d.date===w.date&&d.day===w.day)
+    if(entry)completed++
+    else missed.push(w.day)
+  })
+  ws.textContent=total?("This week so far: "+completed+"/"+total+" days logged."): "This week has not started yet."
+  wh.appendChild(wt);wh.appendChild(ws);weekCard.appendChild(wh)
+  const flag=document.createElement("div")
+  flag.className="week-flag"
+  if(!total){
+    flag.textContent="No data yet."
+  }else if(missed.length===0&&completed===total){
+    flag.classList.add("clean")
+    flag.textContent="Perfect compliance. You can keep pushing weights where reps are easy."
+  }else if(completed>=Math.max(3,Math.floor(total*0.6))){
+    flag.classList.add("clean")
+    flag.textContent="Decent week. Tidy up missed days and progress main lifts slowly."
+  }else{
+    flag.classList.add("missed")
+    flag.textContent="Too many missed days. Lock in the schedule next week before adding more weight."
+  }
+  weekCard.appendChild(flag)
+  if(missed.length){
+    const missLine=document.createElement("div")
+    missLine.className="stat-line"
+    missLine.textContent="Missed: "+missed.join(", ")
+    weekCard.appendChild(missLine)
+  }
+  wrap.appendChild(weekCard)
   const globalCard=document.createElement("div")
   globalCard.className="card"
   const gh=document.createElement("div")
@@ -571,7 +1292,8 @@ function renderProgress(){
 }
 function renderNotes(){
   const st=loadStore()
-  const tKey=todayKey()
+  ensureSessionFresh(st)
+  const tKey=todayKey
   let d=st.w.find(x=>x.date===tKey&&x.day===activeDay)
   secNt.innerHTML=""
   const card=document.createElement("div")
@@ -580,23 +1302,26 @@ function renderNotes(){
   h.className="card-header"
   const t=document.createElement("div")
   t.className="card-title"
-  t.textContent="Day notes"
+  t.textContent="Day notes · "+activeDay
   const s=document.createElement("div")
   s.className="card-sub"
-  s.textContent="Write anything about sleep, energy, pain, pump."
+  const isToday=todayDayName&&activeDay===todayDayName
+  s.textContent=isToday?"Write anything about sleep, energy, pain, pump.":"Read-only for past or other days."
   h.appendChild(t);h.appendChild(s);card.appendChild(h)
   const ta=document.createElement("textarea")
   ta.className="notes-area"
   ta.id="notesBox"
   ta.value=d&&d.note?d.note:""
+  ta.disabled=!isToday
   const row=document.createElement("div")
   row.className="btn-row"
   const save=document.createElement("button")
   save.className="btn btn-primary"
-  save.textContent="Save notes"
+  save.textContent=isToday?"Save notes":"Locked"
+  save.disabled=!isToday
   save.onclick=()=>{
     const st2=loadStore()
-    const tKey2=todayKey()
+    const tKey2=todayKey
     let day=st2.w.find(x=>x.date===tKey2&&x.day===activeDay)
     if(!day){
       day={date:tKey2,day:activeDay,e:[],note:""}
@@ -608,11 +1333,13 @@ function renderNotes(){
   }
   const clear=document.createElement("button")
   clear.className="btn btn-ghost"
-  clear.textContent="Clear today"
+  clear.textContent=isToday?"Clear today":"Clear locked"
+  clear.disabled=!isToday
   clear.onclick=()=>{
+    if(!isToday)return
     if(!confirm("Clear this day's notes and sets for today?"))return
     const st2=loadStore()
-    const tKey2=todayKey()
+    const tKey2=todayKey
     st2.w=st2.w.filter(x=>!(x.date===tKey2&&x.day===activeDay))
     saveStore(st2)
     renderAll()
@@ -622,11 +1349,265 @@ function renderNotes(){
   card.appendChild(ta)
   card.appendChild(row)
   secNt.appendChild(card)
+  const historyCard=document.createElement("div")
+  historyCard.className="card"
+  const hh=document.createElement("div")
+  hh.className="card-header"
+  const ht=document.createElement("div")
+  ht.className="card-title"
+  ht.textContent="Past day notes"
+  const hs=document.createElement("div")
+  hs.className="card-sub"
+  hs.textContent="Recent days where you left notes."
+  hh.appendChild(ht);hh.appendChild(hs);historyCard.appendChild(hh)
+  const entries=[]
+  st.w.forEach(day=>{
+    if(day.note&&day.note.trim()){
+      entries.push({date:day.date,day:day.day,note:day.note.trim()})
+    }
+  })
+  entries.sort((a,b)=>b.date.localeCompare(a.date))
+  if(!entries.length){
+    const row=document.createElement("div")
+    row.className="stat-line"
+    row.textContent="No notes saved yet."
+    historyCard.appendChild(row)
+  }else{
+    entries.slice(0,8).forEach(en=>{
+      const row=document.createElement("div")
+      row.className="progress-item"
+      const snippet=en.note.length>90?en.note.slice(0,90)+"…":en.note
+      row.textContent=en.date+" ("+en.day+"): "+snippet
+      historyCard.appendChild(row)
+    })
+  }
+  secNt.appendChild(historyCard)
 }
 function renderAll(){
+  updateWeekHeader()
   renderExercises()
   renderProgress()
   renderNotes()
+}
+function formatMs(ms){
+  if(ms<=0)return"00:00"
+  const s=Math.floor(ms/1000)
+  const m=Math.floor(s/60)
+  const rem=s%60
+  return String(m).padStart(2,"0")+":"+String(rem).padStart(2,"0")
+}
+function restSeconds(isMain,partner,gym){
+  const base=isMain?90:60
+  const partnerExtra=partner==="partner"?45:0
+  const gymExtra=gym==="busy"?35:0
+  return Math.round(base+partnerExtra+gymExtra)
+}
+function startSession(partner){
+  const st=loadStore()
+  const fresh=defaultSession()
+  const warm=st.session&&st.session.warmup?st.session.warmup:{done:false,until:null,start:null}
+  st.session={...fresh,status:"active",start:Date.now(),partner,gym:st.session.gym,warmup:warm}
+  saveStore(st)
+  renderAll()
+}
+function endSession(){
+  const st=loadStore()
+  st.session=defaultSession()
+  saveStore(st)
+  renderAll()
+}
+function startRest(exId,isMain){
+  const st=loadStore()
+  ensureSessionFresh(st)
+   if(!st.session.warmup.done){
+    alert("Finish the warm-up before starting rests.")
+    return
+  }
+  if(st.session.status!=="active"&&st.session.status!=="rest"){
+    alert("Start a session first.")
+    return
+  }
+  const partner=st.session.partner||"solo"
+  const secs=restSeconds(isMain,partner,st.session.gym||"normal")
+  const now=Date.now()
+  st.session.status="rest"
+  st.session.restUntil=now+secs*1000
+  st.session.lastRestStart=now
+  st.session.activeEx=exId
+  restNotified=false
+  saveStore(st)
+  renderAll()
+}
+function startWarmup(){
+  const st=loadStore()
+  ensureSessionFresh(st)
+  const now=Date.now()
+  st.session.warmup={done:false,start:now,until:now+5*60*1000}
+  saveStore(st)
+  renderAll()
+  const warmTicker=setInterval(()=>{
+    const stNow=loadStore()
+    if(!stNow.session.warmup.until)return clearInterval(warmTicker)
+    if(Date.now()>=stNow.session.warmup.until){
+      stNow.session.warmup.done=true
+      stNow.session.warmup.until=null
+      saveStore(stNow)
+      clearInterval(warmTicker)
+      renderAll()
+    }
+  },1000)
+}
+function pushRestNotification(){
+  if(!("Notification"in window))return
+  const send=()=>{
+    try{
+      new Notification("Rest done",{body:"Back to work — next set now.",silent:false})
+    }catch(e){}
+  }
+  if(Notification.permission==="granted"){
+    send()
+  }else if(Notification.permission!=="denied"){
+    Notification.requestPermission().then(p=>{if(p==="granted")send()})
+  }
+}
+function estimateFinish(st){
+  const dayEntry=st.w.find(x=>x.date===todayKey&&x.day===activeDay)
+  const done=dayEntry?dayEntry.e.reduce((a,e)=>a+(e.sets?e.sets.filter(s=>s.w&&s.r).length:0),0):0
+  const total=plan[activeDay].ex.length*3
+  const remaining=Math.max(0,total-done)
+  const restAvg=restSeconds(true,st.session.partner||"solo",st.session.gym||"normal")-10
+  const talk=(st.session.partner==="partner"?20:8)+(st.session.gym==="busy"?12:0)
+  const perSet=30+restAvg+talk
+  const eta=remaining?Date.now()+remaining*perSet*1000:null
+  return{remaining,eta}
+}
+function renderRestCard(st){
+  const card=document.createElement("div")
+  card.className="rest-card"
+  const title=document.createElement("div")
+  title.className="rest-title"
+  title.textContent="Session & rest"
+  const sub=document.createElement("div")
+  sub.className="rest-sub"
+  sub.textContent="Warm-up first, then log sets; rest adds partner/busy-gym delays and notifies when done."
+  card.appendChild(title);card.appendChild(sub)
+  const row=document.createElement("div")
+  row.className="rest-row"
+  const select=document.createElement("select")
+  select.className="select-field"
+  const solo=document.createElement("option")
+  solo.value="solo";solo.textContent="Solo"
+  const partner=document.createElement("option")
+  partner.value="partner";partner.textContent="With partner"
+  select.appendChild(solo);select.appendChild(partner)
+  select.value=st.session.partner||"solo"
+  select.onchange=()=>{
+    const st2=loadStore()
+    st2.session.partner=select.value
+    saveStore(st2)
+    renderAll()
+  }
+  const gymSelect=document.createElement("select")
+  gymSelect.className="select-field"
+  const normal=document.createElement("option")
+  normal.value="normal";normal.textContent="Normal gym flow"
+  const busy=document.createElement("option")
+  busy.value="busy";busy.textContent="Busy / sharing machines"
+  gymSelect.appendChild(normal);gymSelect.appendChild(busy)
+  gymSelect.value=st.session.gym||"normal"
+  gymSelect.onchange=()=>{
+    const st2=loadStore()
+    st2.session.gym=gymSelect.value
+    saveStore(st2)
+    renderAll()
+  }
+  const btnStart=document.createElement("button")
+  btnStart.className="rest-btn"
+  btnStart.textContent=st.session.status==="active"||st.session.status==="rest"?"Restart session":"Start session"
+  btnStart.onclick=()=>startSession(select.value)
+  const btnEnd=document.createElement("button")
+  btnEnd.className="rest-btn secondary"
+  btnEnd.textContent="End session"
+  btnEnd.onclick=endSession
+  row.appendChild(select)
+  row.appendChild(gymSelect)
+  row.appendChild(btnStart)
+  row.appendChild(btnEnd)
+  card.appendChild(row)
+  const warmRow=document.createElement("div")
+  warmRow.className="rest-row"
+  const warmStatus=document.createElement("div")
+  warmStatus.className="pill"
+  if(st.session.warmup.done){
+    warmStatus.textContent="Warm-up done"
+  }else if(st.session.warmup.until&&st.session.warmup.until>Date.now()){
+    const rem=st.session.warmup.until-Date.now()
+    warmStatus.textContent="Warming up "+formatMs(rem)
+  }else{
+    warmStatus.textContent="Warm-up needed"
+  }
+  const warmBtn=document.createElement("button")
+  warmBtn.className="rest-btn secondary"
+  warmBtn.textContent=st.session.warmup.done?"Redo warm-up":"Start 5 min warm-up"
+  warmBtn.onclick=()=>{
+    startWarmup()
+  }
+  warmRow.appendChild(warmStatus)
+  warmRow.appendChild(warmBtn)
+  card.appendChild(warmRow)
+  const timerRow=document.createElement("div")
+  timerRow.className="rest-row"
+  const timer=document.createElement("div")
+  timer.className="rest-timer"
+  let statusText=st.session.status==="active"?"In session":"Idle"
+  let etaText=""
+  if(st.session.status==="rest"&&st.session.restUntil){
+    const remaining=st.session.restUntil-Date.now()
+    statusText=remaining>0?"Resting...":"Rest done"
+    timer.textContent=remaining>0?formatMs(remaining):"GO"
+  }else{
+    timer.textContent="--:--"
+  }
+  const eta=estimateFinish(st)
+  if(eta.eta){
+    const finish=new Date(eta.eta)
+    etaText="Remaining sets: "+eta.remaining+" · Est finish "+finish.toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit"})
+  }else{
+    etaText="Remaining sets: 0"
+  }
+  const etaDiv=document.createElement("div")
+  etaDiv.className="rest-eta"
+  etaDiv.textContent=etaText
+  const statusDiv=document.createElement("div")
+  statusDiv.className="pill"
+  statusDiv.textContent=statusText
+  timerRow.appendChild(timer)
+  timerRow.appendChild(statusDiv)
+  timerRow.appendChild(etaDiv)
+  card.appendChild(timerRow)
+  if(!st.session.warmup.done){
+    const warn=document.createElement("div")
+    warn.className="rest-warn"
+    warn.textContent="Complete the warm-up before starting sets."
+    card.appendChild(warn)
+  }
+  if(restTicker)clearInterval(restTicker)
+  restTicker=setInterval(()=>{
+    const stNow=loadStore()
+    ensureSessionFresh(stNow)
+    if(stNow.session.status==="rest"&&stNow.session.restUntil&&stNow.session.restUntil>Date.now()){
+      const diff=stNow.session.restUntil-Date.now()
+      timer.textContent=formatMs(diff)
+    }else if(stNow.session.status==="rest"){
+      timer.textContent="GO"
+      statusDiv.textContent="Rest done"
+      if(!restNotified){
+        pushRestNotification()
+        restNotified=true
+      }
+    }
+  },1000)
+  return card
 }
 initTabs()
 initSections()
