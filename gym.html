@@ -97,7 +97,6 @@ body{background:linear-gradient(180deg,#020617,#020617,#0f172a);color:#e5e7eb}
 .pill{border-radius:999px;padding:4px 8px;font-size:11px;border:1px solid rgba(148,163,184,.6);background:rgba(15,23,42,.95);color:#e5e7eb}
 .rest-btn{border:none;border-radius:999px;padding:8px 10px;font-weight:600;font-size:12px;background:linear-gradient(135deg,#22c55e,#4ade80);color:#052e16}
 .rest-btn.secondary{background:transparent;border:1px solid rgba(148,163,184,.7);color:#e5e7eb}
-.rest-warn{font-size:11px;color:#fbbf24;margin-top:4px}
 </style>
 </head>
 <body>
@@ -228,7 +227,7 @@ function todayISO(){
   return new Date().toISOString().slice(0,10)
 }
 function defaultSession(){
-  return{date:todayISO(),status:"idle",start:null,partner:"solo",restUntil:null,lastRestStart:null,activeEx:null,gym:"normal",warmup:{done:false,until:null,start:null}}
+  return{date:todayISO(),status:"idle",start:null,partner:"solo",restUntil:null,lastRestStart:null,activeEx:null,gym:"normal"}
 }
 function getTodayDayName(){
   const d=new Date().getDay()
@@ -328,7 +327,6 @@ function ensureSessionFresh(st){
     st.session=defaultSession()
     saveStore(st)
   }
-  if(!st.session.warmup)st.session.warmup={done:false,until:null,start:null}
 }
 function monthKey(dateStr){
   return dateStr?dateStr.slice(0,7):""
@@ -1405,8 +1403,7 @@ function restSeconds(isMain,partner,gym){
 function startSession(partner){
   const st=loadStore()
   const fresh=defaultSession()
-  const warm=st.session&&st.session.warmup?st.session.warmup:{done:false,until:null,start:null}
-  st.session={...fresh,status:"active",start:Date.now(),partner,gym:st.session.gym,warmup:warm}
+  st.session={...fresh,status:"active",start:Date.now(),partner,gym:st.session.gym}
   saveStore(st)
   renderAll()
 }
@@ -1419,10 +1416,6 @@ function endSession(){
 function startRest(exId,isMain){
   const st=loadStore()
   ensureSessionFresh(st)
-   if(!st.session.warmup.done){
-    alert("Finish the warm-up before starting rests.")
-    return
-  }
   if(st.session.status!=="active"&&st.session.status!=="rest"){
     alert("Start a session first.")
     return
@@ -1437,25 +1430,6 @@ function startRest(exId,isMain){
   restNotified=false
   saveStore(st)
   renderAll()
-}
-function startWarmup(){
-  const st=loadStore()
-  ensureSessionFresh(st)
-  const now=Date.now()
-  st.session.warmup={done:false,start:now,until:now+5*60*1000}
-  saveStore(st)
-  renderAll()
-  const warmTicker=setInterval(()=>{
-    const stNow=loadStore()
-    if(!stNow.session.warmup.until)return clearInterval(warmTicker)
-    if(Date.now()>=stNow.session.warmup.until){
-      stNow.session.warmup.done=true
-      stNow.session.warmup.until=null
-      saveStore(stNow)
-      clearInterval(warmTicker)
-      renderAll()
-    }
-  },1000)
 }
 function pushRestNotification(){
   if(!("Notification"in window))return
@@ -1489,7 +1463,7 @@ function renderRestCard(st){
   title.textContent="Session & rest"
   const sub=document.createElement("div")
   sub.className="rest-sub"
-  sub.textContent="Warm-up first, then log sets; rest adds partner/busy-gym delays and notifies when done."
+  sub.textContent="Log sets, rest with partner/busy-gym delays, and get notified when rest is over."
   card.appendChild(title);card.appendChild(sub)
   const row=document.createElement("div")
   row.className="rest-row"
@@ -1534,27 +1508,6 @@ function renderRestCard(st){
   row.appendChild(btnStart)
   row.appendChild(btnEnd)
   card.appendChild(row)
-  const warmRow=document.createElement("div")
-  warmRow.className="rest-row"
-  const warmStatus=document.createElement("div")
-  warmStatus.className="pill"
-  if(st.session.warmup.done){
-    warmStatus.textContent="Warm-up done"
-  }else if(st.session.warmup.until&&st.session.warmup.until>Date.now()){
-    const rem=st.session.warmup.until-Date.now()
-    warmStatus.textContent="Warming up "+formatMs(rem)
-  }else{
-    warmStatus.textContent="Warm-up needed"
-  }
-  const warmBtn=document.createElement("button")
-  warmBtn.className="rest-btn secondary"
-  warmBtn.textContent=st.session.warmup.done?"Redo warm-up":"Start 5 min warm-up"
-  warmBtn.onclick=()=>{
-    startWarmup()
-  }
-  warmRow.appendChild(warmStatus)
-  warmRow.appendChild(warmBtn)
-  card.appendChild(warmRow)
   const timerRow=document.createElement("div")
   timerRow.className="rest-row"
   const timer=document.createElement("div")
@@ -1585,12 +1538,6 @@ function renderRestCard(st){
   timerRow.appendChild(statusDiv)
   timerRow.appendChild(etaDiv)
   card.appendChild(timerRow)
-  if(!st.session.warmup.done){
-    const warn=document.createElement("div")
-    warn.className="rest-warn"
-    warn.textContent="Complete the warm-up before starting sets."
-    card.appendChild(warn)
-  }
   if(restTicker)clearInterval(restTicker)
   restTicker=setInterval(()=>{
     const stNow=loadStore()
