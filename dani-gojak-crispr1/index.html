@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How CRISPR edits DNA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./styles.css?v=5" />
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  </head>
+  <body>
+    <main class="experience">
+      <aside class="stage-column">
+        <div class="stage-stick">
+          <div class="stage-topline">
+            <span class="tag">Dani Gojak</span>
+            <span class="step-readout" id="stepReadout">Intro</span>
+          </div>
+
+          <div class="step-jumps" aria-label="Jump to CRISPR step">
+            <button class="jump-chip is-active" data-jump-step="0" type="button">Intro</button>
+            <button class="jump-chip" data-jump-step="1" type="button">Gene</button>
+            <button class="jump-chip" data-jump-step="2" type="button">Target</button>
+            <button class="jump-chip" data-jump-step="3" type="button">Guide RNA</button>
+            <button class="jump-chip" data-jump-step="4" type="button">Cas9</button>
+            <button class="jump-chip" data-jump-step="5" type="button">Cut</button>
+            <button class="jump-chip" data-jump-step="6" type="button">Repair</button>
+            <button class="jump-chip" data-jump-step="7" type="button">Result</button>
+          </div>
+
+          <div class="scene-wrap" id="sceneWrap" data-step="0" data-mode="fixed">
+            <div class="scene-glow" aria-hidden="true"></div>
+            <model-viewer
+              id="dnaViewer"
+              class="scene-viewer"
+              src="./dna.glb"
+              alt="Interactive 3D DNA model"
+              camera-controls
+              interaction-prompt="none"
+              disable-zoom
+              shadow-intensity="0"
+              exposure="1"
+              environment-image="neutral"
+              camera-orbit="0deg 90deg auto"
+              camera-target="0m 0m 0m"
+              min-camera-orbit="auto auto auto"
+              max-camera-orbit="auto auto auto"
+              field-of-view="28deg"
+            ></model-viewer>
+
+            <div class="dna-split dna-split--top" aria-hidden="true">
+              <model-viewer
+                id="dnaViewerTop"
+                class="scene-viewer scene-viewer--split"
+                src="./dna.glb"
+                alt=""
+                interaction-prompt="none"
+                disable-zoom
+                shadow-intensity="0"
+                exposure="1"
+                environment-image="neutral"
+                camera-orbit="0deg 90deg auto"
+                camera-target="0m 0m 0m"
+                field-of-view="28deg"
+                tabindex="-1"
+              ></model-viewer>
+            </div>
+
+            <div class="dna-split dna-split--bottom" aria-hidden="true">
+              <model-viewer
+                id="dnaViewerBottom"
+                class="scene-viewer scene-viewer--split"
+                src="./dna.glb"
+                alt=""
+                interaction-prompt="none"
+                disable-zoom
+                shadow-intensity="0"
+                exposure="1"
+                environment-image="neutral"
+                camera-orbit="0deg 90deg auto"
+                camera-target="0m 0m 0m"
+                field-of-view="28deg"
+                tabindex="-1"
+              ></model-viewer>
+            </div>
+
+            <model-viewer
+              id="cas9Viewer"
+              class="cas9-viewer"
+              src="./cas9.glb"
+              alt="Cas9 protein model"
+              interaction-prompt="none"
+              disable-zoom
+              shadow-intensity="0"
+              exposure="1"
+              environment-image="neutral"
+              orientation="0deg 0deg 90deg"
+              camera-orbit="0deg 90deg 120%"
+              camera-target="0m 0m 0m"
+              field-of-view="20deg"
+              tabindex="-1"
+            ></model-viewer>
+
+            <div class="scene-overlay" aria-hidden="true">
+              <div class="highlight-band"></div>
+
+              <div class="target-brackets">
+                <span class="target-brackets__rail target-brackets__rail--left"></span>
+                <span class="target-brackets__rail target-brackets__rail--right"></span>
+                <span class="target-brackets__label">target sequence</span>
+              </div>
+
+              <div class="guide-rna">
+                <span class="guide-rna__trail"></span>
+                <span class="guide-rna__label">guide RNA</span>
+              </div>
+
+              <div class="cas9-cut">
+                <span class="cas9-cut__blade cas9-cut__blade--left"></span>
+                <span class="cas9-cut__blade cas9-cut__blade--right"></span>
+                <span class="cas9-cut__spark"></span>
+                <span class="cas9-cut__label">Cas9 cut</span>
+              </div>
+
+              <div class="repair-pulse">
+                <span class="repair-pulse__ring repair-pulse__ring--outer"></span>
+                <span class="repair-pulse__ring repair-pulse__ring--inner"></span>
+                <span class="repair-pulse__label">DNA repair</span>
+              </div>
+
+              <div class="annotation annotation--gene">Gene region</div>
+              <div class="annotation annotation--bases">Base pairs</div>
+              <div class="annotation annotation--mutation" id="mutationAnnotation">Edited sequence</div>
+            </div>
+          </div>
+
+          <div class="stage-controls">
+            <div class="control-bar" aria-label="Sequence controls">
+              <button class="control-button" data-action="prev" type="button">Previous</button>
+              <button class="control-button" data-action="next" type="button">Next</button>
+              <button class="control-button" data-action="play" type="button" aria-pressed="false">Play</button>
+              <button class="control-button" data-action="focus" type="button" aria-pressed="false">Focus target</button>
+              <button class="control-button" data-action="reset" type="button">Reset view</button>
+              <button class="control-button" data-action="replay" type="button">Replay</button>
+            </div>
+
+            <button id="mutationToggle" class="toggle-button" data-action="compare" type="button" aria-pressed="false">
+              Show mutation vs edited
+            </button>
+
+            <div class="compare-card">
+              <p class="compare-card__eyebrow" id="compareEyebrow">Before vs after editing</p>
+              <p class="compare-card__copy" id="compareCopy">Use the button to compare the same DNA site before editing and after repair.</p>
+            </div>
+          </div>
+
+          <div class="legend" aria-label="Color legend">
+            <button class="legend-item" data-focus-part="dna" type="button" aria-pressed="false"><span class="legend-swatch legend-swatch--dna"></span>DNA</button>
+            <button class="legend-item" data-focus-part="rna" type="button" aria-pressed="false"><span class="legend-swatch legend-swatch--rna"></span>guide RNA</button>
+            <button class="legend-item" data-focus-part="cas9" type="button" aria-pressed="false"><span class="legend-swatch legend-swatch--cas9"></span>Cas9</button>
+            <button class="legend-item" data-focus-part="repair" type="button" aria-pressed="false"><span class="legend-swatch legend-swatch--repair"></span>repair</button>
+          </div>
+        </div>
+      </aside>
+
+      <section class="story-column" aria-label="CRISPR explainer steps">
+        <section class="panel panel--hero step-panel is-visible is-active" data-step="0" id="panel-0">
+          <div class="panel-copy">
+            <p class="eyebrow">Interactive diagram</p>
+            <h1>How CRISPR edits DNA</h1>
+            <p class="lead">CRISPR uses a guide RNA and the Cas9 enzyme to find, cut, and repair a chosen DNA site.</p>
+            <div class="hero-notes">
+              <p>Scientists first choose a target DNA sequence inside a gene region.</p>
+              <p>Then guide RNA and Cas9 work together to find and cut that exact spot.</p>
+              <p>After the cut, the cell repairs the DNA, which is where editing can happen.</p>
+              <p>Focus labels: gene region, base pairs, target DNA sequence, edited site.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel step-panel" data-step="1" id="panel-1">
+          <div class="panel-copy">
+            <p class="step-index">Step 1</p>
+            <h2>Gene region</h2>
+            <p>A gene is a section of DNA that contains instructions used by the cell.</p>
+            <p class="step-note">This larger label shows the DNA region where the target site is located.</p>
+            <p class="step-detail">CRISPR is aimed at one chosen part of the DNA, not the entire strand at once.</p>
+          </div>
+        </section>
+
+        <section class="panel step-panel" data-step="2" id="panel-2">
+          <div class="panel-copy">
+            <p class="step-index">Step 2</p>
+            <h2>Target DNA</h2>
+            <p>Inside that region, scientists choose a short DNA sequence to edit.</p>
+            <p class="step-note">The brackets mark the exact sequence the CRISPR system will search for.</p>
+            <p class="step-detail">Picking the correct target helps reduce cutting at the wrong DNA location.</p>
+          </div>
+        </section>
+
+        <section class="panel step-panel" data-step="3" id="panel-3">
+          <div class="panel-copy">
+            <p class="step-index">Step 3</p>
+            <h2>Guide RNA binds</h2>
+            <p>A guide RNA matches the target DNA sequence and guides Cas9 to that same site.</p>
+            <p class="step-note">The green guide RNA acts like a molecular address label for the DNA target.</p>
+            <p class="step-detail">The guide RNA does not cut the DNA by itself. Its main job is to bring Cas9 to the matching sequence.</p>
+          </div>
+        </section>
+
+        <section class="panel step-panel" data-step="4" id="panel-4">
+          <div class="panel-copy">
+            <p class="step-index">Step 4</p>
+            <h2>Cas9 arrives</h2>
+            <p>Cas9 is brought to the same DNA site by the guide RNA.</p>
+            <p class="step-note">The Cas9 protein sits behind the DNA before the break is made.</p>
+            <p class="step-detail">At this stage, the guide RNA and Cas9 are working together as one targeting-and-cutting system.</p>
+          </div>
+        </section>
+
+        <section class="panel step-panel" data-step="5" id="panel-5">
+          <div class="panel-copy">
+            <p class="step-index">Step 5</p>
+            <h2>Cas9 cuts DNA</h2>
+            <p>Cas9 is the enzyme that cuts both DNA strands at the target site.</p>
+            <p class="step-note">The red marker shows the place where the DNA is broken.</p>
+            <p class="step-detail">Once Cas9 is lined up with the correct sequence, the break starts the editing process.</p>
+          </div>
+        </section>
+
+        <section class="panel step-panel" data-step="6" id="panel-6">
+          <div class="panel-copy">
+            <p class="step-index">Step 6</p>
+            <h2>DNA repair</h2>
+            <p>The cell repairs the break after Cas9 has cut the DNA.</p>
+            <p class="step-note">During repair, the DNA can be rejoined, disrupted, or changed at the edited site.</p>
+            <p class="step-detail">Scientists use this repair step either to turn a gene off or to help introduce a different DNA sequence.</p>
+          </div>
+        </section>
+
+        <section class="panel step-panel" data-step="7" id="panel-7">
+          <div class="panel-copy">
+            <p class="step-index">Step 7</p>
+            <h2>Edited DNA</h2>
+            <p>After repair, the target site can end up different from the original version.</p>
+            <p class="step-note">The label marks the edited DNA site after the repair step.</p>
+            <p class="step-detail">Use the mutation button to compare the original version with the repaired version.</p>
+          </div>
+        </section>
+
+        <section class="panel panel--quiz step-panel" data-step="8" id="panel-8">
+          <div class="panel-copy">
+            <p class="step-index">Check understanding</p>
+            <h2>Try the CRISPR check</h2>
+            <p>The answers update right away, so the page works like a small learning tool.</p>
+
+            <div class="quiz" aria-label="CRISPR understanding check">
+              <div class="quiz-question" data-question="0">
+                <p class="quiz-question__prompt">What does the guide RNA do?</p>
+                <div class="quiz-options">
+                  <button class="quiz-choice" data-correct="true" type="button">Matches the target and guides Cas9</button>
+                  <button class="quiz-choice" type="button">Repairs the DNA by itself</button>
+                  <button class="quiz-choice" type="button">Turns into a protein</button>
+                </div>
+                <p class="quiz-feedback" aria-live="polite"></p>
+              </div>
+
+              <div class="quiz-question" data-question="1">
+                <p class="quiz-question__prompt">What does Cas9 do at the target site?</p>
+                <div class="quiz-options">
+                  <button class="quiz-choice" type="button">Copies the gene</button>
+                  <button class="quiz-choice" data-correct="true" type="button">Cuts both DNA strands</button>
+                  <button class="quiz-choice" type="button">Creates the guide RNA</button>
+                </div>
+                <p class="quiz-feedback" aria-live="polite"></p>
+              </div>
+
+              <div class="quiz-question" data-question="2">
+                <p class="quiz-question__prompt">What happens after the cut?</p>
+                <div class="quiz-options">
+                  <button class="quiz-choice" type="button">The DNA disappears</button>
+                  <button class="quiz-choice" type="button">Cas9 makes a new cell</button>
+                  <button class="quiz-choice" data-correct="true" type="button">The cell repairs the break</button>
+                </div>
+                <p class="quiz-feedback" aria-live="polite"></p>
+              </div>
+            </div>
+
+            <button class="inline-replay" data-action="replay" type="button">Replay sequence</button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div class="rewind-overlay" id="rewindOverlay" aria-hidden="true">
+      <p class="rewind-overlay__label">Restarting sequence</p>
+    </div>
+
+    <nav class="mobile-dock" aria-label="Mobile controls">
+      <button data-action="prev" type="button">Back</button>
+      <button data-action="next" type="button">Next</button>
+      <button data-action="compare" type="button">Compare</button>
+      <button data-action="reset" type="button">Reset</button>
+    </nav>
+
+    <script type="module" src="./script.js?v=5"></script>
+  </body>
+</html>
