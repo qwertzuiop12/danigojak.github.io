@@ -11,93 +11,188 @@ const mutationAnnotation = document.querySelector('#mutationAnnotation');
 const rewindOverlay = document.querySelector('#rewindOverlay');
 const jumpChips = [...document.querySelectorAll('.jump-chip')];
 const panels = [...document.querySelectorAll('.step-panel')];
+const actionButtons = [...document.querySelectorAll('[data-action]')];
+const legendButtons = [...document.querySelectorAll('[data-focus-part]')];
+const branchButtons = [...document.querySelectorAll('[data-branch]')];
+const quizChoices = [...document.querySelectorAll('.quiz-choice')];
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const mobileLayout = window.matchMedia('(max-width: 760px)');
 
 const stepConfig = {
   0: {
     label: 'Intro',
+    visualStep: 0,
     orbit: '0deg 90deg auto',
     target: '0m 0m 0m',
     fov: '28deg',
-    compareEyebrow: 'Before vs after editing',
-    compareCopy: 'Use the button to compare the same DNA site before editing and after repair, so the mutation and edited version can be compared directly.',
+    focusTarget: '0m 0.1m 0m',
+    focusFov: '20deg',
+    compareEyebrow: 'DNA repair',
+    compareCopy: 'Use the buttons to see what can happen after DNA gets cut.',
   },
   1: {
-    label: 'Step 1 / Gene Region',
-    orbit: '-6deg 88deg auto',
-    target: '0m 0.06m 0m',
-    fov: '25deg',
-    compareEyebrow: 'Step 1 / Gene Region',
-    compareCopy: 'This larger label marks the gene region that contains the target DNA site.',
-  },
-  2: {
-    label: 'Step 2 / Target DNA',
-    orbit: '-8deg 86deg auto',
-    target: '0m 0.16m 0m',
-    fov: '24deg',
-    compareEyebrow: 'Step 2 / Target DNA',
-    compareCopy: 'The brackets mark the exact DNA site selected for editing within the gene region, showing where the CRISPR system will act.',
-  },
-  3: {
-    label: 'Step 3 / Guide RNA',
-    orbit: '14deg 79deg auto',
-    target: '0m 0.24m 0m',
-    fov: '23deg',
-    compareEyebrow: 'Step 3 / Guide RNA',
-    compareCopy: 'The guide RNA matches the target DNA sequence and guides Cas9 to that same site, acting like a molecular address label.',
-  },
-  4: {
-    label: 'Step 4 / Cas9 Arrives',
-    orbit: '1deg 80deg auto',
-    target: '0m 0.06m 0m',
-    fov: '22deg',
-    compareEyebrow: 'Step 4 / Cas9 Arrives',
-    compareCopy: 'Cas9 is brought to the same DNA site by the guide RNA before the cut is made.',
-  },
-  5: {
-    label: 'Step 5 / Cas9 Cut',
+    label: 'Step 1 / DNA Cut',
+    visualStep: 5,
     orbit: '2deg 77deg auto',
     target: '0m 0m 0m',
     fov: '21deg',
-    compareEyebrow: 'Step 5 / Cas9 Cut',
-    compareCopy: 'Cas9 is the cutting enzyme. It makes a break in both DNA strands at the target site to start the editing process.',
+    focusTarget: '0m 0m 0m',
+    focusFov: '16deg',
+    compareEyebrow: 'Step 1 / DNA Cut',
+    compareCopy: 'The DNA breaks at one spot. This cut starts the repair story.',
   },
-  6: {
-    label: 'Step 6 / DNA Repair',
+  2: {
+    label: 'Step 2 / Cell Notices',
+    visualStep: 6,
     orbit: '-10deg 89deg auto',
     target: '0m -0.08m 0m',
     fov: '24deg',
-    compareEyebrow: 'Step 6 / DNA Repair',
-    compareCopy: 'After the cut, the cell repairs the DNA. That repair can rejoin, disrupt, or change the edited site depending on how the break is fixed.',
+    focusTarget: '0m -0.05m 0m',
+    focusFov: '17deg',
+    compareEyebrow: 'Step 2 / Cell Notices',
+    compareCopy: 'The cell detects the break and starts repair.',
+  },
+  3: {
+    label: 'Step 3 / Cell Repair',
+    visualStep: 6,
+    orbit: '-10deg 89deg auto',
+    target: '0m -0.08m 0m',
+    fov: '24deg',
+    focusTarget: '0m -0.05m 0m',
+    focusFov: '17deg',
+    compareEyebrow: 'Step 3 / Cell Repair',
+    compareCopy: 'The cell tries to join the broken DNA ends back together.',
+  },
+  4: {
+    label: 'Step 4 / Choose Repair',
+    visualStep: 6,
+    orbit: '-10deg 89deg auto',
+    target: '0m -0.08m 0m',
+    fov: '24deg',
+    focusTarget: '0m -0.05m 0m',
+    focusFov: '17deg',
+    compareEyebrow: 'Step 4 / Choose Repair',
+    compareCopy: 'Choose whether the cell fixes the DNA correctly or leaves a small mistake.',
+  },
+  5: {
+    label: 'Step 5A / Correct Fix',
+    visualStep: 7,
+    orbit: '-12deg 91deg auto',
+    target: '0m -0.14m 0m',
+    fov: '23deg',
+    focusTarget: '0m -0.11m 0m',
+    focusFov: '17deg',
+    compareEyebrow: 'Step 5A / Correct Fix',
+    compareCopy: 'The DNA goes back to normal, so the instructions stay the same.',
+  },
+  6: {
+    label: 'Step 5B / Mistake Fix',
+    visualStep: 7,
+    orbit: '-12deg 91deg auto',
+    target: '0m -0.14m 0m',
+    fov: '23deg',
+    focusTarget: '0m -0.11m 0m',
+    focusFov: '17deg',
+    compareEyebrow: 'Step 5B / Mistake Fix',
+    compareCopy: 'The DNA changes a little. That small DNA change is a mutation.',
   },
   7: {
-    label: 'Step 7 / Edited DNA',
+    label: 'Final Step / Traits',
+    visualStep: 7,
     orbit: '-12deg 91deg auto',
     target: '0m -0.14m 0m',
     fov: '23deg',
-    compareEyebrow: 'Step 7 / Edited DNA',
-    compareCopy: 'This final state shows the DNA after repair, where the edited site can differ from the original version.',
+    focusTarget: '0m -0.11m 0m',
+    focusFov: '17deg',
+    compareEyebrow: 'Final Step / Traits',
+    compareCopy: 'If DNA instructions change, a trait can sometimes change too.',
   },
   8: {
-    label: 'Replay',
+    label: 'Check Understanding',
+    visualStep: 7,
     orbit: '-12deg 91deg auto',
     target: '0m -0.14m 0m',
     fov: '23deg',
-    compareEyebrow: 'Replay Sequence',
-    compareCopy: 'Scroll to the end to replay the full CRISPR sequence from the top.',
+    focusTarget: '0m -0.11m 0m',
+    focusFov: '18deg',
+    compareEyebrow: 'Quick Check',
+    compareCopy: 'Answer the questions at the end to check the basic repair idea.',
+  },
+};
+
+const hotspotInfo = {
+  dna: {
+    eyebrow: 'DNA',
+    copy: 'DNA stores instructions for cells. A cut can change those instructions if repair makes a mistake.',
+  },
+  rna: {
+    eyebrow: 'Guide',
+    copy: 'The guide helps the cutting tool find one spot in the DNA.',
+  },
+  cas9: {
+    eyebrow: 'Cutter',
+    copy: 'Cas9 is the cutting tool in this model. It makes the break in the DNA.',
+  },
+  repair: {
+    eyebrow: 'Repair',
+    copy: 'The cell tries to repair the break. The repair can be correct or can leave a small mistake.',
   },
 };
 
 const viewState = {
   activeStep: 0,
   mutationMode: false,
+  repairChoice: 'correct',
+  focusMode: false,
+  activeHotspot: null,
+  playing: false,
 };
 
+let playbackTimer = null;
 let rewindTimer = null;
 let rewindRunning = false;
+let syncingCamera = false;
+let scrollLockStep = null;
+let scrollLockTimer = null;
+
+function clampStep(step) {
+  return Math.max(0, Math.min(Number(step), panels.length - 1));
+}
+
+function getStep() {
+  return stepConfig[viewState.activeStep] || stepConfig[0];
+}
+
+function getPanelTop(step) {
+  const panel = document.querySelector(`#panel-${step}`);
+  if (!panel) {
+    return 0;
+  }
+
+  const stickyOffset = mobileLayout.matches ? document.querySelector('.stage-column')?.getBoundingClientRect().height || 0 : 0;
+  return Math.max(0, panel.getBoundingClientRect().top + window.scrollY - stickyOffset - 12);
+}
+
+function scrollToStep(step) {
+  scrollLockStep = clampStep(step);
+
+  if (scrollLockTimer) {
+    window.clearTimeout(scrollLockTimer);
+  }
+
+  scrollLockTimer = window.setTimeout(() => {
+    scrollLockStep = null;
+    scrollLockTimer = null;
+  }, reduceMotion.matches ? 120 : 1000);
+
+  window.scrollTo({
+    top: getPanelTop(step),
+    behavior: reduceMotion.matches ? 'auto' : 'smooth',
+  });
+}
 
 function syncViewerMotion() {
-  dnaViewer.autoRotate = !reduceMotion.matches && viewState.activeStep === 0;
+  dnaViewer.autoRotate = !reduceMotion.matches && viewState.activeStep === 0 && !viewState.playing;
   dnaViewer.rotationPerSecond = reduceMotion.matches ? '0deg' : '7deg';
 
   [dnaViewerTop, dnaViewerBottom].forEach((viewer) => {
@@ -110,30 +205,133 @@ function syncViewerMotion() {
   });
 }
 
-function syncDnaViewerFraming(step) {
-  const viewers = [dnaViewer, dnaViewerTop, dnaViewerBottom];
+function syncSplitViewersFromMain() {
+  if (syncingCamera) {
+    return;
+  }
 
-  viewers.forEach((viewer) => {
+  [dnaViewerTop, dnaViewerBottom].forEach((viewer) => {
     if (!viewer) {
       return;
     }
 
-    viewer.cameraOrbit = step.orbit;
-    viewer.cameraTarget = step.target;
-    viewer.fieldOfView = step.fov;
+    viewer.cameraOrbit = dnaViewer.cameraOrbit;
+    viewer.cameraTarget = dnaViewer.cameraTarget;
+    viewer.fieldOfView = dnaViewer.fieldOfView;
+  });
+}
+
+function syncDnaViewerFraming(step, jump = false) {
+  const orbit = step.orbit;
+  const target = viewState.focusMode ? step.focusTarget : step.target;
+  const fov = viewState.focusMode ? step.focusFov : step.fov;
+  syncingCamera = true;
+
+  [dnaViewer, dnaViewerTop, dnaViewerBottom].forEach((viewer) => {
+    if (!viewer) {
+      return;
+    }
+
+    viewer.cameraOrbit = orbit;
+    viewer.cameraTarget = target;
+    viewer.fieldOfView = fov;
+
+    if (jump && typeof viewer.jumpCameraToGoal === 'function') {
+      viewer.jumpCameraToGoal();
+    }
+  });
+
+  window.requestAnimationFrame(() => {
+    syncingCamera = false;
   });
 }
 
 function syncSiteAnnotation() {
-  const showSiteLabel = viewState.mutationMode || viewState.activeStep >= 7;
+  const showSiteLabel = viewState.mutationMode || viewState.activeStep >= 5;
   mutationAnnotation.classList.toggle('is-visible', showSiteLabel);
 
   if (viewState.mutationMode) {
-    mutationAnnotation.textContent = 'Mutation site';
+    mutationAnnotation.textContent = 'DNA changed';
     return;
   }
 
-  mutationAnnotation.textContent = 'Edited sequence';
+  mutationAnnotation.textContent = 'Normal DNA';
+}
+
+function syncHotspot() {
+  sceneWrap.dataset.hotspot = viewState.activeHotspot || 'none';
+
+  legendButtons.forEach((button) => {
+    const isActive = button.dataset.focusPart === viewState.activeHotspot;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
+  });
+}
+
+function syncBranchChoice() {
+  branchButtons.forEach((button) => {
+    const isActive = button.dataset.branch === viewState.repairChoice;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
+  });
+}
+
+function syncCompareCard() {
+  if (viewState.mutationMode) {
+    compareEyebrow.textContent = 'Fix with mistake';
+    compareCopy.textContent = 'The DNA changes a little. That small change is a mutation.';
+    return;
+  }
+
+  if (viewState.activeHotspot && hotspotInfo[viewState.activeHotspot]) {
+    compareEyebrow.textContent = hotspotInfo[viewState.activeHotspot].eyebrow;
+    compareCopy.textContent = hotspotInfo[viewState.activeHotspot].copy;
+    return;
+  }
+
+  const step = getStep();
+  compareEyebrow.textContent = step.compareEyebrow;
+  compareCopy.textContent = viewState.activeStep === 7 && viewState.repairChoice === 'correct'
+    ? 'A correct repair keeps the DNA instructions the same, so the trait should stay the same.'
+    : step.compareCopy;
+}
+
+function syncControls() {
+  const isFirst = viewState.activeStep === 0;
+  const isLast = viewState.activeStep === panels.length - 1;
+
+  actionButtons.forEach((button) => {
+    const action = button.dataset.action;
+
+    if (action === 'prev') {
+      button.disabled = isFirst;
+    }
+
+    if (action === 'next') {
+      button.disabled = isLast;
+    }
+
+    if (action === 'play') {
+      button.textContent = viewState.playing ? 'Pause' : 'Play';
+      button.setAttribute('aria-pressed', String(viewState.playing));
+    }
+
+    if (action === 'focus') {
+      button.classList.toggle('is-active', viewState.focusMode);
+      button.setAttribute('aria-pressed', String(viewState.focusMode));
+    }
+
+    if (action === 'compare') {
+      const compactLabel = button.closest('.mobile-dock');
+      button.classList.toggle('is-active', viewState.mutationMode);
+      button.setAttribute('aria-pressed', String(viewState.mutationMode));
+      button.textContent = viewState.mutationMode
+        ? compactLabel ? 'Normal' : 'Show normal result'
+        : compactLabel ? 'Compare' : 'Compare repair result';
+    }
+  });
+
+  mutationToggle.textContent = viewState.mutationMode ? 'Show normal result' : 'Compare repair result';
 }
 
 function clearRewindTimer() {
@@ -149,64 +347,74 @@ function finishRewind() {
   rewindRunning = false;
 }
 
-function scheduleRewindIfNeeded() {
-  if (viewState.activeStep !== 8 || rewindRunning || rewindTimer) {
+function stopPlayback() {
+  viewState.playing = false;
+
+  if (playbackTimer) {
+    window.clearTimeout(playbackTimer);
+    playbackTimer = null;
+  }
+
+  syncViewerMotion();
+  syncControls();
+}
+
+function applyStepOutcome(step) {
+  if (step <= 4) {
+    viewState.mutationMode = false;
     return;
   }
 
-  rewindTimer = window.setTimeout(() => {
-    rewindTimer = null;
-
-    if (viewState.activeStep !== 8) {
-      return;
-    }
-
-    rewindRunning = true;
-    document.body.classList.add('is-rewinding');
-    rewindOverlay?.setAttribute('aria-hidden', 'false');
-
-    window.scrollTo({
-      top: 0,
-      behavior: reduceMotion.matches ? 'auto' : 'smooth',
-    });
-
-    window.setTimeout(finishRewind, reduceMotion.matches ? 160 : 1800);
-  }, 1100);
-}
-
-function syncMutationMode() {
-  sceneWrap.dataset.mode = viewState.mutationMode ? 'mutation' : 'fixed';
-
-  if (viewState.mutationMode) {
-    compareEyebrow.textContent = 'Before editing';
-    compareCopy.textContent = 'This preview shows the same target site before editing, with the mutation still present.';
-  } else {
-    const step = stepConfig[viewState.activeStep];
-    compareEyebrow.textContent = step.compareEyebrow;
-    compareCopy.textContent = step.compareCopy;
+  if (step === 5) {
+    viewState.repairChoice = 'correct';
+    viewState.mutationMode = false;
+    return;
   }
 
-  syncSiteAnnotation();
+  if (step === 6) {
+    viewState.repairChoice = 'mistake';
+    viewState.mutationMode = true;
+    return;
+  }
+
+  viewState.mutationMode = viewState.repairChoice === 'mistake';
 }
 
-function updateSceneStep() {
-  const step = stepConfig[viewState.activeStep];
-  sceneWrap.dataset.step = String(viewState.activeStep);
+function setStep(step, options = {}) {
+  const nextStep = clampStep(step);
+  applyStepOutcome(nextStep);
+  viewState.activeStep = nextStep;
+
+  panels.forEach((panel) => {
+    const isActive = Number(panel.dataset.step) === nextStep;
+    panel.classList.toggle('is-active', isActive);
+
+    if (isActive) {
+      panel.classList.add('is-visible');
+    }
+  });
+
+  updateSceneStep(options.jumpCamera);
+
+  if (options.scroll) {
+    scrollToStep(nextStep);
+  }
+}
+
+function updateSceneStep(jumpCamera = false) {
+  const step = getStep();
+  sceneWrap.dataset.step = String(step.visualStep ?? viewState.activeStep);
+  sceneWrap.dataset.mode = viewState.mutationMode ? 'mutation' : 'fixed';
+  sceneWrap.dataset.focus = viewState.focusMode ? 'target' : 'none';
+  sceneWrap.dataset.choice = viewState.repairChoice;
   stepReadout.textContent = step.label;
-  syncDnaViewerFraming(step);
+  syncDnaViewerFraming(step, jumpCamera);
 
   jumpChips.forEach((chip) => {
     chip.classList.toggle('is-active', Number(chip.dataset.jumpStep) === viewState.activeStep);
   });
 
-  if (!viewState.mutationMode) {
-    compareEyebrow.textContent = step.compareEyebrow;
-    compareCopy.textContent = step.compareCopy;
-  }
-
-  if (viewState.activeStep === 8) {
-    scheduleRewindIfNeeded();
-  } else {
+  if (viewState.activeStep !== 8) {
     clearRewindTimer();
     if (!rewindRunning) {
       finishRewind();
@@ -215,19 +423,30 @@ function updateSceneStep() {
 
   syncViewerMotion();
   syncSiteAnnotation();
+  syncHotspot();
+  syncBranchChoice();
+  syncCompareCard();
+  syncControls();
 }
 
 function updateVisiblePanels() {
-  const viewportMiddle = window.innerHeight * 0.5;
-  let bestStep = 0;
+  if (scrollLockStep !== null) {
+    panels.forEach((panel) => {
+      panel.classList.toggle('is-active', Number(panel.dataset.step) === scrollLockStep);
+    });
+    return;
+  }
+
+  const viewportAnchor = mobileLayout.matches ? window.innerHeight * 0.82 : window.innerHeight * 0.5;
+  let bestStep = viewState.activeStep;
   let bestDistance = Number.POSITIVE_INFINITY;
 
   panels.forEach((panel) => {
     const rect = panel.getBoundingClientRect();
     const midpoint = rect.top + rect.height / 2;
-    const distance = Math.abs(viewportMiddle - midpoint);
+    const distance = Math.abs(viewportAnchor - midpoint);
 
-    if (rect.top < window.innerHeight * 0.85 && rect.bottom > window.innerHeight * 0.12) {
+    if (rect.top < window.innerHeight * 0.92 && rect.bottom > window.innerHeight * 0.08) {
       panel.classList.add('is-visible');
     }
 
@@ -238,6 +457,7 @@ function updateVisiblePanels() {
   });
 
   if (bestStep !== viewState.activeStep) {
+    applyStepOutcome(bestStep);
     viewState.activeStep = bestStep;
     panels.forEach((panel) => {
       panel.classList.toggle('is-active', Number(panel.dataset.step) === bestStep);
@@ -259,15 +479,204 @@ function queuePanelUpdate() {
   });
 }
 
-mutationToggle.addEventListener('click', () => {
+function replaySequence() {
+  stopPlayback();
+  rewindRunning = true;
+  document.body.classList.add('is-rewinding');
+  rewindOverlay?.setAttribute('aria-hidden', 'false');
+  viewState.mutationMode = false;
+  viewState.repairChoice = 'correct';
+  viewState.focusMode = false;
+  viewState.activeHotspot = null;
+  setStep(0, { jumpCamera: true });
+
+  window.scrollTo({
+    top: 0,
+    behavior: reduceMotion.matches ? 'auto' : 'smooth',
+  });
+
+  window.setTimeout(finishRewind, reduceMotion.matches ? 160 : 900);
+}
+
+function schedulePlaybackAdvance() {
+  if (!viewState.playing) {
+    return;
+  }
+
+  playbackTimer = window.setTimeout(() => {
+    if (!viewState.playing) {
+      return;
+    }
+
+    if (viewState.activeStep >= panels.length - 1) {
+      stopPlayback();
+      return;
+    }
+
+    setStep(getNextStep(), { scroll: true });
+    schedulePlaybackAdvance();
+  }, reduceMotion.matches ? 1500 : 2800);
+}
+
+function startPlayback() {
+  if (viewState.playing) {
+    stopPlayback();
+    return;
+  }
+
+  viewState.playing = true;
+  syncControls();
+  syncViewerMotion();
+
+  if (viewState.activeStep >= panels.length - 1) {
+    setStep(0, { scroll: true, jumpCamera: true });
+  }
+
+  schedulePlaybackAdvance();
+}
+
+function resetView() {
+  viewState.focusMode = false;
+  viewState.activeHotspot = null;
+  updateSceneStep(true);
+}
+
+function toggleCompare() {
   viewState.mutationMode = !viewState.mutationMode;
-  syncMutationMode();
+  viewState.repairChoice = viewState.mutationMode ? 'mistake' : 'correct';
+
+  if (viewState.mutationMode) {
+    viewState.activeHotspot = null;
+  }
+
+  sceneWrap.dataset.mode = viewState.mutationMode ? 'mutation' : 'fixed';
+  syncSiteAnnotation();
+  syncHotspot();
+  syncCompareCard();
+  syncControls();
+}
+
+function getNextStep() {
+  if (viewState.activeStep === 4) {
+    return viewState.repairChoice === 'mistake' ? 6 : 5;
+  }
+
+  if (viewState.activeStep === 5 || viewState.activeStep === 6) {
+    return 7;
+  }
+
+  return viewState.activeStep + 1;
+}
+
+function getPreviousStep() {
+  if (viewState.activeStep === 7) {
+    return viewState.repairChoice === 'mistake' ? 6 : 5;
+  }
+
+  if (viewState.activeStep === 5 || viewState.activeStep === 6) {
+    return 4;
+  }
+
+  return viewState.activeStep - 1;
+}
+
+function chooseRepair(choice) {
+  viewState.repairChoice = choice;
+  viewState.activeHotspot = null;
+  setStep(choice === 'mistake' ? 6 : 5, { scroll: true, jumpCamera: true });
+}
+
+function handleAction(action) {
+  if (action !== 'play') {
+    stopPlayback();
+  }
+
+  if (action === 'prev') {
+    setStep(getPreviousStep(), { scroll: true });
+  }
+
+  if (action === 'next') {
+    setStep(getNextStep(), { scroll: true });
+  }
+
+  if (action === 'play') {
+    startPlayback();
+  }
+
+  if (action === 'focus') {
+    viewState.focusMode = !viewState.focusMode;
+    updateSceneStep(true);
+  }
+
+  if (action === 'reset') {
+    resetView();
+  }
+
+  if (action === 'replay') {
+    replaySequence();
+  }
+
+  if (action === 'compare') {
+    toggleCompare();
+  }
+}
+
+actionButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    handleAction(button.dataset.action);
+  });
 });
 
 jumpChips.forEach((chip) => {
   chip.addEventListener('click', () => {
-    const step = Number(chip.dataset.jumpStep);
-    document.querySelector(`#panel-${step}`)?.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
+    stopPlayback();
+    setStep(Number(chip.dataset.jumpStep), { scroll: true });
+  });
+});
+
+branchButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    stopPlayback();
+    chooseRepair(button.dataset.branch);
+  });
+});
+
+legendButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    stopPlayback();
+    const part = button.dataset.focusPart;
+    const turningOn = viewState.activeHotspot !== part;
+    viewState.mutationMode = false;
+    viewState.activeHotspot = turningOn ? part : null;
+
+    if (turningOn && part === 'rna' && viewState.activeStep < 1) {
+      setStep(1, { scroll: true });
+    } else if (turningOn && part === 'cas9' && viewState.activeStep < 1) {
+      setStep(1, { scroll: true });
+    } else if (turningOn && part === 'repair' && viewState.activeStep < 3) {
+      setStep(3, { scroll: true });
+    } else {
+      updateSceneStep();
+    }
+  });
+});
+
+quizChoices.forEach((choice) => {
+  choice.addEventListener('click', () => {
+    const question = choice.closest('.quiz-question');
+    const choices = [...question.querySelectorAll('.quiz-choice')];
+    const feedback = question.querySelector('.quiz-feedback');
+    const correct = choice.dataset.correct === 'true';
+
+    choices.forEach((button) => {
+      button.classList.remove('is-selected', 'is-correct', 'is-wrong');
+      button.setAttribute('aria-pressed', 'false');
+    });
+
+    choice.classList.add('is-selected', correct ? 'is-correct' : 'is-wrong');
+    choice.setAttribute('aria-pressed', 'true');
+    question.dataset.answered = correct ? 'correct' : 'wrong';
+    feedback.textContent = correct ? 'Correct.' : 'Not quite. Try the answer that matches the step shown in the model.';
   });
 });
 
@@ -275,17 +684,23 @@ reduceMotion.addEventListener('change', () => {
   syncViewerMotion();
 });
 
+mobileLayout.addEventListener('change', () => {
+  updateVisiblePanels();
+});
+
 window.addEventListener('scroll', queuePanelUpdate, { passive: true });
 window.addEventListener('resize', updateVisiblePanels);
 
 dnaViewer.addEventListener('load', () => {
-  updateSceneStep();
+  updateSceneStep(true);
   syncViewerMotion();
 });
 
+dnaViewer.addEventListener('camera-change', syncSplitViewersFromMain);
+
 [dnaViewerTop, dnaViewerBottom].forEach((viewer) => {
   viewer?.addEventListener('load', () => {
-    const step = stepConfig[viewState.activeStep];
+    const step = getStep();
     syncDnaViewerFraming(step);
   });
 });
@@ -297,6 +712,5 @@ cas9Viewer?.addEventListener('load', () => {
   cas9Viewer.jumpCameraToGoal();
 });
 
-updateVisiblePanels();
-updateSceneStep();
-syncMutationMode();
+setStep(0, { jumpCamera: true });
+syncViewerMotion();
