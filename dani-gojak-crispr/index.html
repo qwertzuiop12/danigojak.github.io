@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>How CRISPR edits DNA</title>
+    <title>What happens after DNA is cut?</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -11,7 +11,7 @@
       rel="stylesheet"
     />
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="./styles.css?v=4" />
+    <link rel="stylesheet" href="./styles.css?v=6" />
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   </head>
   <body>
@@ -25,13 +25,13 @@
 
           <div class="step-jumps" aria-label="Jump to CRISPR step">
             <button class="jump-chip is-active" data-jump-step="0" type="button">Intro</button>
-            <button class="jump-chip" data-jump-step="1" type="button">Gene</button>
-            <button class="jump-chip" data-jump-step="2" type="button">Target</button>
-            <button class="jump-chip" data-jump-step="3" type="button">Guide RNA</button>
-            <button class="jump-chip" data-jump-step="4" type="button">Cas9</button>
-            <button class="jump-chip" data-jump-step="5" type="button">Cut</button>
-            <button class="jump-chip" data-jump-step="6" type="button">Repair</button>
-            <button class="jump-chip" data-jump-step="7" type="button">Result</button>
+            <button class="jump-chip" data-jump-step="1" type="button">Cut</button>
+            <button class="jump-chip" data-jump-step="2" type="button">Notice</button>
+            <button class="jump-chip" data-jump-step="3" type="button">Repair</button>
+            <button class="jump-chip" data-jump-step="4" type="button">Choose</button>
+            <button class="jump-chip" data-jump-step="5" type="button">Correct</button>
+            <button class="jump-chip" data-jump-step="6" type="button">Mistake</button>
+            <button class="jump-chip" data-jump-step="7" type="button">Trait</button>
           </div>
 
           <div class="scene-wrap" id="sceneWrap" data-step="0" data-mode="fixed">
@@ -113,62 +113,81 @@
               <div class="target-brackets">
                 <span class="target-brackets__rail target-brackets__rail--left"></span>
                 <span class="target-brackets__rail target-brackets__rail--right"></span>
-                <span class="target-brackets__label">target sequence</span>
+                <span class="target-brackets__label">cut spot</span>
               </div>
 
               <div class="guide-rna">
                 <span class="guide-rna__trail"></span>
-                <span class="guide-rna__label">guide RNA</span>
+                <span class="guide-rna__label">guide</span>
               </div>
 
               <div class="cas9-cut">
                 <span class="cas9-cut__blade cas9-cut__blade--left"></span>
                 <span class="cas9-cut__blade cas9-cut__blade--right"></span>
                 <span class="cas9-cut__spark"></span>
-                <span class="cas9-cut__label">Cas9 cut</span>
+                <span class="cas9-cut__label">cut</span>
               </div>
 
               <div class="repair-pulse">
                 <span class="repair-pulse__ring repair-pulse__ring--outer"></span>
                 <span class="repair-pulse__ring repair-pulse__ring--inner"></span>
-                <span class="repair-pulse__label">DNA repair</span>
+                <span class="repair-pulse__label">cell repair</span>
               </div>
 
-              <div class="annotation annotation--gene">Gene region</div>
+              <div class="annotation annotation--gene">DNA section</div>
               <div class="annotation annotation--bases">Base pairs</div>
-              <div class="annotation annotation--mutation" id="mutationAnnotation">Edited sequence</div>
+              <div class="annotation annotation--mutation" id="mutationAnnotation">Changed DNA</div>
             </div>
           </div>
 
           <div class="stage-controls">
-            <button id="mutationToggle" class="toggle-button" type="button">Show mutation vs fixed</button>
+            <div class="control-bar" aria-label="Sequence controls">
+              <button class="control-button" data-action="prev" type="button">Previous</button>
+              <button class="control-button" data-action="next" type="button">Next</button>
+              <button class="control-button" data-action="play" type="button" aria-pressed="false">Play</button>
+              <button class="control-button" data-action="focus" type="button" aria-pressed="false">Focus target</button>
+              <button class="control-button" data-action="reset" type="button">Reset view</button>
+              <button class="control-button" data-action="replay" type="button">Replay</button>
+            </div>
+
+            <button id="mutationToggle" class="toggle-button" data-action="compare" type="button" aria-pressed="false">
+              Compare repair result
+            </button>
 
             <div class="compare-card">
-              <p class="compare-card__eyebrow" id="compareEyebrow">Before vs after editing</p>
-              <p class="compare-card__copy" id="compareCopy">Use the button to compare the same DNA site before editing and after repair.</p>
+              <p class="compare-card__eyebrow" id="compareEyebrow">Repair result</p>
+              <p class="compare-card__copy" id="compareCopy">Choose how the cell repairs the cut, then compare the two results.</p>
+            </div>
+
+            <div class="repair-choice" aria-label="Choose DNA repair result">
+              <p class="compare-card__eyebrow">Repair choice</p>
+              <div class="repair-choice__buttons">
+                <button class="branch-button is-active" data-branch="correct" type="button" aria-pressed="true">Fix correctly</button>
+                <button class="branch-button" data-branch="mistake" type="button" aria-pressed="false">Fix with mistake</button>
+              </div>
             </div>
           </div>
 
           <div class="legend" aria-label="Color legend">
-            <span class="legend-item"><span class="legend-swatch legend-swatch--dna"></span>DNA</span>
-            <span class="legend-item"><span class="legend-swatch legend-swatch--rna"></span>guide RNA</span>
-            <span class="legend-item"><span class="legend-swatch legend-swatch--cas9"></span>Cas9</span>
-            <span class="legend-item"><span class="legend-swatch legend-swatch--repair"></span>repair</span>
+            <button class="legend-item" data-focus-part="dna" type="button" aria-pressed="false"><span class="legend-swatch legend-swatch--dna"></span>DNA</button>
+            <button class="legend-item" data-focus-part="rna" type="button" aria-pressed="false"><span class="legend-swatch legend-swatch--rna"></span>guide</button>
+            <button class="legend-item" data-focus-part="cas9" type="button" aria-pressed="false"><span class="legend-swatch legend-swatch--cas9"></span>cutter</button>
+            <button class="legend-item" data-focus-part="repair" type="button" aria-pressed="false"><span class="legend-swatch legend-swatch--repair"></span>repair</button>
           </div>
         </div>
       </aside>
 
-      <section class="story-column" aria-label="CRISPR explainer steps">
+      <section class="story-column" aria-label="DNA repair explainer steps">
         <section class="panel panel--hero step-panel is-visible is-active" data-step="0" id="panel-0">
           <div class="panel-copy">
             <p class="eyebrow">Interactive diagram</p>
-            <h1>How CRISPR edits DNA</h1>
-            <p class="lead">CRISPR uses a guide RNA and the Cas9 enzyme to find, cut, and repair a chosen DNA site.</p>
+            <h1>What happens after DNA is cut?</h1>
+            <p class="lead">A cut in DNA is only the start. The cell then tries to repair the break.</p>
             <div class="hero-notes">
-              <p>Scientists first choose a target DNA sequence inside a gene region.</p>
-              <p>Then guide RNA and Cas9 work together to find and cut that exact spot.</p>
-              <p>After the cut, the cell repairs the DNA, which is where editing can happen.</p>
-              <p>Focus labels: gene region, base pairs, target DNA sequence, edited site.</p>
+              <p>Sometimes the repair puts the DNA back the way it was.</p>
+              <p>Sometimes the repair adds a small mistake.</p>
+              <p>That small DNA change can sometimes affect a trait.</p>
+              <p>Use the buttons to choose the repair result.</p>
             </div>
           </div>
         </section>
@@ -176,76 +195,115 @@
         <section class="panel step-panel" data-step="1" id="panel-1">
           <div class="panel-copy">
             <p class="step-index">Step 1</p>
-            <h2>Gene region</h2>
-            <p>A gene is a section of DNA that contains instructions used by the cell.</p>
-            <p class="step-note">This larger label shows the DNA region where the target site is located.</p>
-            <p class="step-detail">CRISPR is aimed at one chosen part of the DNA, not the entire strand at once.</p>
+            <h2>DNA gets cut</h2>
+            <p>The DNA breaks at one spot.</p>
+            <p class="step-note">The red mark shows the cut in the DNA.</p>
+            <p class="step-detail">In this project, Cas9 is the cutting tool, but the important biology is what the cell does next.</p>
           </div>
         </section>
 
         <section class="panel step-panel" data-step="2" id="panel-2">
           <div class="panel-copy">
             <p class="step-index">Step 2</p>
-            <h2>Target DNA</h2>
-            <p>Inside that region, scientists choose a short DNA sequence to edit.</p>
-            <p class="step-note">The brackets mark the exact sequence the CRISPR system will search for.</p>
-            <p class="step-detail">Picking the correct target helps reduce cutting at the wrong DNA location.</p>
+            <h2>The cell notices</h2>
+            <p>The cell detects that the DNA is broken.</p>
+            <p class="step-note">Cells have repair systems because DNA damage can happen naturally too.</p>
+            <p class="step-detail">The goal is to close the break so the DNA strand can keep working.</p>
           </div>
         </section>
 
         <section class="panel step-panel" data-step="3" id="panel-3">
           <div class="panel-copy">
             <p class="step-index">Step 3</p>
-            <h2>Guide RNA binds</h2>
-            <p>A guide RNA matches the target DNA sequence and guides Cas9 to that same site.</p>
-            <p class="step-note">The green guide RNA acts like a molecular address label for the DNA target.</p>
-            <p class="step-detail">The guide RNA does not cut the DNA by itself. Its main job is to bring Cas9 to the matching sequence.</p>
+            <h2>The cell tries to fix it</h2>
+            <p>The cell brings the broken DNA ends back together.</p>
+            <p class="step-note">This repair step is where the final result can change.</p>
+            <p class="step-detail">A repair can be accurate, or it can leave a tiny change in the DNA.</p>
           </div>
         </section>
 
         <section class="panel step-panel" data-step="4" id="panel-4">
           <div class="panel-copy">
             <p class="step-index">Step 4</p>
-            <h2>Cas9 arrives</h2>
-            <p>Cas9 is brought to the same DNA site by the guide RNA.</p>
-            <p class="step-note">The Cas9 protein sits behind the DNA before the break is made.</p>
-            <p class="step-detail">At this stage, the guide RNA and Cas9 are working together as one targeting-and-cutting system.</p>
+            <h2>Choose the repair</h2>
+            <p>Pick what happens when the cell repairs the DNA.</p>
+            <div class="branch-options" aria-label="Choose repair path">
+              <button class="branch-button is-active" data-branch="correct" type="button" aria-pressed="true">Fix correctly</button>
+              <button class="branch-button" data-branch="mistake" type="button" aria-pressed="false">Fix with mistake</button>
+            </div>
+            <p class="step-detail">This is the main interaction: the result depends on the repair choice.</p>
           </div>
         </section>
 
         <section class="panel step-panel" data-step="5" id="panel-5">
           <div class="panel-copy">
-            <p class="step-index">Step 5</p>
-            <h2>Cas9 cuts DNA</h2>
-            <p>Cas9 is the enzyme that cuts both DNA strands at the target site.</p>
-            <p class="step-note">The red marker shows the place where the DNA is broken.</p>
-            <p class="step-detail">Once Cas9 is lined up with the correct sequence, the break starts the editing process.</p>
+            <p class="step-index">Step 5A</p>
+            <h2>Fix correctly</h2>
+            <p>The DNA goes back to normal.</p>
+            <p class="step-note">The instructions in the DNA stay the same.</p>
+            <p class="step-detail">This path shows a repair that does not change the DNA message.</p>
           </div>
         </section>
 
         <section class="panel step-panel" data-step="6" id="panel-6">
           <div class="panel-copy">
-            <p class="step-index">Step 6</p>
-            <h2>DNA repair</h2>
-            <p>The cell repairs the break after Cas9 has cut the DNA.</p>
-            <p class="step-note">During repair, the DNA can be rejoined, disrupted, or changed at the edited site.</p>
-            <p class="step-detail">Scientists use this repair step either to turn a gene off or to help introduce a different DNA sequence.</p>
+            <p class="step-index">Step 5B</p>
+            <h2>Fix with mistake</h2>
+            <p>The DNA changes a little.</p>
+            <p class="step-note">A small change in DNA is called a mutation.</p>
+            <p class="step-detail">The change might be harmless, or it might affect how the cell reads the instructions.</p>
           </div>
         </section>
 
         <section class="panel step-panel" data-step="7" id="panel-7">
           <div class="panel-copy">
-            <p class="step-index">Step 7</p>
-            <h2>Edited DNA</h2>
-            <p>After repair, the target site can end up different from the original version.</p>
-            <p class="step-note">The label marks the edited DNA site after the repair step.</p>
-            <p class="step-detail">Use the mutation button to compare the original version with the repaired version.</p>
+            <p class="step-index">Final step</p>
+            <h2>This can affect traits</h2>
+            <p>If DNA instructions change, a trait can sometimes change too.</p>
+            <p class="step-note">Traits are features like color, shape, or how something works in the body.</p>
+            <p class="step-detail">The repair choice shows why the cut itself is not the whole story.</p>
           </div>
         </section>
 
-        <section class="panel panel--replay step-panel" data-step="8" id="panel-8">
+        <section class="panel panel--quiz step-panel" data-step="8" id="panel-8">
           <div class="panel-copy">
-            <h2>Replay sequence</h2>
+            <p class="step-index">Check understanding</p>
+            <h2>Try the repair check</h2>
+            <p>Answer these to check the basic idea.</p>
+
+            <div class="quiz" aria-label="DNA repair understanding check">
+              <div class="quiz-question" data-question="0">
+                <p class="quiz-question__prompt">What happens first in this diagram?</p>
+                <div class="quiz-options">
+                  <button class="quiz-choice" data-correct="true" type="button">DNA gets cut</button>
+                  <button class="quiz-choice" type="button">A trait changes right away</button>
+                  <button class="quiz-choice" type="button">The DNA disappears</button>
+                </div>
+                <p class="quiz-feedback" aria-live="polite"></p>
+              </div>
+
+              <div class="quiz-question" data-question="1">
+                <p class="quiz-question__prompt">What does the cell do after the cut?</p>
+                <div class="quiz-options">
+                  <button class="quiz-choice" type="button">Ignores the break</button>
+                  <button class="quiz-choice" data-correct="true" type="button">Tries to repair it</button>
+                  <button class="quiz-choice" type="button">Deletes every gene</button>
+                </div>
+                <p class="quiz-feedback" aria-live="polite"></p>
+              </div>
+
+              <div class="quiz-question" data-question="2">
+                <p class="quiz-question__prompt">What can happen if repair has a mistake?</p>
+                <div class="quiz-options">
+                  <button class="quiz-choice" type="button">Nothing in DNA can change</button>
+                  <button class="quiz-choice" type="button">The cell stops being a cell</button>
+                  <button class="quiz-choice" data-correct="true" type="button">DNA changes a little</button>
+                </div>
+                <p class="quiz-feedback" aria-live="polite"></p>
+              </div>
+            </div>
+
+            <button class="inline-replay" data-action="replay" type="button">Replay sequence</button>
           </div>
         </section>
       </section>
@@ -255,6 +313,13 @@
       <p class="rewind-overlay__label">Restarting sequence</p>
     </div>
 
-    <script type="module" src="./script.js?v=4"></script>
+    <nav class="mobile-dock" aria-label="Mobile controls">
+      <button data-action="prev" type="button">Back</button>
+      <button data-action="next" type="button">Next</button>
+      <button data-action="compare" type="button">Compare</button>
+      <button data-action="reset" type="button">Reset</button>
+    </nav>
+
+    <script type="module" src="./script.js?v=6"></script>
   </body>
 </html>
