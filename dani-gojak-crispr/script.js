@@ -15,6 +15,19 @@ const actionButtons = [...document.querySelectorAll('[data-action]')];
 const legendButtons = [...document.querySelectorAll('[data-focus-part]')];
 const branchButtons = [...document.querySelectorAll('[data-branch]')];
 const quizChoices = [...document.querySelectorAll('.quiz-choice')];
+const simulator = document.querySelector('#repairSimulator');
+const simRoundLabel = document.querySelector('#simRoundLabel');
+const simScoreLabel = document.querySelector('#simScoreLabel');
+const simPromptLabel = document.querySelector('#simPromptLabel');
+const simPromptTitle = document.querySelector('#simPromptTitle');
+const simPromptText = document.querySelector('#simPromptText');
+const simDnaResult = document.querySelector('#simDnaResult');
+const simProteinResult = document.querySelector('#simProteinResult');
+const simBloodLabel = document.querySelector('#simBloodLabel');
+const simFeedback = document.querySelector('#simFeedback');
+const simSummary = document.querySelector('#simSummary');
+const simChoiceButtons = [...document.querySelectorAll('[data-sim-choice]')];
+const simActionButtons = [...document.querySelectorAll('[data-sim-action]')];
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const mobileLayout = window.matchMedia('(max-width: 760px)');
 
@@ -146,6 +159,37 @@ const viewState = {
   focusMode: false,
   activeHotspot: null,
   playing: false,
+};
+
+const simRounds = [
+  {
+    title: 'Keep the DNA message the same',
+    prompt: 'This cell needs the DNA message to stay the same. Which repair result fits?',
+    expected: 'correct',
+    correctFeedback: 'Correct. The DNA message stays the same, so hemoglobin should still work normally.',
+    wrongFeedback: 'Not quite. A mistake would change the DNA message instead of keeping it the same.',
+  },
+  {
+    title: 'Show a mutation',
+    prompt: 'A mutation remains in the HBB gene instruction. Which result shows that DNA changed?',
+    expected: 'mistake',
+    correctFeedback: 'Correct. A small DNA change is a mutation, and HBB mutations can affect hemoglobin.',
+    wrongFeedback: 'Not quite. A correct repair would put the DNA back without leaving the mutation.',
+  },
+  {
+    title: 'Predict the blood cell shape',
+    prompt: 'For normal hemoglobin and round red blood cells, which repair result should happen?',
+    expected: 'correct',
+    correctFeedback: 'Correct. Normal hemoglobin helps red blood cells keep their usual round shape.',
+    wrongFeedback: 'Not quite. A mutation in HBB can affect hemoglobin and may lead to sickled red blood cells.',
+  },
+];
+
+const simState = {
+  round: 0,
+  score: 0,
+  answered: false,
+  choices: [],
 };
 
 let playbackTimer = null;
@@ -621,6 +665,138 @@ function handleAction(action) {
   }
 }
 
+function setSimulatorResult(choice) {
+  if (!simulator) {
+    return;
+  }
+
+  simulator.dataset.simResult = choice || 'waiting';
+
+  if (choice === 'correct') {
+    simDnaResult.textContent = 'DNA repaired normally';
+    simProteinResult.textContent = 'Hemoglobin instructions stay normal';
+    simBloodLabel.textContent = 'Round red blood cell: oxygen carrying should stay normal.';
+    return;
+  }
+
+  if (choice === 'mistake') {
+    simDnaResult.textContent = 'DNA changed a little';
+    simProteinResult.textContent = 'Hemoglobin instructions may change';
+    simBloodLabel.textContent = 'Sickled red blood cell: shape can affect oxygen carrying.';
+    return;
+  }
+
+  simDnaResult.textContent = 'Waiting for choice';
+  simProteinResult.textContent = 'Hemoglobin not shown yet';
+  simBloodLabel.textContent = 'Choose a repair result to see the red blood cell.';
+}
+
+function renderSimulator() {
+  if (!simulator) {
+    return;
+  }
+
+  const round = simRounds[simState.round];
+  const roundNumber = simState.round + 1;
+  simRoundLabel.textContent = `Patient cell ${roundNumber} of ${simRounds.length}`;
+  simScoreLabel.textContent = `Score: ${simState.score} / ${simRounds.length}`;
+  simPromptLabel.textContent = `Round ${roundNumber}`;
+  simPromptTitle.textContent = round.title;
+  simPromptText.textContent = round.prompt;
+  simFeedback.textContent = 'Choose an outcome to run this cell.';
+  simSummary.hidden = true;
+
+  setSimulatorResult(null);
+
+  simChoiceButtons.forEach((button) => {
+    button.disabled = false;
+    button.classList.remove('is-selected', 'is-answer-wrong');
+    button.setAttribute('aria-pressed', 'false');
+  });
+
+  simActionButtons.forEach((button) => {
+    if (button.dataset.simAction === 'next') {
+      button.disabled = true;
+      button.textContent = simState.round === simRounds.length - 1 ? 'Show summary' : 'Next cell';
+    }
+  });
+}
+
+function finishSimulator() {
+  const message = simState.score === simRounds.length
+    ? 'You matched all three repair outcomes.'
+    : `You matched ${simState.score} of ${simRounds.length} repair outcomes.`;
+
+  simFeedback.textContent = `${message} The main idea is DNA change -> protein change -> cell shape change -> trait or health effect.`;
+  simSummary.hidden = false;
+
+  simChoiceButtons.forEach((button) => {
+    button.disabled = true;
+  });
+
+  simActionButtons.forEach((button) => {
+    if (button.dataset.simAction === 'next') {
+      button.disabled = true;
+      button.textContent = 'Summary shown';
+    }
+  });
+}
+
+function chooseSimulatorResult(choice) {
+  if (!simulator || simState.answered) {
+    return;
+  }
+
+  const round = simRounds[simState.round];
+  const isCorrect = choice === round.expected;
+  simState.answered = true;
+  simState.choices[simState.round] = choice;
+
+  if (isCorrect) {
+    simState.score += 1;
+  }
+
+  setSimulatorResult(choice);
+  simScoreLabel.textContent = `Score: ${simState.score} / ${simRounds.length}`;
+  simFeedback.textContent = isCorrect ? round.correctFeedback : round.wrongFeedback;
+
+  simChoiceButtons.forEach((button) => {
+    const isSelected = button.dataset.simChoice === choice;
+    button.classList.toggle('is-selected', isSelected);
+    button.classList.toggle('is-answer-wrong', isSelected && !isCorrect);
+    button.setAttribute('aria-pressed', String(isSelected));
+  });
+
+  simActionButtons.forEach((button) => {
+    if (button.dataset.simAction === 'next') {
+      button.disabled = false;
+    }
+  });
+}
+
+function advanceSimulator() {
+  if (!simState.answered) {
+    return;
+  }
+
+  if (simState.round >= simRounds.length - 1) {
+    finishSimulator();
+    return;
+  }
+
+  simState.round += 1;
+  simState.answered = false;
+  renderSimulator();
+}
+
+function restartSimulator() {
+  simState.round = 0;
+  simState.score = 0;
+  simState.answered = false;
+  simState.choices = [];
+  renderSimulator();
+}
+
 actionButtons.forEach((button) => {
   button.addEventListener('click', () => {
     handleAction(button.dataset.action);
@@ -680,6 +856,24 @@ quizChoices.forEach((choice) => {
   });
 });
 
+simChoiceButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    chooseSimulatorResult(button.dataset.simChoice);
+  });
+});
+
+simActionButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    if (button.dataset.simAction === 'next') {
+      advanceSimulator();
+    }
+
+    if (button.dataset.simAction === 'restart') {
+      restartSimulator();
+    }
+  });
+});
+
 reduceMotion.addEventListener('change', () => {
   syncViewerMotion();
 });
@@ -714,3 +908,4 @@ cas9Viewer?.addEventListener('load', () => {
 
 setStep(0, { jumpCamera: true });
 syncViewerMotion();
+renderSimulator();
