@@ -11,11 +11,25 @@
       rel="stylesheet"
     />
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="./styles.css?v=6" />
+    <link rel="stylesheet" href="./styles.css?v=7" />
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   </head>
   <body>
-    <main class="experience">
+    <header class="project-header">
+      <div>
+        <p class="tag">Dani Gojak</p>
+        <h1>DNA Cutting and Repair</h1>
+      </div>
+
+      <nav class="project-nav" aria-label="Project sections">
+        <a href="#activity-1">Activity 1</a>
+        <a href="#activity-2">Activity 2</a>
+        <a href="#bibliography">Bibliography</a>
+        <a href="#ai-resources">AI Resources</a>
+      </nav>
+    </header>
+
+    <main class="experience" id="activity-1">
       <aside class="stage-column">
         <div class="stage-stick">
           <div class="stage-topline">
@@ -180,7 +194,7 @@
       <section class="story-column" aria-label="DNA repair explainer steps">
         <section class="panel panel--hero step-panel is-visible is-active" data-step="0" id="panel-0">
           <div class="panel-copy">
-            <p class="eyebrow">Interactive diagram</p>
+            <p class="eyebrow">Activity 1 / Interactive DNA Repair Diagram</p>
             <h1>What happens after DNA is cut?</h1>
             <p class="lead">A cut in DNA is only the start. The cell then tries to repair the break.</p>
             <div class="hero-notes">
@@ -309,6 +323,109 @@
       </section>
     </main>
 
+    <section class="applied-lab" id="activity-2" aria-labelledby="simulatorTitle">
+      <div class="lab-shell">
+        <div class="lab-intro">
+          <p class="eyebrow">Activity 2 / Applied Simulator</p>
+          <h2 id="simulatorTitle">Repair Outcome Simulator</h2>
+          <p class="lead">Control the repair result, then watch how a DNA change can connect to hemoglobin, red blood cells, and traits.</p>
+          <div class="lab-chain" aria-label="Biology chain">
+            <span>DNA</span>
+            <span>Hemoglobin</span>
+            <span>Red blood cell</span>
+            <span>Trait effect</span>
+          </div>
+        </div>
+
+        <div class="simulator" id="repairSimulator" data-sim-result="waiting">
+          <div class="simulator-topline">
+            <span id="simRoundLabel">Patient cell 1 of 3</span>
+            <span id="simScoreLabel">Score: 0 / 3</span>
+          </div>
+
+          <div class="simulator-grid">
+            <div class="sim-visual" aria-label="DNA repair result visual">
+              <div class="mini-dna" aria-hidden="true">
+                <div class="mini-dna__strand mini-dna__strand--left"></div>
+                <div class="mini-dna__strand mini-dna__strand--right"></div>
+                <div class="mini-dna__rung mini-dna__rung--one"></div>
+                <div class="mini-dna__rung mini-dna__rung--two"></div>
+                <div class="mini-dna__rung mini-dna__rung--three"></div>
+                <div class="mini-dna__cut"></div>
+                <div class="mini-dna__label">DNA cut site</div>
+              </div>
+
+              <div class="result-path">
+                <div class="result-step">
+                  <span class="result-step__label">DNA result</span>
+                  <strong id="simDnaResult">Waiting for choice</strong>
+                </div>
+                <div class="result-step">
+                  <span class="result-step__label">Protein result</span>
+                  <strong id="simProteinResult">Hemoglobin not shown yet</strong>
+                </div>
+              </div>
+
+              <div class="blood-scene" aria-label="Red blood cell result">
+                <div class="blood-cell blood-cell--normal" aria-hidden="true"></div>
+                <div class="blood-cell blood-cell--sickle" aria-hidden="true"></div>
+                <p id="simBloodLabel">Choose a repair result to see the red blood cell.</p>
+              </div>
+            </div>
+
+            <div class="sim-panel">
+              <p class="step-index" id="simPromptLabel">Round 1</p>
+              <h3 id="simPromptTitle">Predict the repair result</h3>
+              <p id="simPromptText">This cell needs the DNA message to stay the same. Which repair result fits?</p>
+
+              <div class="sim-actions" aria-label="Choose repair outcome">
+                <button class="sim-choice" data-sim-choice="correct" type="button">Fix correctly</button>
+                <button class="sim-choice" data-sim-choice="mistake" type="button">Fix with mistake</button>
+              </div>
+
+              <div class="sim-feedback" id="simFeedback" aria-live="polite">
+                Choose an outcome to run this cell.
+              </div>
+
+              <div class="sim-buttons">
+                <button class="control-button" data-sim-action="next" type="button" disabled>Next cell</button>
+                <button class="control-button" data-sim-action="restart" type="button">Restart simulator</button>
+              </div>
+
+              <div class="sim-summary" id="simSummary" hidden>
+                <p><strong>Summary:</strong> DNA gives cells instructions. A mutation is a small DNA change. In sickle cell disease, a change in the HBB gene affects hemoglobin. Hemoglobin affects red blood cell shape and oxygen carrying.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="resources-section" id="bibliography" aria-labelledby="bibliographyTitle">
+      <p class="eyebrow">Sources</p>
+      <h2 id="bibliographyTitle">Bibliography</h2>
+      <ol class="resource-list">
+        <li>
+          National Institute of General Medical Sciences. <a href="https://nigms.nih.gov/biobeat/2024/10/what-is-crispr" target="_blank" rel="noreferrer">What Is CRISPR?</a> Used for the Cas9, guide, DNA cut, and repair explanation.
+        </li>
+        <li>
+          MedlinePlus Genetics. <a href="https://medlineplus.gov/genetics/condition/sickle-cell-disease/" target="_blank" rel="noreferrer">Sickle Cell Disease.</a> Used for the HBB gene, hemoglobin, and red blood cell trait connection.
+        </li>
+        <li>
+          National Human Genome Research Institute. <a href="https://www.genome.gov/news/news-release/nih-statement-approved-gene-therapies-scd" target="_blank" rel="noreferrer">NIH Statement on New FDA-Approved Gene Therapies for Sickle Cell Disease.</a> Used for the real-world CRISPR application connection.
+        </li>
+        <li>
+          MedlinePlus Genetics. <a href="https://medlineplus.gov/genetics/understanding/genomicresearch/genomeediting/" target="_blank" rel="noreferrer">What Are Genome Editing and CRISPR-Cas9?</a> Used for the general genome editing and safety context.
+        </li>
+      </ol>
+    </section>
+
+    <section class="resources-section resources-section--ai" id="ai-resources" aria-labelledby="aiTitle">
+      <p class="eyebrow">Required note</p>
+      <h2 id="aiTitle">AI Resources Used</h2>
+      <p>OpenAI ChatGPT/Codex was used to plan the interactive structure, write and debug the webpage code, simplify wording, and help publish the site. Biology claims were checked against NIH and MedlinePlus sources listed in the bibliography.</p>
+    </section>
+
     <div class="rewind-overlay" id="rewindOverlay" aria-hidden="true">
       <p class="rewind-overlay__label">Restarting sequence</p>
     </div>
@@ -320,6 +437,6 @@
       <button data-action="reset" type="button">Reset</button>
     </nav>
 
-    <script type="module" src="./script.js?v=6"></script>
+    <script type="module" src="./script.js?v=7"></script>
   </body>
 </html>
