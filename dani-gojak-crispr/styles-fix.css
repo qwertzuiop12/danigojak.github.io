@@ -6,3 +6,54 @@
   height: 1px;
   background: rgba(21, 21, 21, 0.2);
 }
+
+.sim-helper {
+  margin-top: 0.65rem;
+  font-size: 0.96rem;
+}
+
+.sim-choice {
+  text-align: left;
+}
+
+.sim-choice span,
+.sim-choice small {
+  display: block;
+}
+
+.sim-choice small {
+  margin-top: 0.2rem;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.sim-choice:hover small,
+.sim-choice:focus-visible small,
+.sim-choice.is-selected small {
+  color: var(--sim-accent);
+}
+
+.innovation-note {
+  grid-column: 1 / -1;
+  border-left: 2px solid var(--accent);
+  background: rgba(255, 255, 255, 0.72);
+  padding: 1rem 1.1rem;
+}
+
+.innovation-note h3 {
+  margin: 0 0 0.55rem;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.innovation-note p {
+  max-width: 76rem;
+  margin: 0.45rem 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
