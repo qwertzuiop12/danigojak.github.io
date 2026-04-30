@@ -336,6 +336,13 @@
             <span>Red blood cell</span>
             <span>Trait effect</span>
           </div>
+
+          <div class="innovation-note" aria-label="CRISPR innovation explanation">
+            <h3>Innovation: CRISPR as gene-editing technology</h3>
+            <p>CRISPR is an advancement in genetic engineering because Cas9 can be guided to a chosen DNA sequence instead of cutting randomly.</p>
+            <p>Scientists study it to understand genes and develop treatments for some genetic diseases. The FDA has approved a CRISPR/Cas9-based therapy for some sickle cell patients, which makes this a real medical application.</p>
+            <p>This simulator shows the idea behind the application: DNA change -> protein change -> red blood cell shape change -> trait or health effect.</p>
+          </div>
         </div>
 
         <div class="simulator" id="repairSimulator" data-sim-result="waiting">
@@ -359,18 +366,18 @@
               <div class="result-path">
                 <div class="result-step">
                   <span class="result-step__label">DNA result</span>
-                  <strong id="simDnaResult">Waiting for choice</strong>
+                  <strong id="simDnaResult">Choose a repair button</strong>
                 </div>
                 <div class="result-step">
                   <span class="result-step__label">Protein result</span>
-                  <strong id="simProteinResult">Hemoglobin not shown yet</strong>
+                  <strong id="simProteinResult">Updates after your choice</strong>
                 </div>
               </div>
 
               <div class="blood-scene" aria-label="Red blood cell result">
                 <div class="blood-cell blood-cell--normal" aria-hidden="true"></div>
                 <div class="blood-cell blood-cell--sickle" aria-hidden="true"></div>
-                <p id="simBloodLabel">Choose a repair result to see the red blood cell.</p>
+                <p id="simBloodLabel">The red blood cell shape appears after you choose.</p>
               </div>
             </div>
 
@@ -378,10 +385,17 @@
               <p class="step-index" id="simPromptLabel">Round 1</p>
               <h3 id="simPromptTitle">Predict the repair result</h3>
               <p id="simPromptText">This cell needs the DNA message to stay the same. Which repair result fits?</p>
+              <p class="sim-helper">Pick one repair outcome. The DNA, protein, and red blood cell labels will change.</p>
 
               <div class="sim-actions" aria-label="Choose repair outcome">
-                <button class="sim-choice" data-sim-choice="correct" type="button">Fix correctly</button>
-                <button class="sim-choice" data-sim-choice="mistake" type="button">Fix with mistake</button>
+                <button class="sim-choice" data-sim-choice="correct" type="button" onclick="chooseSimulatorResult('correct')">
+                  <span>Fix correctly</span>
+                  <small>DNA message stays the same</small>
+                </button>
+                <button class="sim-choice" data-sim-choice="mistake" type="button" onclick="chooseSimulatorResult('mistake')">
+                  <span>Fix with mistake</span>
+                  <small>Small mutation changes the message</small>
+                </button>
               </div>
 
               <div class="sim-feedback" id="simFeedback" aria-live="polite">
@@ -389,8 +403,8 @@
               </div>
 
               <div class="sim-buttons">
-                <button class="control-button" data-sim-action="next" type="button" disabled>Next cell</button>
-                <button class="control-button" data-sim-action="restart" type="button">Restart simulator</button>
+                <button class="control-button" data-sim-action="next" type="button" onclick="advanceSimulator()" disabled>Next cell</button>
+                <button class="control-button" data-sim-action="restart" type="button" onclick="restartSimulator()">Restart simulator</button>
               </div>
 
               <div class="sim-summary" id="simSummary" hidden>
@@ -416,6 +430,9 @@
           National Human Genome Research Institute. <a href="https://www.genome.gov/news/news-release/nih-statement-approved-gene-therapies-scd" target="_blank" rel="noreferrer">NIH Statement on New FDA-Approved Gene Therapies for Sickle Cell Disease.</a> Used for the real-world CRISPR application connection.
         </li>
         <li>
+          U.S. Food and Drug Administration. <a href="https://www.fda.gov/news-events/press-announcements/fda-approves-first-gene-therapies-treat-patients-sickle-cell-disease" target="_blank" rel="noreferrer">FDA Approves First Gene Therapies to Treat Patients with Sickle Cell Disease.</a> Used to explain CRISPR/Cas9 as a real medical innovation.
+        </li>
+        <li>
           MedlinePlus Genetics. <a href="https://medlineplus.gov/genetics/understanding/genomicresearch/genomeediting/" target="_blank" rel="noreferrer">What Are Genome Editing and CRISPR-Cas9?</a> Used for the general genome editing and safety context.
         </li>
       </ol>
@@ -424,7 +441,7 @@
     <section class="resources-section resources-section--ai" id="ai-resources" aria-labelledby="aiTitle">
       <p class="eyebrow">Required note</p>
       <h2 id="aiTitle">AI Resources Used</h2>
-      <p>OpenAI ChatGPT was used to debug the webpage code, fix major bugs that broke the 3D model, and help publish the site. AI image generation was used to imagine possible DNA and Cas9 model designs, which I later modeled.”</p>
+      <p>OpenAI ChatGPT was used to debug the webpage code, fix major bugs that broke the 3D model, and help publish the site. AI image generation was used to imagine possible DNA and Cas9 enzyme model designs, which I later modeled. First AI prompt used: "Make a clean picture of a DNA double helix with a Cas9 enzyme for a CRISPR biology project, so I can use it as a reference to model it in Shapr3D." Biology information was checked against NIH, FDA, and MedlinePlus sources listed in the bibliography.</p>
     </section>
 
     <div class="rewind-overlay" id="rewindOverlay" aria-hidden="true">
@@ -438,6 +455,7 @@
       <button data-action="reset" type="button">Reset</button>
     </nav>
 
-    <script type="module" src="./script.js?v=7"></script>
+    <script defer src="./script.js?v=8"></script>
+    <script defer src="./script-fix.js?v=1"></script>
   </body>
 </html>
